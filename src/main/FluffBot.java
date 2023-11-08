@@ -1,6 +1,6 @@
 package main;
 
-import eventListeners.Initialized;
+import main.EventListeners.Initialized;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
 import main.SlashCommands.RegisterSlashCommands;
