@@ -20,13 +20,13 @@ public class BulkDelete extends ListenerAdapter{
                 }
                 MessageHistory msg = event.getChannel().getHistory();
                 List<Message> Messages = msg.retrievePast(amountToDelete).complete();
-                for (int a = 0; a < Messages.size(); a++) {
+                for (Message message : Messages) {
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    event.getChannel().deleteMessageById(Messages.get(a).getId()).complete();
+                    event.getChannel().deleteMessageById(message.getId()).complete();
                 }
             } else {
                 event.reply("Du musst Staff sein um diesen Command zu nutzen.").setEphemeral(true).complete();
