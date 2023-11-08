@@ -14,11 +14,7 @@ public class BulkDelete extends ListenerAdapter{
             int amountToDelete = event.getOption("delamount").getAsInt();
             if(amountToDelete <= 100) {
                 if (event.getJDA().getRoles().toString().toLowerCase().contains("staff")) {
-                    if (amountToDelete > 30) {
-                        event.reply("WARNUNG: Das CHORUS System kann bei Größeren Mengen an Posts das löschen nicht Garantieren! Die Löschung kann mehrere Minuten dauern.").setEphemeral(true).complete();
-                    } else {
-                        event.reply("Löschen von " + amountToDelete + " Nachricht(en) wird gestartet... Dies kann etwas Zeit in Anspruch nehmen").setEphemeral(true).complete();
-                    }
+                    event.reply("Löschen von " + amountToDelete + " Nachricht(en) wird gestartet... Dies kann etwas Zeit in Anspruch nehmen").setEphemeral(true).complete();
                     MessageHistory msg = event.getChannel().getHistory();
                     List<Message> Messages = msg.retrievePast(amountToDelete).complete();
                     event.getChannel().asTextChannel().deleteMessages(Messages).complete();
