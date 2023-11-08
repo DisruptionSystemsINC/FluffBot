@@ -15,7 +15,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> Commanddata = new ArrayList<>();
-        OptionData ticketOptions = new OptionData(OptionType.STRING, "ticket-type", "Die Art des Tickets", true).addChoice("Support", "support").addChoice("Nsfw-Freischaltung", "nsfw-freischaltung").addChoice("Vorschlag", "vorschlag").addChoice("Server Support", "minecraft-server-support");
+        OptionData ticketOptions = new OptionData(OptionType.STRING, "ticket-type", "Die Art des Tickets", true).addChoice("Support", "support").addChoice("Nsfw-Freischaltung", "nsfw-freischaltung").addChoice("Minecraft Server Support", "minecraft-server-support");
         OptionData amountToDelete = new OptionData(OptionType.INTEGER, "delamount", "Die Menge der Messages die du löschen willst", true);
 
 
