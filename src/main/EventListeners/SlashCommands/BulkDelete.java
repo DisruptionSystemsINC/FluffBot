@@ -4,14 +4,17 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+import java.util.Objects;
 
 public class BulkDelete extends ListenerAdapter{
-    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         Thread t = new Thread(() -> {
         String command = event.getName();
         if (command.equals("bulk-delete")) {
-            int amountToDelete = event.getOption("delamount").getAsInt();
+            int amountToDelete = Objects.requireNonNull(event.getOption("delamount")).getAsInt();
             if(amountToDelete <= 100) {
                 if (event.getJDA().getRoles().toString().toLowerCase().contains("staff")) {
                     event.reply("Löschen von " + amountToDelete + " Nachricht(en) wird gestartet... Dies kann etwas Zeit in Anspruch nehmen").setEphemeral(true).complete();
