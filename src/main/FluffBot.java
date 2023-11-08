@@ -1,6 +1,5 @@
 package main;
 
-import kotlin.io.LineReader;
 import main.EventListeners.Initialized;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
