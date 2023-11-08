@@ -2,6 +2,7 @@ package main.SlashCommands;
 
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -21,6 +22,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
 
         Commanddata.add(Commands.slash("ticket", "Mach ein neues Ticket").addOptions(ticketOptions));
         Commanddata.add(Commands.slash("bulk-delete", "Lösche eine menge Messages auf einmal").addOptions(amountToDelete));
+        Commanddata.add(Commands.message("schließen"));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();
     }
 }

@@ -1,5 +1,6 @@
 package main;
 
+import main.ContextEvent.MessageContextEvent;
 import main.EventListeners.Initialized;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
@@ -29,7 +30,8 @@ public class FluffBot {
                 new Initialized(),
                 new Ticket(),
                 new RegisterSlashCommands(),
-                new BulkDelete()).build();
+                new BulkDelete(),
+                new MessageContextEvent()).build();
 
     }
 
