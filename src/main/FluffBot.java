@@ -1,5 +1,6 @@
 package main;
 
+import kotlin.io.LineReader;
 import main.EventListeners.Initialized;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
@@ -12,12 +13,15 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.io.*;
 
 public class FluffBot {
     private final ShardManager shardmanager;
 
-    public FluffBot() throws LoginException {
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault("MTE0ODMxOTA0NDg5NDcyODMyNA.GAOCL0.ido7kuoQaur6N8XcHcGbunwSY67aFtGjoBYGXE");
+    public FluffBot() throws LoginException, IOException {
+        File token = new File("token.chorus");
+        BufferedReader reader = new BufferedReader(new FileReader(token));
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(reader.readLine());
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS);
@@ -39,6 +43,8 @@ public class FluffBot {
             FluffBot bot = new FluffBot();
         } catch (LoginException e) {
             System.out.println("ERROR: Invalid or incomplete Bot Token");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
