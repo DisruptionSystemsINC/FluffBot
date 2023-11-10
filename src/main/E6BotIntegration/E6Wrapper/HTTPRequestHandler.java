@@ -9,24 +9,16 @@ import java.net.URL;
 
 public class HTTPRequestHandler {
 
-    public static HttpURLConnection connection;
 
-    public static StringBuffer responseContent;
-    public static BufferedReader reader;
-
-    public static void e6GET(String type) {
+    public String e6GET(String type) {
+        HttpURLConnection connection;
+        BufferedReader reader;
             String e6URL;
+        StringBuffer responseContent = new StringBuffer();
         try {
-            responseContent = new StringBuffer();
             String line;
-            String StandardTags = "tags=order%3Arandom+gay+score%3A>500";
-            if (E6BotCommands.tags == null) {
-                e6URL = ("https://e621.net/posts.json?" + StandardTags + ";limit=1");
-                System.out.println(e6URL);
-            } else {
-                e6URL = ("https://e621.net/posts.json?tags=" + E6BotCommands.tags + "+order:random;limit=1");
-                System.out.println(e6URL);
-            }
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+order:random;limit=1");
+            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -53,28 +45,24 @@ public class HTTPRequestHandler {
                 }
                 reader.close();
                 connection.disconnect();
-                Processing.Processor();
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
 
-
+        return new Processing().Processor(responseContent.toString());
     }
 
-    public static void e9GET(String type) {
+    public String e9GET(String type) {
+        HttpURLConnection connection;
+        BufferedReader reader;
+        StringBuffer responseContent;
         String e6URL;
         try {
             responseContent = new StringBuffer();
             String line;
-            String StandardTags = "tags=order:random+rating:safe";
-            if (E6BotCommands.tags == null) {
-                e6URL = ("https://e621.net/posts.json?" + StandardTags + ";limit=1");
-                System.out.println(e6URL);
-            } else {
-                e6URL = ("https://e621.net/posts.json?tags=" + E6BotCommands.tags + "+order:random;limit=1");
-                System.out.println(e6URL);
-            }
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random;limit=1");
+            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -101,12 +89,11 @@ public class HTTPRequestHandler {
                 }
                 reader.close();
                 connection.disconnect();
-                Processing.Processor();
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
 
-
+        return new Processing().Processor(responseContent.toString());
     }
 }

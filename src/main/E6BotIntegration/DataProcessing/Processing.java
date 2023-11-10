@@ -9,23 +9,22 @@ import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
 
 public class Processing {
 
-    public static String ClientURL;
+    public String Processor(String HTTPContent) {
 
-    public static String Processor() {
-
-        String sIn = (HTTPRequestHandler.responseContent.toString());
+        String sIn = (HTTPContent);
         for (int i = 0; i < blacklist.length; i++) {
             if (sIn.contains(blacklist[i])) {
                 System.out.println("Blacklisted tag, retrying...");
             } else {
                 try {
                     ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(HTTPRequestHandler.responseContent.toString());
+                    JsonNode jsonNode = objectMapper.readTree(HTTPContent);
                     String url = objectMapper.convertValue(jsonNode.get("url"), objectMapper.getTypeFactory().constructCollectionType(List.class, String.class));
                     return url;
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("Warning, There has been an error parsing the url json");
+                    return null;
                 }
                 /*
         String sIn = (HTTPRequestHandler.responseContent.toString());
