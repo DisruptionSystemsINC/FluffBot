@@ -15,14 +15,15 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
+import java.util.Arrays;
 
 public class FluffBot {
+    private static String Token;
     private final ShardManager shardmanager;
 
     public FluffBot() throws LoginException, IOException {
-        File token = new File("token.chorus");
-        BufferedReader reader = new BufferedReader(new FileReader(token));
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(reader.readLine());
+
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_EMOJIS_AND_STICKERS, GatewayIntent.GUILD_MESSAGE_REACTIONS);
@@ -41,7 +42,19 @@ public class FluffBot {
         return shardmanager;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
+        File token = new File("token.chorus");
+        File testtoken = new File("testtoken.chorus");
+        System.out.println(Arrays.stream(args).toList());
+        if (Arrays.stream(args).toList().toString().contains("--test")){
+            BufferedReader reader = new BufferedReader(new FileReader(testtoken));
+            Token = reader.readLine();
+            System.out.println("Launching Test version...");
+        }
+        else {
+            BufferedReader reader = new BufferedReader(new FileReader(token));
+            Token = reader.readLine();
+        }
         try {
             FluffBot bot = new FluffBot();
         } catch (LoginException e) {

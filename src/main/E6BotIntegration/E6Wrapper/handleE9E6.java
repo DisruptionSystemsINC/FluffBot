@@ -29,22 +29,22 @@ public class handleE9E6 {
             }
         }
     }
-    public static String handleE9(String type, String customType){
+    public static String handleE9(String type, String customTags){
         switch(type){
             case ("hug") ->{
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET("hug");
             }
-            case("cuddles") ->{
+            case("cuddling") ->{
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET("cuddling");
             }
-            case ("smooch") ->{
+            case ("kissing") ->{
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET("kissing");
             }
-            case ("sleep") ->{
+            case ("sleeping") ->{
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET("sleeping");
             }
             default -> {
-                return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET(customType);
+                return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET(customTags);
             }
         }
 

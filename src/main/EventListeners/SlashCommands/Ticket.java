@@ -31,7 +31,7 @@ public class Ticket extends ListenerAdapter {
                         event.getGuild().createCategory("support-tickets");
                         event.reply("Dies scheint eine erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
                     } else {
-                        int TicketID = 0;
+                        String TicketID;
                         try {
                             TicketID = CountTickets.getTicketCount();
                         } catch (IOException e) {
@@ -40,12 +40,16 @@ public class Ticket extends ListenerAdapter {
 
                         Category id = event.getGuild().getCategoriesByName("support-tickets", true).get(0);
                         TextChannel channel = id.createTextChannel("support-ticket-" + TicketID).complete();
-                        String name = "support-ticket-" + id;
+                        String name = "support-ticket-" + TicketID;
                         TextChannel ticket = event.getGuild().getTextChannelsByName(name, false).get(0);
                         PermissionOverride permissionoverride =
                                 ticket.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
-                        CountTickets.incrementCounter();
+                        try {
+                            CountTickets.incrementCounter();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         event.reply("Ein support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
                         channel.sendMessage("Herzlich willkommen beim Support " + user + "!\nEin Mitglied des Staff's wird sich bald möglichst darum kümmern. Derweil beschreibe bitte deine Problematik.\n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
@@ -55,7 +59,7 @@ public class Ticket extends ListenerAdapter {
                         event.getGuild().createCategory("nsfw-access-requests").complete();
                         event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
                     } else {
-                        int TicketID = 0;
+                        String TicketID;
                         try {
                             TicketID = CountTickets.getTicketCount();
                         } catch (IOException e) {
@@ -68,7 +72,11 @@ public class Ticket extends ListenerAdapter {
                         PermissionOverride permissionoverride =
                                 ticket.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
-                        CountTickets.incrementCounter();
+                        try {
+                            CountTickets.incrementCounter();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         event.reply("Ein NSFW Access Request Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
                         channel.sendMessage("||" + user + "|| Zum Verifizieren deines Alters (18+) brauchen wir ein Ausweisdokument mit deinem Geburtsdatum und deinem Discord Tag auf einem Bild. Bei deinem Ausweisdokument kannst du gerne alles, bis auf das Geburtsdatum schwärzen. Sende das am besten so bald wie möglich in diesen Channel hier rein.\n" +
                                 "<@266637315831496704> wird sich dann so schnell wie Möglich darum kümmen").complete();
@@ -80,7 +88,7 @@ public class Ticket extends ListenerAdapter {
                         event.getGuild().createCategory("minecraft-support").complete();
                         event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
                     } else {
-                        int TicketID = 0;
+                        String TicketID;
                         try {
                             TicketID = CountTickets.getTicketCount();
                         } catch (IOException e) {
@@ -93,7 +101,11 @@ public class Ticket extends ListenerAdapter {
                         PermissionOverride permissionoverride =
                                 ticket.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
-                        CountTickets.incrementCounter();
+                        try {
+                            CountTickets.incrementCounter();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         event.reply("Ein Minecraft Support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
                         ticket.sendMessage("Wilkommen bei unserem Minecraft Server Support!\n<@447387517143089162> wird sich um dein problem in Kürze kümmern.\n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }

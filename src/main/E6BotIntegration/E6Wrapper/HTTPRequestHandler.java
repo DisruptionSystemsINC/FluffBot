@@ -17,7 +17,7 @@ public class HTTPRequestHandler {
         StringBuffer responseContent = new StringBuffer();
         try {
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=" + type + "+order:random;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+order:random+score:>200;limit=1");
             System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
@@ -50,7 +50,7 @@ public class HTTPRequestHandler {
             throw new RuntimeException(ex);
         }
 
-        return new Processing().Processor(responseContent.toString());
+        return new Processing().ProcessorNSFW(responseContent.toString());
     }
 
     public String e9GET(String type) {
@@ -61,7 +61,7 @@ public class HTTPRequestHandler {
         try {
             responseContent = new StringBuffer();
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random+score:>200;limit=1");
             System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
