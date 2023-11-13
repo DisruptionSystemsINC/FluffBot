@@ -1,13 +1,10 @@
 package main.E6BotIntegration.DataProcessing;
 
-import main.E6BotIntegration.Commands.E6BotCommands;
-import main.E6BotIntegration.E6Wrapper.HTTPRequestHandler;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
