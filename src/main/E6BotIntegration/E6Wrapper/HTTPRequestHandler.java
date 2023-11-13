@@ -1,6 +1,7 @@
 package main.E6BotIntegration.E6Wrapper;
-import main.E6BotIntegration.Commands.E6BotCommands;
+
 import main.E6BotIntegration.DataProcessing.Processing;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
