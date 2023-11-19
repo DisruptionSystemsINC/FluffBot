@@ -3,6 +3,7 @@ package main;
 import main.ContextEvent.MessageContextEvent;
 import main.E6BotIntegration.Commands.E6BotCommands;
 import main.EventListeners.Initialized;
+import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
 import main.SlashCommands.RegisterSlashCommands;
@@ -37,7 +38,8 @@ public class FluffBot {
                 new RegisterSlashCommands(),
                 new BulkDelete(),
                 new MessageContextEvent(),
-                new E6BotCommands()).build();
+                new E6BotCommands(),
+                new Greeting()).build();
 
     }
 
