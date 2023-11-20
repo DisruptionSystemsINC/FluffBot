@@ -2,10 +2,11 @@ package main;
 
 import main.ContextEvent.MessageContextEvent;
 import main.E6BotIntegration.Commands.E6BotCommands;
-import main.EventListeners.Initialized;
+import main.EventListeners.BotInit.Initialized;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
+import main.EventListeners.utility.OnboardingSetup;
 import main.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -13,17 +14,19 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
+
 
 public class FluffBot {
     private static String Token;
-    private final ShardManager shardmanager;
+    public static boolean isOnboarding;
+    ShardManager shardmanager;
 
     public FluffBot() throws LoginException, IOException {
 
@@ -39,7 +42,8 @@ public class FluffBot {
                 new BulkDelete(),
                 new MessageContextEvent(),
                 new E6BotCommands(),
-                new Greeting()).build();
+                new Greeting(),
+                new OnboardingSetup()).build();
 
     }
 
@@ -62,6 +66,16 @@ public class FluffBot {
         }
         try {
             FluffBot bot = new FluffBot();
+            if (Arrays.stream(args).toList().toString().contains("--setOnboarding")){
+                System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
+                Scanner scanner = new Scanner(System.in);
+                String answer = scanner.nextLine();
+                if (answer.equals("y")) {
+                    System.out.println("OVERRIDE ACTIVE");
+                    isOnboarding = true;
+                }
+                else {System.out.println("ANSWER WAS NOT y, ABORTING"); System.exit(0);}
+            }
         } catch (LoginException e) {
             System.out.println("ERROR: Invalid or incomplete Bot Token");
         } catch (IOException e) {

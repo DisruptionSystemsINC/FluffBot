@@ -11,8 +11,7 @@ import java.util.List;
 public class Greeting extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
-        List<Role> roles = event.getMember().getRoles();
-        System.out.println(roles);
+        List<Role> roles = event.getRoles();
         for (Role role : roles) {
             if (role.getName().equals("Furry")) {
                 Member member = event.getMember();
