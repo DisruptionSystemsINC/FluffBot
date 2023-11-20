@@ -3,6 +3,7 @@ package main;
 import main.ContextEvent.MessageContextEvent;
 import main.E6BotIntegration.Commands.E6BotCommands;
 import main.EventListeners.BotInit.Initialized;
+import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
@@ -33,8 +35,9 @@ public class FluffBot {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_EMOJIS_AND_STICKERS, GatewayIntent.GUILD_MESSAGE_REACTIONS);
-        builder.enableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.EMOJI);
+        builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT);
+        builder.enableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.EMOJI, CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         shardmanager = builder.addEventListeners(
                 new Initialized(),
                 new Ticket(),
@@ -43,7 +46,8 @@ public class FluffBot {
                 new MessageContextEvent(),
                 new E6BotCommands(),
                 new Greeting(),
-                new OnboardingSetup()).build();
+                new OnboardingSetup(),
+                new GiveNewRole()).build();
 
     }
 

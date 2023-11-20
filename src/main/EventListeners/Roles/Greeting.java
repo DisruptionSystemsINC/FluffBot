@@ -6,13 +6,10 @@ import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.util.List;
-
 public class Greeting extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
-        List<Role> roles = event.getRoles();
-        for (Role role : roles) {
+        Role role = event.getRoles().get(0);
             if (role.getName().equals("Furry")) {
                 Member member = event.getMember();
                 PrivateChannel chnl = member.getUser().openPrivateChannel().complete();
@@ -30,6 +27,5 @@ public class Greeting extends ListenerAdapter {
                         "Ich wünsche dir viel Spaß auf unserem Server!\n\n\n" +
                         "***-Das FluffKöpfe Team und FluffBot***").complete();
             }
-        }
     }
 }
