@@ -1,5 +1,6 @@
 package main.E6BotIntegration.E6Wrapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import main.E6BotIntegration.DataProcessing.Processing;
 
 import java.io.BufferedReader;
@@ -11,14 +12,14 @@ import java.net.URL;
 public class HTTPRequestHandler {
 
 
-    public String e6GET(String type) {
+    public String e6GET(String type) throws JsonProcessingException {
         HttpURLConnection connection;
         BufferedReader reader;
             String e6URL;
         StringBuffer responseContent = new StringBuffer();
         try {
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=" + type + "+order:random+score:>200;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+order:random+score:>300;limit=1");
             System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
@@ -54,7 +55,7 @@ public class HTTPRequestHandler {
         return new Processing().ProcessorNSFW(responseContent.toString());
     }
 
-    public String e9GET(String type) {
+    public String e9GET(String type) throws JsonProcessingException {
         HttpURLConnection connection;
         BufferedReader reader;
         StringBuffer responseContent;
@@ -62,7 +63,7 @@ public class HTTPRequestHandler {
         try {
             responseContent = new StringBuffer();
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random+score:>200;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random+score:>300;limit=1");
             System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();

@@ -1,10 +1,13 @@
 package main.E6BotIntegration.DataProcessing;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
@@ -12,12 +15,22 @@ import static main.E6BotIntegration.Blacklist.Blacklist.check;
 
 public class Processing {
 
-    public String ProcessorNSFW(String HTTPContent) {
+    public String ProcessorNSFW(String HTTPContent) throws JsonProcessingException {
 
-        if (check(HTTPContent)) {
-            handleE9E6.handleE6("", "");
-            return "Blacklist Getriggert, Lade Zufälligen Post...";
-        } else {
+        for (String s : blacklist) {
+            for (String a : getGeneralTags(HTTPContent)) {
+                if ((a).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    handleE9E6.handleE9("", "");
+                }
+            }
+            for (String b : getSpeciesTags(HTTPContent)) {
+                if ((b).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    handleE9E6.handleE9("", "");
+                }
+            }
+        }
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(HTTPContent);
@@ -35,15 +48,22 @@ public class Processing {
             }
             return "Fehler bei Verarbeitung: Timeout";
         }
-    }
 
 
-    public String Processor(String HTTPContent) {
+    public String Processor(String HTTPContent) throws JsonProcessingException {
 
-        for (int i = 0; i < blacklist.length; i++) {
-            if ((HTTPContent).contains(blacklist[i])) {
-                System.out.println("Blacklist Triggered");
-                handleE9E6.handleE9("", "");
+        for (String s : blacklist) {
+            for (String a : getGeneralTags(HTTPContent)) {
+                if ((a).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    handleE9E6.handleE9("", "");
+                }
+            }
+            for (String b : getSpeciesTags(HTTPContent)) {
+                if ((b).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    handleE9E6.handleE9("", "");
+                }
             }
         }
         try {
@@ -61,6 +81,46 @@ public class Processing {
             return null;
         }
         return "Fehler bei Verarbeitung: Timeout";
+    }
+
+    public List<String> getGeneralTags(String json) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(json);
+
+            JsonNode generalTagsNode = rootNode
+                    .path("posts")
+                    .path(0)
+                    .path("tags")
+                    .path("general");
+
+            List<String> generalTags = objectMapper.convertValue(generalTagsNode, List.class);
+
+            return generalTags;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+    public List<String> getSpeciesTags (String json){
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(json);
+
+            JsonNode generalTagsNode = rootNode
+                    .path("posts")
+                    .path(0)
+                    .path("tags")
+                    .path("species");
+
+            List<String> generalTags = objectMapper.convertValue(generalTagsNode, List.class);
+
+            return generalTags;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 }
 
