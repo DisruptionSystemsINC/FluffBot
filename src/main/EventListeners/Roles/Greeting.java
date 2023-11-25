@@ -10,7 +10,7 @@ public class Greeting extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
         Role role = event.getRoles().get(0);
-            if (role.getName().equals("Furry")) {
+            if (role.getName().equals("Verifiziert")) {
                 Member member = event.getMember();
                 PrivateChannel chnl = member.getUser().openPrivateChannel().complete();
                 chnl.sendMessage("***Hey, Ich bin Fluffbot, der All-Purpose bot für den FluffKöpfe Server!***\n\n" +
