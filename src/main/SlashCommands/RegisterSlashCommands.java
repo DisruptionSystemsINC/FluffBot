@@ -15,9 +15,9 @@ public class RegisterSlashCommands extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> Commanddata = new ArrayList<>();
-        OptionData ticketOptions = new OptionData(OptionType.STRING, "ticket-type", "Die Art des Tickets", true).addChoice("Support", "support").addChoice("Nsfw-Freischaltung", "nsfw-freischaltung").addChoice("Minecraft Server Support", "minecraft-server-support");
+        OptionData ticketOptions = new OptionData(OptionType.STRING, "ticket-type", "Die Art des Tickets", true).addChoice("Support", "support").addChoice("Nsfw-Freischaltung", "nsfw-freischaltung").addChoice("Minecraft Server Support", "minecraft-server-support").addChoice("Fluffbot Support", "fluffbot-support");
         OptionData amountToDelete = new OptionData(OptionType.INTEGER, "delamount", "Die Menge der Messages die du löschen willst", true);
-        OptionData nsfwtype = new OptionData(OptionType.STRING, "nsfwtype", "Der Typ des Artworks", true).addChoices().addChoice("Custom", "custom");
+        OptionData nsfwtype = new OptionData(OptionType.STRING, "nsfwtype", "Der Typ des Artworks", true).addChoices().addChoice("Custom", "custom").addChoice("Gay Anal", "gay-anal").addChoice("Gay Threesome", "gay-threesome").addChoice("Lesbian", "lesbian").addChoice("Solo Female", "female-solo").addChoice("Male Solo", "male-solo").addChoice("Straight", "straight").addChoice("Lesbian Threesome", "lesbian-threesome").addChoice("Gay Fellatio", "gay-oral").addChoice("Straight Fellatio", "straight-oral").addChoice("Lesbian Fellatio", "lesbian-fellatio");
         OptionData nsfwtags = new OptionData(OptionType.STRING, "nsfwtags", "Gebe deine e621 Tags hier ein wenn du \"Custom\" gewählt hast. Der syntax der tags ist tag1+tag2+tag3");
         OptionData type = new OptionData(OptionType.STRING, "type", "Der Typ des Artworks", true).addChoices().addChoice("Custom", "custom").addChoice("Hug", "hug").addChoice("Cuddles","cuddling").addChoice("Kiss","kissing").addChoice("Sleeping","sleeping");
         OptionData tags = new OptionData(OptionType.STRING, "tags", "Gebe deine e926 Tags hier ein wenn du \"Custom\" gewählt hast. Der syntax der tags ist: tag1+tag2+tag3");

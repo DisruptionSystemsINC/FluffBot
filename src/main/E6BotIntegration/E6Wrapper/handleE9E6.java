@@ -26,6 +26,15 @@ public class handleE9E6 {
             case ("lesbian-threesome") -> {
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET("lesbian+threesome");
             }
+            case ("gay-oral") -> {
+                return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET("gay+fellatio");
+            }
+            case ("lesbian-oral") -> {
+                return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET("lesbian+fellatio");
+            }
+            case ("straight-oral") -> {
+                return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET("straight+fellatio");
+            }
             default -> {
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET(customType);
             }
