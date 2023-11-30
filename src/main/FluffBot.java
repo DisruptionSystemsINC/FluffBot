@@ -7,6 +7,7 @@ import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
+import main.EventListeners.utility.DailyPost;
 import main.EventListeners.utility.OnboardingSetup;
 import main.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -47,7 +48,8 @@ public class FluffBot {
                 new E6BotCommands(),
                 new Greeting(),
                 new OnboardingSetup(),
-                new GiveNewRole()).build();
+                new GiveNewRole(),
+                new DailyPost()).build();
 
     }
 
