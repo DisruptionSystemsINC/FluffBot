@@ -38,7 +38,7 @@ public class Ticket extends ListenerAdapter {
 
                         Category id = event.getGuild().getCategoriesByName("support-tickets", true).get(0);
                         TextChannel channel = id.createTextChannel("support-ticket-" + TicketID).complete();
-                        String name = "support-ticket-" + TicketID;
+                        String chanref = channel.getAsMention();
                         PermissionOverride permissionoverride =
                                 channel.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
@@ -47,7 +47,7 @@ public class Ticket extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.reply("Ein support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
+                        event.reply("Ein support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + chanref + "!").setEphemeral(true).queue();
                         channel.sendMessage("Herzlich willkommen beim Support " + user + "!\nEin Mitglied des Staff's wird sich bald möglichst darum kümmern. Derweil beschreibe bitte deine Problematik.\n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
                 }
@@ -64,7 +64,7 @@ public class Ticket extends ListenerAdapter {
                         }
                         Category id = event.getGuild().getCategoriesByName("nsfw-access-requests", true).get(0);
                         TextChannel channel = id.createTextChannel("nsfw-access-request-ticket-" + TicketID).complete();
-                        String name = "nsfw-access-request-ticket-" + TicketID;
+                        String chanref = channel.getAsMention();
                         PermissionOverride permissionoverride =
                                 channel.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
@@ -73,7 +73,7 @@ public class Ticket extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.reply("Ein NSFW Access Request Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
+                        event.reply("Ein NSFW Access Request Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + chanref + "!").setEphemeral(true).queue();
                         channel.sendMessage( user + " Zum Verifizieren deines Alters (18+) brauchen wir ein Ausweisdokument mit deinem Geburtsdatum und deinem Discord Tag auf einem Bild. Bei deinem Ausweisdokument kannst du gerne alles, bis auf das Geburtsdatum schwärzen. Sende das am besten so bald wie möglich in diesen Channel hier rein.\n" +
                                 "<@266637315831496704> wird sich dann so schnell wie Möglich darum kümmen").complete();
 
@@ -92,7 +92,7 @@ public class Ticket extends ListenerAdapter {
                         }
                         Category id = event.getGuild().getCategoriesByName("minecraft-support", true).get(0);
                         TextChannel channel = id.createTextChannel("minecraft-support-ticket-" + TicketID).complete();
-                        String name = "minecraft-support-ticket-" + TicketID;
+                        String chanref = channel.getAsMention();
                         PermissionOverride permissionoverride =
                                 channel.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
@@ -101,7 +101,7 @@ public class Ticket extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.reply("Ein Minecraft Support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
+                        event.reply("Ein Minecraft Support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + chanref + "!").setEphemeral(true).queue();
                         channel.sendMessage("Wilkommen bei unserem Minecraft Server Support!\n<@447387517143089162> wird sich um dein problem in Kürze kümmern.\n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
                 }
@@ -119,7 +119,7 @@ public class Ticket extends ListenerAdapter {
                         }
                         Category id = event.getGuild().getCategoriesByName("fluffbot-support", true).get(0);
                         TextChannel channel = id.createTextChannel("fluffbot-support-ticket-" + TicketID).complete();
-                        String name = "fluffbot-support-ticket-" + TicketID;
+                        String chanref = channel.getAsMention();
                         PermissionOverride permissionoverride =
                                 channel.upsertPermissionOverride(member).complete();
                         permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
@@ -128,7 +128,7 @@ public class Ticket extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.reply("Ein FluffBot Support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + name + "!").setEphemeral(true).queue();
+                        event.reply("Ein FluffBot Support Ticket wurde für dich erstellt. Bitte schreibe dein Anliegen in den Channel " + chanref + "!").setEphemeral(true).queue();
                         channel.sendMessage("Wilkommen bei dem FluffBot Support!\n<@447387517143089162> wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein Anliegen^^ \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
                 }
