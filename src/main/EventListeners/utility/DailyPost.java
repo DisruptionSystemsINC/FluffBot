@@ -17,7 +17,9 @@ public class DailyPost extends ListenerAdapter {
             while (true){
                 try {
                     TextChannel channel = event.getGuild().getTextChannelsByName("nsfw-bot", true).get(0);
+                    TextChannel sfwchannel = event.getGuild().getTextChannelsByName("fluffymedia", true).get(0);
                     channel.sendMessage(handleE9E6.handleE6("", "")).complete();
+                    sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
                     Thread.sleep((long) 8.64E7);
                 } catch (InterruptedException | JsonProcessingException e) {
                     throw new RuntimeException(e);
