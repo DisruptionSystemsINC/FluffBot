@@ -50,7 +50,6 @@ public class FluffBot {
                 new Greeting(),
                 new OnboardingSetup(),
                 new GiveNewRole(),
-                new UnknownClass_Error_3004(),
                 new DailyPost()).build();
 
     }

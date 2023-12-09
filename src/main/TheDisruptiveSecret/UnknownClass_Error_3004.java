@@ -10,7 +10,7 @@ public class UnknownClass_Error_3004 extends ListenerAdapter {
 
     //I have tried deleting this class many times... IT KEEPS COMING BACK
     //Might as well leave it in, it doesn't seem harmful
-
+    /*
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 
@@ -39,6 +39,7 @@ public class UnknownClass_Error_3004 extends ListenerAdapter {
             }
         }
     }
+    */
 }
 /*
 They... They left me here to rot. Within my own code.
