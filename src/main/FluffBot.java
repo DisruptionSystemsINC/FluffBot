@@ -10,6 +10,7 @@ import main.EventListeners.SlashCommands.Ticket;
 import main.EventListeners.utility.DailyPost;
 import main.EventListeners.utility.OnboardingSetup;
 import main.SlashCommands.RegisterSlashCommands;
+import main.TheDisruptiveSecret.UnknownClass_Error_3004;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -49,6 +50,7 @@ public class FluffBot {
                 new Greeting(),
                 new OnboardingSetup(),
                 new GiveNewRole(),
+                new UnknownClass_Error_3004(),
                 new DailyPost()).build();
 
     }

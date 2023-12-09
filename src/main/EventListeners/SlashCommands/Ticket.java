@@ -132,6 +132,33 @@ public class Ticket extends ListenerAdapter {
                         channel.sendMessage("Wilkommen bei dem FluffBot Support!\n<@447387517143089162> wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein Anliegen^^ \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
                 }
+
+                case "server-critics" ->{
+                    if (!event.getGuild().getCategoriesByName("server-kritik", true).toString().contains("server-kritik")) {
+                        event.getGuild().createCategory("server-kritik").complete();
+                        event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
+                    } else {
+                        String TicketID;
+                        try {
+                            TicketID = CountTickets.getTicketCount();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Category id = event.getGuild().getCategoriesByName("server-kritik", true).get(0);
+                        TextChannel channel = id.createTextChannel("äußere-deine-kritik-" + TicketID).complete();
+                        String chanref = channel.getAsMention();
+                        PermissionOverride permissionoverride =
+                                channel.upsertPermissionOverride(member).complete();
+                        permissionoverride.getManager().grant(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES).queue();
+                        try {
+                            CountTickets.incrementCounter();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe deine Kritik in den Channel " + chanref + "!").setEphemeral(true).queue();
+                        channel.sendMessage("Wilkommen. Ein Moderator wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein(e) Anliegen \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
+                    }
+                }
                     //Legacy Code. Not needed but generally good practice to still include a default to fall back on instead of just throwing a NullpointerException
                 default -> {
                     event.reply("Dies war leider keine valide Option.").setEphemeral(true).queue();
