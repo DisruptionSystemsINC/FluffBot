@@ -161,7 +161,7 @@ public class Ticket extends ListenerAdapter {
                     }
                 }
 
-                case "test" -> {
+                case "tt" -> {
                     main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                     ticket.createTicket(member, "tt", "DisplayName", event);
                 }
