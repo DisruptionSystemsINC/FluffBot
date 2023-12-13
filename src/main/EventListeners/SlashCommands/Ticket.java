@@ -22,6 +22,7 @@ public class Ticket extends ListenerAdapter {
         if (command.equals("ticket")) {
             OptionMapping ticketOptions = event.getOption("ticket-type");
             String ticketString = ticketOptions.getAsString();
+            TextChannel tchannel = event.getChannel().asTextChannel();
             Member member = event.getMember();
             switch (ticketString.toLowerCase()){
                 case "support" -> {
@@ -158,6 +159,11 @@ public class Ticket extends ListenerAdapter {
                         event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe deine Kritik in den Channel " + chanref + "!").setEphemeral(true).queue();
                         channel.sendMessage("Wilkommen. Ein Moderator wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein(e) Anliegen \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
                     }
+                }
+
+                case "test" -> {
+                    main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                    ticket.createTicket(member, "tt", "DisplayName", event);
                 }
                     //Legacy Code. Not needed but generally good practice to still include a default to fall back on instead of just throwing a NullpointerException
                 default -> {
