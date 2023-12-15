@@ -36,14 +36,14 @@ public class Ticket extends ListenerAdapter {
                 case "nsfw-freischaltung" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "<@266637315831496704>");
+                        ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||");
                     });
                     t.start();
                 }
                 case "minecraft-server-support" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "minecraft-server-support-ticket", event, "<@447387517143089162>");
+                        ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||");
                     });
                     t.start();
                 }
@@ -51,7 +51,7 @@ public class Ticket extends ListenerAdapter {
                 case "fluffbot-support" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "fluffbot-support-ticket", event, "<@447387517143089162>");
+                        ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||");
                     });
                     t.start();
                 }
