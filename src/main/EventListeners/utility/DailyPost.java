@@ -1,7 +1,9 @@
 package main.EventListeners.utility;
 
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -18,7 +20,9 @@ public class DailyPost extends ListenerAdapter {
                     channel.sendMessage(handleE9E6.handleE6("", "")).complete();
                     sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
                     Thread.sleep((long) 8.64E7);
-                } catch (InterruptedException | IOException e) {
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
