@@ -1,6 +1,7 @@
 package main.E6BotIntegration.E6Wrapper;
 
 import main.E6BotIntegration.DataProcessing.Processing;
+import main.EventListeners.utility.Logging;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class HTTPRequestHandler {
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                System.out.println("HTTP-ERROR" + status);
+                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " in E9");
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -71,7 +72,7 @@ public class HTTPRequestHandler {
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                System.out.println("HTTP-ERROR" + status);
+                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " In E6");
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));

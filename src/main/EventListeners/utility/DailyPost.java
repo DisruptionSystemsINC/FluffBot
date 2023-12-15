@@ -19,6 +19,7 @@ public class DailyPost extends ListenerAdapter {
                     TextChannel sfwchannel = event.getGuild().getTextChannelsByName("fluffymedia", true).get(0);
                     channel.sendMessage(handleE9E6.handleE6("", "")).complete();
                     sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
+                    Logging.printToLog("Daily Post has been triggered");
                     Thread.sleep((long) 8.64E7);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
