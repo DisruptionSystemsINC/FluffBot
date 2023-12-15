@@ -16,6 +16,7 @@ import java.io.IOException;
 
 public class Ticket extends ListenerAdapter {
     File buffer = new File("TicketBuffer.log");
+
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("ticket")) {
@@ -23,50 +24,51 @@ public class Ticket extends ListenerAdapter {
             String ticketString = ticketOptions.getAsString();
             Member member = event.getMember();
 
-            switch (ticketString.toLowerCase()){
+            switch (ticketString.toLowerCase()) {
 
                 case "support" -> {
-                    Thread t = new Thread(()-> {
+                    Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         ticket.createTicket(member, "support-ticket", event, "");
                     });
                     t.start();
                 }
-                case "nsfw-freischaltung" ->{
-                    Thread t = new Thread(()-> {
+                case "nsfw-freischaltung" -> {
+                    Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "<@266637315831496704>");
                     });
                     t.start();
                 }
-                case "minecraft-server-support" ->{
-                    Thread t = new Thread(()-> {
+                case "minecraft-server-support" -> {
+                    Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         ticket.createTicket(member, "minecraft-server-support-ticket", event, "<@447387517143089162>");
                     });
                     t.start();
                 }
 
-                case "fluffbot-support" ->{
-                    Thread t = new Thread(()-> {
+                case "fluffbot-support" -> {
+                    Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         ticket.createTicket(member, "fluffbot-support-ticket", event, "<@447387517143089162>");
                     });
                     t.start();
                 }
 
-                case "server-critics" ->{
-                    Thread t = new Thread(()-> {
+                case "server-critics" -> {
+                    Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         ticket.createTicket(member, "server-kritik-ticket", event, "");
                     });
                     t.start();
                 }
-            }
-        }
-    }
-}
+
+
+
+
 /*
+                /Testing statement
                 case "tt" -> {
                     Thread t = new Thread(()-> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
@@ -74,9 +76,13 @@ public class Ticket extends ListenerAdapter {
                     });
                     t.start();
                 }
-                    //Legacy Code. Not needed but generally good practice to still include a default to fall back on instead of just throwing a NullpointerException
+         */
+
+                //Legacy Code. Not needed but generally good practice to still include a default to fall back on instead of just throwing a NullpointerException
                 default -> {
                     event.reply("Dies war leider keine valide Option.").setEphemeral(true).queue();
                 }
+            }
         }
-    */
+    }
+}
