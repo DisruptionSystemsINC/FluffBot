@@ -13,14 +13,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class voteOut extends ListenerAdapter {
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event) {;
-        Emoji Denyemo = event.getJDA().getEmojiById("1185232083426218105");
-        Emoji Checkemo = event.getJDA().getEmojiById("1149381059159523518");
         if (!event.getUser().isBot()) {
             String MessageID = event.getMessageId();
             TextChannel channel = event.getChannel().asTextChannel();
             Message msg = channel.retrieveMessageById(MessageID).complete();
-            Emoji emj = event.getReaction().getEmoji();
-            if (emj.getName().equals(Checkemo.getName()) | emj.getName().equals(Denyemo.getName()) && event.getGuildChannel().getName().equals("nsfw-bot") || event.getGuildChannel().getName().equals("fluffymedia") ){
+            if (event.getGuildChannel().getName().equals("nsfw-bot") || event.getGuildChannel().getName().equals("fluffymedia") && msg.getAuthor().isBot()){
                 int cnt = 0;
                 for (MessageReaction react : msg.getReactions()){
                     cnt++;
