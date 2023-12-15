@@ -1,18 +1,12 @@
 package main.EventListeners.SlashCommands;
 
 
-import main.EventListeners.utility.CountTickets;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.PermissionOverride;
-import net.dv8tion.jda.api.entities.channel.concrete.Category;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Ticket extends ListenerAdapter {
     File buffer = new File("TicketBuffer.log");

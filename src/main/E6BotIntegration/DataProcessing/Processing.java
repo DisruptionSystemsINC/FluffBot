@@ -5,13 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
-import static main.E6BotIntegration.Blacklist.Blacklist.check;
 
 public class Processing {
 

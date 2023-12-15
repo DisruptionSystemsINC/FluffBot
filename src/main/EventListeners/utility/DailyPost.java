@@ -6,10 +6,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.time.Clock;
-import java.time.DayOfWeek;
-import java.time.ZoneId;
-
 public class DailyPost extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
