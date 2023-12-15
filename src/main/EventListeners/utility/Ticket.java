@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.io.IOException;
 
 public class Ticket {
-    public Ticket createTicket(Member member,  String DisplayName, SlashCommandInteractionEvent event, String additionalMention){
+    public void createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention) throws IOException {
 
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
             event.getGuild().createCategory(DisplayName + "s").complete();
@@ -34,10 +34,10 @@ public class Ticket {
                 throw new RuntimeException(e);
             }
             event.reply(additionalMention  + "Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
+            Logging.printToLog("A Ticket has been created!");
             channel.sendMessage("Wilkommen. Ein Moderator wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein(e) Anliegen \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
         }
 
 
-        return this;
     }
 }

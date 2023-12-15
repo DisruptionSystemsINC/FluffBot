@@ -1,17 +1,20 @@
 package main.EventListeners.utility;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Logging {
-    public void printToLog(String line) throws IOException {
-        PrintWriter pw = new PrintWriter("fluffbot.log");
+    public static void printToLog(String line) throws IOException {
+        System.out.println(line);
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("fluffbot.log", true)));
         File logfile = new File("fluffbot.log");
-        if (logfile.exists()){
-            logfile.delete();
+
+        if (!logfile.exists()) {
+            logfile.createNewFile();
         }
-        logfile.createNewFile();
-        pw.println(line);
+
+        pw.append("[" + LocalDate.now() + "]    [" + LocalTime.now() + "]" +"\n\n" + line + "\n\n\n\n");
+        pw.close();
     }
 }

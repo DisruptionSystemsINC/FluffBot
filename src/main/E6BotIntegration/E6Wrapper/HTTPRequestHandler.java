@@ -1,6 +1,5 @@
 package main.E6BotIntegration.E6Wrapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import main.E6BotIntegration.DataProcessing.Processing;
 
 import java.io.BufferedReader;
@@ -12,7 +11,7 @@ import java.net.URL;
 public class HTTPRequestHandler {
 
 
-    public String e6GET(String type) throws JsonProcessingException {
+    public String e6GET(String type) throws IOException {
         HttpURLConnection connection;
         BufferedReader reader;
             String e6URL;
@@ -55,7 +54,7 @@ public class HTTPRequestHandler {
         return new Processing().ProcessorNSFW(responseContent.toString());
     }
 
-    public String e9GET(String type) throws JsonProcessingException {
+    public String e9GET(String type) throws IOException {
         HttpURLConnection connection;
         BufferedReader reader;
         StringBuffer responseContent;

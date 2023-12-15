@@ -1,10 +1,11 @@
 package main.EventListeners.utility;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.io.IOException;
 
 public class DailyPost extends ListenerAdapter {
     @Override
@@ -17,7 +18,7 @@ public class DailyPost extends ListenerAdapter {
                     channel.sendMessage(handleE9E6.handleE6("", "")).complete();
                     sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
                     Thread.sleep((long) 8.64E7);
-                } catch (InterruptedException | JsonProcessingException e) {
+                } catch (InterruptedException | IOException e) {
                     throw new RuntimeException(e);
                 }
             }

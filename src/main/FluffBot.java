@@ -8,6 +8,7 @@ import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.Ticket;
 import main.EventListeners.utility.DailyPost;
+import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
 import main.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -65,7 +66,7 @@ public class FluffBot {
         if (Arrays.stream(args).toList().toString().contains("--test")){
             BufferedReader reader = new BufferedReader(new FileReader(testtoken));
             Token = reader.readLine();
-            System.out.println("Launching Test version...");
+            Logging.printToLog("Launching test version...");
         }
         else {
             BufferedReader reader = new BufferedReader(new FileReader(token));
@@ -78,10 +79,10 @@ public class FluffBot {
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
-                    System.out.println("OVERRIDE ACTIVE");
+                    Logging.printToLog("Onboarding override active");
                     isOnboarding = true;
                 }
-                else {System.out.println("ANSWER WAS NOT y, ABORTING"); System.exit(0);}
+                else {Logging.printToLog("ANSWER WAS NOT y, ABORTING"); System.exit(0);}
             }
         } catch (LoginException e) {
             System.out.println("ERROR: Invalid or incomplete Bot Token");

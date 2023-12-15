@@ -1,9 +1,9 @@
 package main.E6BotIntegration.E6Wrapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
 
 public class handleE9E6 {
-    public static String handleE6(String type, String customType) throws JsonProcessingException {
+    public static String handleE6(String type, String customType) throws IOException {
         switch(type){
             case ("gay-anal") -> {
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e6GET("gay+anal");
@@ -40,7 +40,7 @@ public class handleE9E6 {
             }
         }
     }
-    public static String handleE9(String type, String customTags) throws JsonProcessingException {
+    public static String handleE9(String type, String customTags) throws IOException {
         switch(type){
             case ("hug") ->{
                 return new main.E6BotIntegration.E6Wrapper.HTTPRequestHandler().e9GET("hug");

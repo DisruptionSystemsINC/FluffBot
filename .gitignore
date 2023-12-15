@@ -40,3 +40,5 @@ build/
 /token.chorus
 /.idea/
 /testtoken.chorus
+/fluffbot.log
+/TicketBuffer.log

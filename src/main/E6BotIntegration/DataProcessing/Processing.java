@@ -1,10 +1,10 @@
 package main.E6BotIntegration.DataProcessing;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
+import main.EventListeners.utility.Logging;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
 
 public class Processing {
 
-    public String ProcessorNSFW(String HTTPContent) throws JsonProcessingException {
+    public String ProcessorNSFW(String HTTPContent) throws IOException {
 
         for (String s : blacklist) {
             for (String a : getGeneralTags(HTTPContent)) {
@@ -50,7 +50,7 @@ public class Processing {
         }
 
 
-    public String Processor(String HTTPContent) throws JsonProcessingException {
+    public String Processor(String HTTPContent) throws IOException {
 
         for (String s : blacklist) {
             for (String a : getGeneralTags(HTTPContent)) {
@@ -72,12 +72,14 @@ public class Processing {
             String url = jsonNode.path("posts").get(0).path("file").path("url").asText();
             System.out.println(url);
             if (!Objects.equals(url, "null")) {
+                Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
                 return url;
             } else {
+                Logging.printToLog("Return URL was null, Retrying");
                 handleE9E6.handleE9("", "");
             }
         } catch (IOException e) {
-            System.out.println("Warning, There has been an error parsing the url json");
+            Logging.printToLog("Warning: There has been an error parsing field \"url\"");
             return null;
         }
         return "Fehler bei Verarbeitung: Timeout";

@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Ticket extends ListenerAdapter {
     File buffer = new File("TicketBuffer.log");
@@ -23,21 +24,33 @@ public class Ticket extends ListenerAdapter {
                 case "support" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "support-ticket", event, "");
+                        try {
+                            ticket.createTicket(member, "support-ticket", event, "");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                     t.start();
                 }
                 case "nsfw-freischaltung" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||");
+                        try {
+                            ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                     t.start();
                 }
                 case "minecraft-server-support" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||");
+                        try {
+                            ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                     t.start();
                 }
@@ -45,7 +58,11 @@ public class Ticket extends ListenerAdapter {
                 case "fluffbot-support" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||");
+                        try {
+                            ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                     t.start();
                 }
@@ -53,7 +70,11 @@ public class Ticket extends ListenerAdapter {
                 case "server-critics" -> {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
-                        ticket.createTicket(member, "server-kritik-ticket", event, "");
+                        try {
+                            ticket.createTicket(member, "server-kritik-ticket", event, "");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                     t.start();
                 }
