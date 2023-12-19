@@ -26,7 +26,7 @@ public class Ticket extends ListenerAdapter {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         try {
-                            ticket.createTicket(member, "support-ticket", event, "");
+                            ticket.createTicket(member, "support-ticket", event, "", "");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -37,7 +37,7 @@ public class Ticket extends ListenerAdapter {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         try {
-                            ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||");
+                            ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||", "nsfw");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -48,7 +48,7 @@ public class Ticket extends ListenerAdapter {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         try {
-                            ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||");
+                            ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||", "minecraft");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -60,7 +60,7 @@ public class Ticket extends ListenerAdapter {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         try {
-                            ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||");
+                            ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||", "fluffbot");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -72,7 +72,7 @@ public class Ticket extends ListenerAdapter {
                     Thread t = new Thread(() -> {
                         main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
                         try {
-                            ticket.createTicket(member, "server-kritik-ticket", event, "");
+                            ticket.createTicket(member, "server-kritik-ticket", event, "", "critic");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
