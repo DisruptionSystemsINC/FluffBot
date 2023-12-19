@@ -10,8 +10,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.io.IOException;
 
 public class Ticket {
-    public Ticket createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
-            Ticket ticket = new Ticket(){Member member; };
+    public void createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention) throws IOException {
+
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
             event.getGuild().createCategory(DisplayName + "s").complete();
             event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
@@ -33,37 +33,11 @@ public class Ticket {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
-            Logging.printToLog("A Ticket has been created with ID " + CountTickets.getTicketCount());
-
-            switch (type){
-                case ("nsfw") -> {
-                    channel.sendMessage(member.getAsMention() + "\nZum Verifizieren deines Alters (18+) brauchen wir ein Ausweisdokument mit deinem Geburtsdatum und deinem Discord Tag auf einem Bild. Bei deinem Ausweisdokument kannst du gerne alles, bis auf das Geburtsdatum schwärzen. Sende das am besten so bald wie möglich in diesen Channel hier rein.\n" + additionalMention +
-                            " wird sich dann so schnell wie Möglich darum kümmen").complete();
-                }
-
-                case ("fluffbot") -> {
-                    channel.sendMessage("Wilkommen! " + member.getAsMention() + "\n" + additionalMention + " wird sich um dein Problem in Kürze kümmern \n\nDerweil, Schildere bitte dein problem mit dem FluffBot oder Äußere deinen Blacklist tagvorschlag mit einer kleinen begründung warum du denkst das dieser tag auf der blacklist stehen soll").complete();
-                }
-
-                case ("minecraft") -> {
-                    channel.sendMessage("Wilkommen!" + member.getAsMention() + "\n" + additionalMention + " wird sich um dein Problem in kürze kümmern\n\nDerweil, schildere bitte dein problem").complete();
-                }
-
-                case ("critic") -> {
-                    channel.sendMessage("Wilkommen! " + member.getAsMention() + "\n" + "Ein Moderator wird sich in Kürze melden.\n\nWährenddessen, Äußere doch bitte schon mal deine kritik!").complete();
-                }
-
-                default -> {
-                    channel.sendMessage("Wilkommen!" + member.getAsMention() + "\nEin Moderator wird sich in kürze um dich kümmern, Bitte beschreibe dein anliegen/Problem").complete();
-                }
-            }
+            event.reply(additionalMention  + "Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
+            Logging.printToLog("A Ticket has been created!");
+            channel.sendMessage("Wilkommen. Ein Moderator wird sich um deine Anfrage in kürze kümmern.\n\n Derweil, Schildere bitte dein(e) Anliegen \n\nSolltest du aus Versehen ein Ticket geöffnet haben, kannst du es schließen, indem du diese Nachricht rechtsklickst, und dann -> Apps  -> Schließen auswählst.").complete();
         }
-        return this;
+
+
     }
-
 }
-
-
-
-
