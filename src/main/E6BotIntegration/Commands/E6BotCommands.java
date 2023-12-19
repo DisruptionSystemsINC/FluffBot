@@ -2,12 +2,14 @@ package main.E6BotIntegration.Commands;
 
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import main.EventListeners.utility.Logging;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.io.IOException;
 import java.util.Objects;
+
 
 
 public class E6BotCommands extends ListenerAdapter {
@@ -31,17 +33,27 @@ public class E6BotCommands extends ListenerAdapter {
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                            String nsfwtags = Objects.requireNonNull(event.getOption("nsfwtags")).getAsString();
-                            event.reply("Das Bild braucht etwas zum laden, Bitte habe etwas Geduld").setEphemeral(true).queue();
-                            try {
-                                channel.sendMessage(handleE9E6.handleE6(nsfwtype, nsfwtags)).complete();
-                                Logging.printToLog("Message has been sent");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+                            if (nsfwtype.equals("custom")) {
+                                String nsfwtags = (event.getOption("nsfwtags")).getAsString();
+                                event.reply("Das Bild braucht etwas zum laden, Bitte habe etwas Geduld").setEphemeral(true).queue();
+                                try {
+                                    channel.sendMessage(handleE9E6.handleE9(nsfwtype, nsfwtags)).complete();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                    event.reply("Das Bild braucht etwas zum laden, Bitte habe etwas Geduld").setEphemeral(true).queue();
+                                try {
+                                    String nsfwtags = "";
+                                    channel.sendMessage(handleE9E6.handleE6(nsfwtype, nsfwtags)).complete();
+                                    Logging.printToLog("Message has been sent and Reactions have been added");
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                        } else {
-                            event.reply("Dieser Command funktioniert nur in einem NSFW channel.").setEphemeral(true).queue();
-                        }
+                            } else{
+                                event.reply("Dieser Command funktioniert nur in einem NSFW channel.").setEphemeral(true).queue();
+                            }
                     });
                     e6search.start();
                     try {
@@ -65,7 +77,7 @@ public class E6BotCommands extends ListenerAdapter {
                         if (type.equals("custom")) {
                             String tags = Objects.requireNonNull(event.getOption("tags")).toString();
                             try {
-                                channel.sendMessage(handleE9E6.handleE9(type, tags)).complete();
+                                Message msg = channel.sendMessage(handleE9E6.handleE9(type, tags)).complete();
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

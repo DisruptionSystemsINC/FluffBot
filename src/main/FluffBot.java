@@ -10,6 +10,7 @@ import main.EventListeners.SlashCommands.Ticket;
 import main.EventListeners.utility.DailyPost;
 import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
+import main.EventListeners.utility.voteOut;
 import main.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -51,7 +52,8 @@ public class FluffBot {
                 new Greeting(),
                 new OnboardingSetup(),
                 new GiveNewRole(),
-                new DailyPost()).build();
+                new DailyPost(),
+                new voteOut()).build();
 
     }
 

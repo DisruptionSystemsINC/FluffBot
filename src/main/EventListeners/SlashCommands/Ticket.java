@@ -1,6 +1,7 @@
 package main.EventListeners.SlashCommands;
 
 
+import main.EventListeners.utility.Logging;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -96,6 +97,11 @@ public class Ticket extends ListenerAdapter {
                 //Legacy Code. Not needed but generally good practice to still include a default to fall back on instead of just throwing a NullpointerException
                 default -> {
                     event.reply("Dies war leider keine valide Option.").setEphemeral(true).queue();
+                    try {
+                        Logging.printToLog("WARNING: DEFAULT STATEMENT TRIGGERED IN SLASHCOMMANDS/TICKET. THIS SHOULD NOT HAPPEN");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
