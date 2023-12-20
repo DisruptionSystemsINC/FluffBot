@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class voteOut extends ListenerAdapter {
     @Override
-    public void onMessageReactionAdd(MessageReactionAddEvent event) {;
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
         if (!event.getUser().isBot()) {
             String MessageID = event.getMessageId();
             TextChannel channel = event.getChannel().asTextChannel();
@@ -18,8 +18,7 @@ public class voteOut extends ListenerAdapter {
                 for (MessageReaction react : msg.getReactions()){
                     cnt++;
                 }
-                System.out.println(cnt);
-                if (cnt >= 3){
+                if (cnt >= 7){
                     msg.delete().complete();
                     try {
                         Logging.printToLog("Message has been deleted. Reason: Voted to delete. Message content:\n" + msg.getContentDisplay());
