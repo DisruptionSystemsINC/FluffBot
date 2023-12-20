@@ -10,8 +10,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.io.IOException;
 
 public class Ticket {
-    public void createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
-
+    public Ticket createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
+            Ticket ticket = new Ticket(){Member member; };
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
             event.getGuild().createCategory(DisplayName + "s").complete();
             event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
@@ -34,7 +34,7 @@ public class Ticket {
                 throw new RuntimeException(e);
             }
             event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
-            Logging.printToLog("A Ticket has been created!");
+            Logging.printToLog("A Ticket has been created with ID " + CountTickets.getTicketCount());
 
             switch (type){
                 case ("nsfw") -> {
@@ -59,5 +59,11 @@ public class Ticket {
                 }
             }
         }
+        return this;
     }
+
 }
+
+
+
+
