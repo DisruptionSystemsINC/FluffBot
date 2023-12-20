@@ -18,7 +18,6 @@ public class voteOut extends ListenerAdapter {
                 for (MessageReaction react : msg.getReactions()){
                     cnt++;
                 }
-                System.out.println(cnt);
                 if (cnt >= 3){
                     msg.delete().complete();
                     try {
