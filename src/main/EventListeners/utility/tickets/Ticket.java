@@ -1,5 +1,6 @@
-package main.EventListeners.utility;
+package main.EventListeners.utility.tickets;
 
+import main.EventListeners.utility.Logging;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PermissionOverride;
@@ -60,6 +61,9 @@ public class Ticket {
             }
         }
         return this;
+    }
+
+    public static void getID(Ticket ticket){
     }
 
 }

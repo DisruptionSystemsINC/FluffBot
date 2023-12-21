@@ -24,7 +24,7 @@ public class Ticket extends ListenerAdapter {
 
                 case "support" -> {
                     Thread t = new Thread(() -> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         try {
                             ticket.createTicket(member, "support-ticket", event, "", "");
                         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class Ticket extends ListenerAdapter {
                 }
                 case "nsfw-freischaltung" -> {
                     Thread t = new Thread(() -> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         try {
                             ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||", "nsfw");
                         } catch (IOException e) {
@@ -46,7 +46,7 @@ public class Ticket extends ListenerAdapter {
                 }
                 case "minecraft-server-support" -> {
                     Thread t = new Thread(() -> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         try {
                             ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||", "minecraft");
                         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class Ticket extends ListenerAdapter {
 
                 case "fluffbot-support" -> {
                     Thread t = new Thread(() -> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         try {
                             ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||", "fluffbot");
                         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class Ticket extends ListenerAdapter {
 
                 case "server-critics" -> {
                     Thread t = new Thread(() -> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         try {
                             ticket.createTicket(member, "server-kritik-ticket", event, "", "critic");
                         } catch (IOException e) {
@@ -87,7 +87,7 @@ public class Ticket extends ListenerAdapter {
                 /Testing statement
                 case "tt" -> {
                     Thread t = new Thread(()-> {
-                        main.EventListeners.utility.Ticket ticket = new main.EventListeners.utility.Ticket();
+                        main.EventListeners.utility.tickets.Ticket ticket = new main.EventListeners.utility.tickets.Ticket();
                         ticket.createTicket(member, "DisplayName", event, "");
                     });
                     t.start();
