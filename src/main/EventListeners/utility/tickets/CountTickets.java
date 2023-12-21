@@ -6,7 +6,7 @@ public class CountTickets {
 
     private static File Storage = new File("TicketBuffer.log");
     public static void incrementCounter() throws IOException {
-        int buffer =  Integer.parseInt(getTicketCount()) + 1;
+        int buffer =  getTicketCount() + 1;
         try {
             PrintWriter writer = new PrintWriter(Storage);
             writer.print(buffer);
