@@ -15,9 +15,9 @@ public class CountTickets {
             throw new RuntimeException(e);
         }
     }
-    public static String getTicketCount() throws IOException {
+    public static int getTicketCount() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(Storage));
-        String amount = reader.readLine();
+        int amount = Integer.parseInt(reader.readLine());
         reader.close();
         return  amount;
     }

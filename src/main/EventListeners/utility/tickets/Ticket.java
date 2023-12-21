@@ -7,22 +7,20 @@ import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Ticket {
-    public Ticket createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
-            Ticket ticket = new Ticket(){Member member; };
+    public int createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
+        int TicketID = CountTickets.getTicketCount();
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
             event.getGuild().createCategory(DisplayName + "s").complete();
             event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
         } else {
-            String TicketID;
-            try {
-                TicketID = CountTickets.getTicketCount();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             Category id = event.getGuild().getCategoriesByName(DisplayName + "s", true).get(0);
             TextChannel channel = id.createTextChannel(DisplayName + "-ticket-" + TicketID).complete();
             String chanref = channel.getAsMention();
@@ -60,12 +58,27 @@ public class Ticket {
                 }
             }
         }
-        return this;
+        return TicketID;
     }
 
-    public static void getID(Ticket ticket){
+    public static TextChannel getTicketByID(MessageReceivedEvent event, int ID){
+        List<TextChannel> channels = new ArrayList<>();
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("minecraft-server-support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("fluffbot-support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("nsfw-freischaltungs-tickets", true).get(0)));
+
+        for (TextChannel channel : channels){
+            if (Integer.parseInt(Arrays.stream(channel.getName().split("-")).toList().get(channel.getName().split("-").length)) == ID){
+                return channel;
+            }
+        }
+        return null;
     }
 
+    public static List<TextChannel> getTicketsFromCategory(Category cat){
+        return cat.getTextChannels();
+    }
 }
 
 
