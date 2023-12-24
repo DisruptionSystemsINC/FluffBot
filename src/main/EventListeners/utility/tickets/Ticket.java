@@ -2,19 +2,20 @@ package main.EventListeners.utility.tickets;
 
 import main.EventListeners.utility.Logging;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Ticket {
+public class Ticket{
     public int createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
         int TicketID = CountTickets.getTicketCount();
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
@@ -58,16 +59,20 @@ public class Ticket {
                 }
             }
         }
+        main.EventListeners.utility.tickets.TicketDeletion.scheduleDeletion(event, TicketID);
         return TicketID;
     }
 
-    public static TextChannel getTicketByID(MessageReceivedEvent event, int ID){
+    public static TextChannel getTicketByID(SlashCommandInteractionEvent event, int ID){
         List<TextChannel> channels = new ArrayList<>();
         channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("minecraft-server-support-tickets", true).get(0)));
         channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("support-tickets", true).get(0)));
         channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("fluffbot-support-tickets", true).get(0)));
         channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("nsfw-freischaltungs-tickets", true).get(0)));
+        return getChannel(channels, ID);
+    }
 
+    public static TextChannel getChannel(List<TextChannel> channels, int ID){
         for (TextChannel channel : channels){
             if (Integer.parseInt(Arrays.stream(channel.getName().split("-")).toList().get(channel.getName().split("-").length)) == ID){
                 return channel;
@@ -76,10 +81,49 @@ public class Ticket {
         return null;
     }
 
+    public List<Integer> getGuildTicketIDs(SlashCommandInteractionEvent event){
+        List<TextChannel> channels = new ArrayList<>();
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("minecraft-server-support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("fluffbot-support-tickets", true).get(0)));
+        channels.addAll(getTicketsFromCategory(event.getGuild().getCategoriesByName("nsfw-freischaltungs-tickets", true).get(0)));
+        List<Integer> ids = new ArrayList<>();
+        for (TextChannel channel : channels){
+            int len = channel.getName().split("-").length;
+            int id = Integer.parseInt(channel.getName().split("-")[len]);
+            ids.add(id);
+        }
+        return ids;
+    }
+
     public static List<TextChannel> getTicketsFromCategory(Category cat){
         return cat.getTextChannels();
     }
-}
+    public static void close(MessageContextInteractionEvent event){
+            TextChannel channel = event.getChannel().asTextChannel();
+            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets")){
+                event.reply("Ticket wird geschlossen...").setEphemeral(true).complete();
+                PermissionOverride permissionoverride =
+                        channel.upsertPermissionOverride(event.getInteraction().getMember()).complete();
+                permissionoverride.getManager().deny(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_HISTORY).complete();
+                channel.sendMessage("Dieses Ticket wurde Archiviert.").complete();
+                Guild guild = event.getGuild();
+                guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(0).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
+            }
+        }
+
+    public static void close(SlashCommandInteractionEvent event, TextChannel channel){
+        if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets")){
+            PermissionOverride permissionoverride =
+                    channel.upsertPermissionOverride(event.getInteraction().getMember()).complete();
+            permissionoverride.getManager().deny(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_HISTORY).complete();
+            channel.sendMessage("Dieses Ticket wurde Archiviert.").complete();
+            Guild guild = event.getGuild();
+            guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(0).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
+        }
+    }
+    }
+
 
 
 
