@@ -19,9 +19,12 @@ public class DailyPost extends ListenerAdapter {
                     sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
                     Logging.printToLog("Daily Post has been triggered");
                     Thread.sleep((long) 8.64E7);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
+                } catch (InterruptedException | IOException e) {
+                    try {
+                        Logging.printToLog("Der dailypost wurde interrupted");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     throw new RuntimeException(e);
                 }
             }
