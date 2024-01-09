@@ -71,7 +71,7 @@ public class Processing {
             JsonNode jsonNode = objectMapper.readTree(HTTPContent);
             String url = jsonNode.path("posts").get(0).path("file").path("url").asText();
             System.out.println(url);
-            if (!Objects.equals(url, "null")) {
+            if (!Objects.equals(url, "null") || !Objects.equals(url,null)) {
                 Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
                 return url;
             } else {
