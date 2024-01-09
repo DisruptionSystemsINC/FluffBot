@@ -70,10 +70,10 @@ public class Processing {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(HTTPContent);
             String url = jsonNode.path("posts").get(0).path("file").path("url").asText();
-            System.out.println(url);
+            String artist = jsonNode.path("posts").get(0).path("tags").path("artist").get(0).asText();
             if (!Objects.equals(url, "null") || !Objects.equals(url,null)) {
                 Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
-                return url;
+                return "Artist: " + artist + "\n" + url;
             } else {
                 Logging.printToLog("Return URL was null, Retrying");
                 handleE9E6.handleE9("", "");
@@ -82,6 +82,7 @@ public class Processing {
             Logging.printToLog("Warning: There has been an error parsing field \"url\"");
             return null;
         }
+        Logging.printToLog("Critical Error 001: Invalid data from endpoint. \nData:\n" + HTTPContent);
         return "Fehler bei Verarbeitung: Timeout";
     }
 
