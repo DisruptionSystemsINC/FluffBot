@@ -39,7 +39,7 @@ public class FluffBot {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT);
+        builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_EMOJIS_AND_STICKERS, GatewayIntent.GUILD_MESSAGES);
         builder.enableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.EMOJI, CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         shardmanager = builder.addEventListeners(
