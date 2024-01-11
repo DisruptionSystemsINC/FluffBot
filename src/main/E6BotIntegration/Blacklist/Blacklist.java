@@ -1,52 +1,14 @@
 package main.E6BotIntegration.Blacklist;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Blacklist {
-        public static List<String> getSFWBlacklist() throws IOException {
-
-            File blacklistfile = new File("sfwblacklist.json");
-            if (!blacklistfile.exists()){
-                new File("sfwblacklist.json").createNewFile();
+    //Removed Feral because all offending content should already fall under bestiality, Leaving Dragons and other Feral fantasy creatures to be posted, Helps with not timeouting
+    public static String[] blacklist = new String[]{"cub", "rape", "gore", "scat", "death", "toddler", "dacad", "bestiality", "incest", "urine", "human", "fart", "blackkitten", "latex", ""};
+        public static boolean check(String toBeChecked) {
+            for (int i = 0; i < blacklist.length; i++) {
+                if (toBeChecked.contains(blacklist[i])){
+                    return true;
+                }
             }
-            BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
-            String BlacklistJson = reader.readLine();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(BlacklistJson);
-            List<String> blacklist = new ArrayList<>();
-            for (int i = 0; i < jsonNode.get("tags").size(); i++){
-                String tag = jsonNode.get("tags").get(i).asText();
-                blacklist.add(tag);
-            }
-            return blacklist;
-        }
-
-        public static List<String> getNSFWBlacklist() throws IOException {
-
-
-            File blacklistfile = new File("blacklist.json");
-            if (!blacklistfile.exists()){
-                new File("blacklist.json").createNewFile();
-            }
-            BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
-            String BlacklistJson = reader.readLine();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(BlacklistJson);
-            List<String> blacklist = new ArrayList<>();
-            for (int i = 0; i < jsonNode.get("tags").size(); i++){
-                String tag = jsonNode.get("tags").get(i).asText();
-                blacklist.add(tag);
-            }
-            return blacklist;
+            return false;
         }
 }

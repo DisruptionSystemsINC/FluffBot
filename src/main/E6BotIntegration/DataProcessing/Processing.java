@@ -35,8 +35,10 @@ public class Processing {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(HTTPContent);
                 String url = jsonNode.path("posts").get(0).path("file").path("url").asText();
+                String artist = jsonNode.path("posts").get(0).path("tags").path("artist").get(0).asText();
                 if (!Objects.equals(url, "null")) {
-                    return url;
+                    Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
+                    return "Artist: " + artist + "\n" + url;
                 } else {
                     handleE9E6.handleE6("", "");
                 }
