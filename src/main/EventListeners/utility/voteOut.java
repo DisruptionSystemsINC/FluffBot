@@ -15,7 +15,7 @@ public class voteOut extends ListenerAdapter {
                 for ( MessageReaction react : msg.getReactions()){
                     cnt++;
                 }
-                if (cnt >= 7){
+                if (cnt >= 3){
                     msg.delete().complete();
                     try {
                         Logging.printToLog("Message has been deleted. Reason: Voted to delete. Message content:\n" + msg.getContentDisplay());
