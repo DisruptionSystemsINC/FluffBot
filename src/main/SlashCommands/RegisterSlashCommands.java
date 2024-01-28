@@ -15,7 +15,6 @@ public class RegisterSlashCommands extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> Commanddata = new ArrayList<>();
-        OptionData ticketOptions = new OptionData(OptionType.STRING, "ticket-type", "Die Art des Tickets", true).addChoice("Support", "support").addChoice("Nsfw-Freischaltung", "nsfw-freischaltung").addChoice("Minecraft Server Support", "minecraft-server-support").addChoice("Fluffbot Support", "fluffbot-support").addChoice("Serverkritik", "server-critics");
         OptionData amountToDelete = new OptionData(OptionType.INTEGER, "delamount", "Die Menge der Messages die du löschen willst", true);
         OptionData nsfwtype = new OptionData(OptionType.STRING, "nsfwtype", "Der Typ des Artworks", true).addChoices().addChoice("Custom", "custom").addChoice("Gay Anal", "gay-anal").addChoice("Gay Threesome", "gay-threesome").addChoice("Lesbian", "lesbian").addChoice("Solo Female", "female-solo").addChoice("Male Solo", "male-solo").addChoice("Straight", "straight").addChoice("Lesbian Threesome", "lesbian-threesome").addChoice("Gay Fellatio", "gay-oral").addChoice("Straight Fellatio", "straight-oral").addChoice("Lesbian Fellatio", "lesbian-fellatio");
         OptionData nsfwtags = new OptionData(OptionType.STRING, "nsfwtags", "Gebe deine e621 Tags hier ein wenn du \"Custom\" gewählt hast. Der syntax der tags ist tag1+tag2+tag3");
@@ -27,9 +26,9 @@ public class RegisterSlashCommands extends ListenerAdapter {
 
         Commanddata.add(Commands.slash("media", "Hol dir ein Artwork von E926(SFW)").addOptions(type, tags));
         Commanddata.add(Commands.slash("silly-media", "Hol dir ein Artwork von E621(NSFW)").addOptions(nsfwtype, nsfwtags).setNSFW(true));
-        Commanddata.add(Commands.slash("ticket", "Mach ein neues Ticket").addOptions(ticketOptions));
         Commanddata.add(Commands.slash("bulk-delete", "Lösche eine menge Messages auf einmal").addOptions(amountToDelete));
         //Commanddata.add(Commands.slash("voice", "Erstelle einen Temporören Voicechannel für dich und deine Freunde!").addOptions(vcName, vcUsers));
+        Commanddata.add(Commands.slash("ticketsetup", "Staff only: Erstelle die Ticket Nachricht"));
         Commanddata.add(Commands.message("schließen"));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();
     }

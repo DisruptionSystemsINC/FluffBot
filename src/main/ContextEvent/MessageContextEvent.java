@@ -12,11 +12,12 @@ public class MessageContextEvent extends ListenerAdapter {
         if (event.getName().equals("schließen")) {
             TextChannel channel = event.getChannel().asTextChannel();
             if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets")){
-                try {
-                    Ticket.close(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                    Ticket ticket = new Ticket();
+                    try {
+                        ticket.close(event);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
             }
             else{
                 event.reply("Du kannst das hier nicht tun.").setEphemeral(true).complete();
