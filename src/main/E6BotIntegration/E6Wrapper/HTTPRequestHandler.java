@@ -19,7 +19,8 @@ public class HTTPRequestHandler {
         StringBuffer responseContent = new StringBuffer();
         try {
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=rating:explicit+" + type + "+order:random+score:>100;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:explicit+order:random+score:>100;limit=1");
+            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -27,7 +28,7 @@ public class HTTPRequestHandler {
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " in E6");
+                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " in E9");
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -62,7 +63,8 @@ public class HTTPRequestHandler {
         try {
             responseContent = new StringBuffer();
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=rating:safe+" + type + "+order:random+score:>100;limit=1");
+            e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random+score:>100;limit=1");
+            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -70,7 +72,7 @@ public class HTTPRequestHandler {
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " In E9");
+                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " In E6");
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));

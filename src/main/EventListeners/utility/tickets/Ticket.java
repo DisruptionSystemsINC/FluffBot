@@ -8,11 +8,12 @@ import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+
 import java.io.IOException;
 
 public class Ticket{
-    public static int createTicket(Member member, String DisplayName, SlashCommandInteractionEvent event, String additionalMention, String type) throws IOException {
+    public static int createTicket(Member member, String DisplayName, StringSelectInteractionEvent event, String additionalMention, String type) throws IOException {
         int TicketID = CountTickets.getTicketCount();
         if (!event.getGuild().getCategoriesByName(DisplayName + "s", true).toString().contains(DisplayName)) {
             event.getGuild().createCategory(DisplayName + "s").complete();
@@ -58,7 +59,7 @@ public class Ticket{
         return TicketID;
     }
 
-    public static void close(MessageContextInteractionEvent event) throws IOException {
+    public void close(MessageContextInteractionEvent event) throws IOException {
             TextChannel channel = event.getChannel().asTextChannel();
             String TicketID = channel.getName().split("-")[channel.getName().split("-").length - 1];
         Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");

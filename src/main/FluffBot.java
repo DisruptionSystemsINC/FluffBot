@@ -6,12 +6,12 @@ import main.EventListeners.BotInit.Initialized;
 import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
-import main.EventListeners.SlashCommands.Ticket;
 import main.EventListeners.utility.DailyPost;
 import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
 import main.EventListeners.utility.voteOut;
 import main.SlashCommands.RegisterSlashCommands;
+import main.buttonContextInteractionEvent.TicketButtons;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -44,7 +44,6 @@ public class FluffBot {
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         shardmanager = builder.addEventListeners(
                 new Initialized(),
-                new Ticket(),
                 new RegisterSlashCommands(),
                 new BulkDelete(),
                 new MessageContextEvent(),
@@ -53,7 +52,8 @@ public class FluffBot {
                 new OnboardingSetup(),
                 new GiveNewRole(),
                 new DailyPost(),
-                new voteOut()).build();
+                new voteOut(),
+                new TicketButtons()).build();
 
     }
 
@@ -77,7 +77,7 @@ public class FluffBot {
         try {
             FluffBot bot = new FluffBot();
             if (Arrays.stream(args).toList().toString().contains("--setOnboarding")){
-                System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
+                System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. THIS WILL DELETE ALL SELECTION ROLES. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
