@@ -4,24 +4,14 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+
 import java.io.IOException;
 import java.util.List;
 
 public class TicketButtons extends ListenerAdapter {
-
-    private static String interaction = "support";
-
-    @Override
-    public void onButtonInteraction(ButtonInteractionEvent event) {
-        System.out.println(interaction);
-        System.out.println(event.getButton().getId());
-    }
-
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (event.getName().equals("ticketsetup")) {
@@ -43,6 +33,7 @@ public class TicketButtons extends ListenerAdapter {
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
 
         Member member = event.getMember();
+        String interaction = event.getInteraction().getSelectedOptions().get(0).getValue();
 
             switch (interaction) {
 

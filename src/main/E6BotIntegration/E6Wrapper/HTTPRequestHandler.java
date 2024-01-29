@@ -20,7 +20,6 @@ public class HTTPRequestHandler {
         try {
             String line;
             e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:explicit+order:random+score:>100;limit=1");
-            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -64,7 +63,6 @@ public class HTTPRequestHandler {
             responseContent = new StringBuffer();
             String line;
             e6URL = ("https://e621.net/posts.json?tags=" + type + "+rating:safe+order:random+score:>100;limit=1");
-            System.out.println(e6URL);
             URL url = new URL(e6URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

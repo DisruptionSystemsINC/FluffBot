@@ -21,13 +21,19 @@ public class Processing {
             for (String a : getGeneralTags(HTTPContent)) {
                 if ((a).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");
-                    handleE9E6.handleE9("", "");
+                    return handleE9E6.handleE9("", "");
                 }
             }
             for (String b : getSpeciesTags(HTTPContent)) {
                 if ((b).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");
-                    handleE9E6.handleE9("", "");
+                    return handleE9E6.handleE9("", "");
+                }
+            }
+            for (String c : getArtistTags(HTTPContent)) {
+                if ((c).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    return handleE9E6.handleE9("", "");
                 }
             }
         }
@@ -44,7 +50,7 @@ public class Processing {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Warning, There has been an error parsing the url json");
+                Logging.printToLog("Warning, There has been an error parsing the url json");
                 return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (disruption@gandhithedergrawr.com)";
 
             }
@@ -58,13 +64,19 @@ public class Processing {
             for (String a : getGeneralTags(HTTPContent)) {
                 if ((a).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");
-                    handleE9E6.handleE9("", "");
+                    return handleE9E6.handleE9("", "");
                 }
             }
             for (String b : getSpeciesTags(HTTPContent)) {
                 if ((b).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");
-                    handleE9E6.handleE9("", "");
+                    return handleE9E6.handleE9("", "");
+                }
+            }
+            for (String c : getArtistTags(HTTPContent)) {
+                if ((c).toLowerCase().equals(s)) {
+                    System.out.println("Blacklist Triggered");
+                    return handleE9E6.handleE9("", "");
                 }
             }
         }
@@ -107,6 +119,27 @@ public class Processing {
         }
         return Collections.emptyList();
     }
+
+    public List<String> getArtistTags(String json) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(json);
+
+            JsonNode generalTagsNode = rootNode
+                    .path("posts")
+                    .path(0)
+                    .path("tags")
+                    .path("artist");
+
+            List<String> generalTags = objectMapper.convertValue(generalTagsNode, List.class);
+
+            return generalTags;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
     public List<String> getSpeciesTags (String json){
 
         try {
