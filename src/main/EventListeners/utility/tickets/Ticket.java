@@ -20,7 +20,7 @@ public class Ticket{
             event.reply("Dies scheint eine Erstinstallation zu sein. Bitte führe den Befehl nochmal aus um dein Ticket zu öffnen.").setEphemeral(true).queue();
         } else {
             Category id = event.getGuild().getCategoriesByName(DisplayName + "s", true).get(0);
-            TextChannel channel = id.createTextChannel(DisplayName + TicketID).complete();
+            TextChannel channel = id.createTextChannel(DisplayName + "-" + TicketID).complete();
             String chanref = channel.getAsMention();
             PermissionOverride permissionoverride =
                     channel.upsertPermissionOverride(member).complete();
@@ -31,7 +31,7 @@ public class Ticket{
                 throw new RuntimeException(e);
             }
             event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
-            Logging.printToLog("A Ticket has been created with ID " + CountTickets.getTicketCount());
+            Logging.printToLog("A Ticket has been created with ID " + (CountTickets.getTicketCount()));
 
             switch (type){
                 case ("nsfw") ->
@@ -72,7 +72,7 @@ public class Ticket{
                 channel.sendMessage("Dieses Ticket wurde Archiviert.").complete();
                 Guild guild = event.getGuild();
                 guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(0).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
-            }
+            Logging.printToLog("Ticket with ID" + TicketID + "has been moved to Archive");}
         }
     }
 
