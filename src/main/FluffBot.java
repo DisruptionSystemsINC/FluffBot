@@ -6,6 +6,7 @@ import main.EventListeners.BotInit.Initialized;
 import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
+import main.EventListeners.SlashCommands.TemporaryVoice;
 import main.EventListeners.utility.DailyPost;
 import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
@@ -53,6 +54,7 @@ public class FluffBot {
                 new GiveNewRole(),
                 new DailyPost(),
                 new voteOut(),
+                new TemporaryVoice(),
                 new TicketButtons()).build();
 
     }
