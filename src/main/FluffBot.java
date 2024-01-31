@@ -7,7 +7,7 @@ import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.TemporaryVoice;
-import main.EventListeners.utility.DailyPost;
+import main.EventListeners.BotInit.DailyPost;
 import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
 import main.EventListeners.utility.voteOut;
@@ -40,7 +40,7 @@ public class FluffBot {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_EMOJIS_AND_STICKERS, GatewayIntent.GUILD_MESSAGES);
+        builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_EMOJIS_AND_STICKERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES);
         builder.enableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.EMOJI, CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
         shardmanager = builder.addEventListeners(

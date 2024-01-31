@@ -63,7 +63,7 @@ public class Ticket{
             TextChannel channel = event.getChannel().asTextChannel();
             String TicketID = channel.getName().split("-")[channel.getName().split("-").length - 1];
         Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");
-            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets")){
+            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets") || channel.getParentCategory().toString().contains("server-kritik-tickets")){
                 event.reply("Ticket wird geschlossen...").setEphemeral(true).complete();
                 PermissionOverride permissionoverride =
                         channel.upsertPermissionOverride(event.getInteraction().getMember()).complete();
