@@ -44,14 +44,14 @@ public class TemporaryVoice extends ListenerAdapter {
 
                 //Add the permission to view the channel to each member
                 for (Member mem : members) {
-                    channel.upsertPermissionOverride(mem).grant(Permission.VIEW_CHANNEL).complete();
+                    channel.upsertPermissionOverride(mem).grant(Permission.VIEW_CHANNEL).grant(Permission.VOICE_CONNECT).grant(Permission.VOICE_SPEAK).grant(Permission.VOICE_STREAM).complete();
                 }
 
                 //Also add the permission for the user that launched the command
                 channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).complete();
 
                 //Acknowledge the Interaction and send an ephemeral message
-                event.reply(channel.getName() + " wurde für dich Erstellt").setEphemeral(true).complete();
+                event.reply(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();
 
                 //Calculate the time in Milliseconds until the channel is closed
                 int timeNeededMS = TimeNeeded * 3600000;
@@ -72,6 +72,7 @@ public class TemporaryVoice extends ListenerAdapter {
             }
         }
     }
+    //Parse out the UserID's and put them into a list
     public List<UserSnowflake> getusers(String users) {
         List<UserSnowflake> UserList = new ArrayList<>();
         String[] UserArray = users.split(" ");

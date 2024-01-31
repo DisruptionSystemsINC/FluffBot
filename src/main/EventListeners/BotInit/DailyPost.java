@@ -1,6 +1,7 @@
-package main.EventListeners.utility;
+package main.EventListeners.BotInit;
 
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
+import main.EventListeners.utility.Logging;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

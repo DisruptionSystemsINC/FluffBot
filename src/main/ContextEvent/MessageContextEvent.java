@@ -11,7 +11,7 @@ public class MessageContextEvent extends ListenerAdapter {
     public void onMessageContextInteraction(MessageContextInteractionEvent event) {
         if (event.getName().equals("schließen")) {
             TextChannel channel = event.getChannel().asTextChannel();
-            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets")){
+            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets") || channel.getParentCategory().toString().toLowerCase().contains("server-kritik-tickets")){
                     Ticket ticket = new Ticket();
                     try {
                         ticket.close(event);
