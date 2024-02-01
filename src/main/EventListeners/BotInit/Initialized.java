@@ -8,7 +8,8 @@ import java.io.IOException;
 
 public class Initialized extends ListenerAdapter {
     public static boolean isInit;
-    public void onReady(ReadyEvent e){
+
+    public void onReady(ReadyEvent e) {
         try {
             Logging.printToLog("Bot has been initialized using CHORUS Subsystem");
         } catch (IOException ex) {
