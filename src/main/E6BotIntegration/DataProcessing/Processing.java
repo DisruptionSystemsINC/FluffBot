@@ -3,6 +3,7 @@ package main.E6BotIntegration.DataProcessing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import main.E6BotIntegration.Blacklist.Blacklist;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import main.EventListeners.utility.Logging;
 
@@ -11,13 +12,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static main.E6BotIntegration.Blacklist.Blacklist.blacklist;
 
 public class Processing {
 
     public String ProcessorNSFW(String HTTPContent) throws IOException {
 
-        for (String s : blacklist) {
+        for (String s : Blacklist.getNSFWBlacklist()) {
             for (String a : getGeneralTags(HTTPContent)) {
                 if ((a).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");
@@ -60,7 +60,7 @@ public class Processing {
 
     public String Processor(String HTTPContent) throws IOException {
 
-        for (String s : blacklist) {
+        for (String s : Blacklist.getSFWBlacklist()) {
             for (String a : getGeneralTags(HTTPContent)) {
                 if ((a).toLowerCase().equals(s)) {
                     System.out.println("Blacklist Triggered");

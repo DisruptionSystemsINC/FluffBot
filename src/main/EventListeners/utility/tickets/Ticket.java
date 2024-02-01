@@ -8,7 +8,9 @@ import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.io.IOException;
 
@@ -30,7 +32,7 @@ public class Ticket{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            event.reply("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
+            event.getHook().sendMessage("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
             Logging.printToLog("A Ticket has been created with ID " + (CountTickets.getTicketCount()));
 
             switch (type){
@@ -55,24 +57,25 @@ public class Ticket{
                     channel.sendMessage("Wilkommen!" + member.getAsMention() + "\nEin Moderator wird sich in kürze um dich kümmern, Bitte beschreibe dein anliegen/Problem").complete();
 
             }
+            Button button = Button.danger("close", "Schließen");
+            channel.sendMessage("Du kannst das Ticket hier Schließen").addActionRow(button).complete();
         }
         return TicketID;
     }
 
-    public void close(MessageContextInteractionEvent event) throws IOException {
-            TextChannel channel = event.getChannel().asTextChannel();
+    public static void close(ButtonInteractionEvent event, TextChannel channel) throws IOException {
             String TicketID = channel.getName().split("-")[channel.getName().split("-").length - 1];
         Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");
             if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets") || channel.getParentCategory().toString().contains("server-kritik-tickets")){
-                event.reply("Ticket wird geschlossen...").setEphemeral(true).complete();
+                event.getHook().sendMessage("Ticket wird geschlossen...").setEphemeral(true).complete();
                 PermissionOverride permissionoverride =
                         channel.upsertPermissionOverride(event.getInteraction().getMember()).complete();
                 permissionoverride.getManager().deny(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_HISTORY).complete();
                 Logging.printToLog("Permissions for ticket with ID " + TicketID + " have been revoked from member " + event.getUser().getName());
                 channel.sendMessage("Dieses Ticket wurde Archiviert.").complete();
                 Guild guild = event.getGuild();
-                guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(0).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
-            Logging.printToLog("Ticket with ID" + TicketID + "has been moved to Archive");}
+                guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(channel).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
+            Logging.printToLog("Ticket with ID" + TicketID + " has been moved to Archive");}
         }
     }
 
