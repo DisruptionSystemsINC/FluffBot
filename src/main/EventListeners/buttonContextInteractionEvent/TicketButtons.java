@@ -1,4 +1,4 @@
-package main.buttonContextInteractionEvent;
+package main.EventListeners.buttonContextInteractionEvent;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -20,8 +20,8 @@ public class TicketButtons extends ListenerAdapter {
             List<Role> roles = event.getMember().getRoles();
             for (Role role : roles) {
                 if (role.getName().equals("Staff")) {
-                    channel.sendMessage("Wilkommen bei dem Fluffköpfe Ticket System!\nNutze die Schaltflächen unten um ein Ticket zu erstellen!\n\nPowered by Disruption Systems C.H.O.R.U.S\nBei Problemen Bitte an GandhiTheDergRawr wenden.\n\n").addActionRow(selmenu).complete();
                     event.reply("Ticket Nachricht wurde erstellt").setEphemeral(true).complete();
+                    channel.sendMessage("Wilkommen bei dem Fluffköpfe Ticket System!\nNutze die Schaltflächen unten um ein Ticket zu erstellen!\n\nPowered by Disruption Systems C.H.O.R.U.S\nBei Problemen Bitte an GandhiTheDergRawr wenden.\n\n").addActionRow(selmenu).complete();
                     return;
                 }
             }
@@ -31,64 +31,54 @@ public class TicketButtons extends ListenerAdapter {
 
     @Override
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
+        TextChannel chann = event.getChannel().asTextChannel();
 
-        Member member = event.getMember();
-        String interaction = event.getInteraction().getSelectedOptions().get(0).getValue();
+        if (chann.getName().equals("fluff-tickets")) {
+
+            Member member = event.getMember();
+            String interaction = event.getInteraction().getSelectedOptions().get(0).getValue();
+            event.getInteraction().editComponents(event.getMessage().getComponents()).complete();
 
             switch (interaction) {
 
                 case "support" -> {
-                    Thread t = new Thread(() -> {
                         try {
                             main.EventListeners.utility.tickets.Ticket.createTicket(member, "support-ticket", event, "", "");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    });
-                    t.start();
                 }
                 case "nsfw" -> {
-                    Thread t = new Thread(() -> {
                         try {
                             main.EventListeners.utility.tickets.Ticket.createTicket(member, "nsfw-freischaltungs-ticket", event, "||<@266637315831496704>||", "nsfw");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    });
-                    t.start();
                 }
                 case "minecraft" -> {
-                    Thread t = new Thread(() -> {
                         try {
                             main.EventListeners.utility.tickets.Ticket.createTicket(member, "minecraft-server-support-ticket", event, "||<@447387517143089162>||", "minecraft");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    });
-                    t.start();
                 }
 
                 case "fluffbot" -> {
-                    Thread t = new Thread(() -> {
                         try {
                             main.EventListeners.utility.tickets.Ticket.createTicket(member, "fluffbot-support-ticket", event, "||<@447387517143089162>||", "fluffbot");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    });
-                    t.start();
                 }
 
                 case "critic" -> {
-                    Thread t = new Thread(() -> {
                         try {
                             main.EventListeners.utility.tickets.Ticket.createTicket(member, "server-kritik-ticket", event, "", "critic");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                    });
-                    t.start();
                 }
+            }
         }
     }
 }

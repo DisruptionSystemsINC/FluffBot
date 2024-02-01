@@ -7,29 +7,28 @@ import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class DailyPost extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
-        Thread thread = new Thread( () -> {
-            while (true){
+        ScheduledFuture<?> sched = Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(() -> {
+            TextChannel channel = event.getGuild().getTextChannelsByName("nsfw-bot", true).get(0);
+            TextChannel sfwchannel = event.getGuild().getTextChannelsByName("fluffymedia", true).get(0);
+            try {
+                channel.sendMessage(handleE9E6.handleE6("", "")).complete();
+                sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
+                Logging.printToLog("Daily Post has been triggered");
+            } catch(IOException exception){
                 try {
-                    TextChannel channel = event.getGuild().getTextChannelsByName("nsfw-bot", true).get(0);
-                    TextChannel sfwchannel = event.getGuild().getTextChannelsByName("fluffymedia", true).get(0);
-                    channel.sendMessage(handleE9E6.handleE6("", "")).complete();
-                    sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
-                    Logging.printToLog("Daily Post has been triggered");
-                    Thread.sleep((long) 8.64E7);
-                } catch (InterruptedException | IOException e) {
-                    try {
-                        Logging.printToLog("Der dailypost wurde interrupted");
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    Logging.printToLog("Der Dailypost hatte eine unerwartete störung");
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                exception.printStackTrace();
             }
-        });
-        thread.start();
+        }, 0, 12, TimeUnit.HOURS);
     }
 }
