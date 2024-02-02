@@ -1,19 +1,20 @@
 package main;
 
 import main.E6BotIntegration.Commands.E6BotCommands;
+import main.EventListeners.BotInit.DailyPost;
 import main.EventListeners.BotInit.Initialized;
-import main.EventListeners.Voice.TempChannel;
+import main.EventListeners.BotInit.TempChannelDeletion;
 import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.TemporaryVoice;
-import main.EventListeners.BotInit.DailyPost;
+import main.EventListeners.Voice.TempChannel;
+import main.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import main.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
 import main.EventListeners.utility.Logging;
 import main.EventListeners.utility.OnboardingSetup;
 import main.EventListeners.utility.voteOut;
 import main.SlashCommands.RegisterSlashCommands;
-import main.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -57,6 +58,7 @@ public class FluffBot {
                 new voteOut(),
                 new TemporaryVoice(),
                 new TempChannel(),
+                new TempChannelDeletion(),
                 new TicketButtons()).build();
 
     }
