@@ -1,9 +1,7 @@
 package main.E6BotIntegration.Blacklist;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.File;

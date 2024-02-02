@@ -54,7 +54,7 @@ public class Processing {
                 return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (disruption@gandhithedergrawr.com)";
 
             }
-            return "Fehler bei Verarbeitung: Timeout";
+            return  handleE9E6.handleE6("", "");
         }
 
 
@@ -94,10 +94,10 @@ public class Processing {
             }
         } catch (IOException e) {
             Logging.printToLog("Warning: There has been an error parsing field \"url\"");
-            return null;
+            return "Fehler: Generischer Parserfehler";
         }
         Logging.printToLog("Critical Error 001: Invalid data from endpoint. \nData:\n" + HTTPContent);
-        return "Fehler bei Verarbeitung: Timeout";
+        return handleE9E6.handleE9("", "");
     }
 
     public List<String> getGeneralTags(String json) {
