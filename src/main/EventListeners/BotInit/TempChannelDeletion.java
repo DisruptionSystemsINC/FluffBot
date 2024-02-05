@@ -20,6 +20,6 @@ public class TempChannelDeletion extends ListenerAdapter {
                     chan.delete();
                 }
             }
-            }, 0, 5, TimeUnit.SECONDS);
+            }, 0, 1, TimeUnit.HOURS);
     }
 }
