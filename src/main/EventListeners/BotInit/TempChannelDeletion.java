@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
 public class TempChannelDeletion extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
-        ScheduledFuture serv = Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(() -> {
+        ScheduledFuture<?> serv = Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(() -> {
 
             List<VoiceChannel> channels = event.getGuild().getCategoriesByName("temporäre voicechannels", true).get(0).getVoiceChannels();
             for(VoiceChannel chan : channels) {
                 if (chan.getMembers().isEmpty()) {
-                    chan.delete();
+                    chan.delete().complete();
                 }
             }
             }, 0, 1, TimeUnit.HOURS);
