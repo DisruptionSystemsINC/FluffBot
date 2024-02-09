@@ -19,6 +19,7 @@ public class TemporaryVoice extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (event.getName().equals("voice")) {
             if (Objects.requireNonNull(event.getMember()).getRoles().contains(Objects.requireNonNull(event.getGuild()).getRolesByName("Verifiziert", true).get(0))) {
+                event.deferReply().setEphemeral(true).complete();
                 List<Member> members = new ArrayList<>();
                 //Get all the options
                 String name = Objects.requireNonNull(event.getOption("name")).getAsString();
@@ -55,11 +56,14 @@ public class TemporaryVoice extends ListenerAdapter {
                 channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).complete();
 
                 //Acknowledge the Interaction and send an ephemeral message
-                event.reply(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();
+                event.getHook().sendMessage(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();
             }
             else {
                 event.reply("Du muss Verifiziert sein um das zu tun!").setEphemeral(true).complete();
             }
+        }
+        else {
+            event.reply("Du muss Verifiziert sein um das zu tun!").setEphemeral(true).complete();
         }
     }
     //Parse out the UserID's and put them into a list
