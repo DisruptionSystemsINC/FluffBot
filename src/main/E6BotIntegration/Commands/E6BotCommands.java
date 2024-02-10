@@ -75,7 +75,7 @@ public class E6BotCommands extends ListenerAdapter {
                         String type = Objects.requireNonNull(event.getOption("type")).getAsString();
                         System.out.println(type);
                         if (type.equals("custom")) {
-                            String tags = Objects.requireNonNull(event.getOption("tags")).toString();
+                            String tags = Objects.requireNonNull(event.getOption("tags")).getAsString();
                             try {
                                 Message msg = channel.sendMessage(handleE9E6.handleE9(type, tags)).complete();
                             } catch (IOException e) {

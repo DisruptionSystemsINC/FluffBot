@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.Blacklist.Blacklist;
+import main.E6BotIntegration.E6Wrapper.HTTPRequestHandler;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import main.EventListeners.utility.Logging;
 import java.io.IOException;
@@ -22,10 +23,14 @@ public class Processing {
         } else {
             try {
                 String url = getURL(HTTPContent);
-                String artist = getArtist(HTTPContent);
-                Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
-                return "Artist: " + artist + "\n" + url;
-
+                if (url.equals("null")){
+                    return handleE9E6.handleE6("", "");
+                }
+                else {
+                    String artist = getArtist(HTTPContent);
+                    Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
+                    return "Artist: " + artist + "\n" + url;
+                }
             } catch (IOException e) {
                 Logging.printToLog("Warning, There has been an error parsing the url json");
                 return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (disruption@gandhithedergrawr.com)";
@@ -42,15 +47,18 @@ public class Processing {
         } else {
             try {
                 String url = getURL(HTTPContent);
-                String artist = getArtist(HTTPContent);
-                Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
-                return "Artist: " + artist + "\n" + url;
-
-            } catch (IOException e) {
-                Logging.printToLog("Warning: There has been an error parsing field \"url\"");
-                return "Fehler: Generischer Parserfehler";
+                if (url.equals("null")) {
+                    return handleE9E6.handleE9("", "");
+                } else {
+                    String artist = getArtist(HTTPContent);
+                    Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
+                    return "Artist: " + artist + "\n" + url;
+                }
+                } catch(IOException e){
+                    Logging.printToLog("Warning: There has been an error parsing field \"url\"");
+                    return "Fehler: Generischer Parserfehler";
+                }
             }
-        }
     }
 
     public String getArtist(String content) throws IOException {
@@ -114,7 +122,7 @@ public class Processing {
                     .path("posts")
                     .path(0)
                     .path("tags")
-                    .path("general");
+                    .get("general");
 
             return objectMapper.convertValue(generalTagsNode, List.class);
         } catch (Exception e) {
