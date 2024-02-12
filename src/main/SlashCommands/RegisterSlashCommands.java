@@ -1,6 +1,5 @@
 package main.SlashCommands;
 
-import main.E6BotIntegration.E6Wrapper.*;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -17,6 +16,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> Commanddata = new ArrayList<>();
         OptionData amountToDelete = new OptionData(OptionType.INTEGER, "delamount", "Die Menge der Messages die du löschen willst", true);
+        //Register all the selectable NSFW types
         OptionData nsfwtype = new OptionData(OptionType.STRING, "nsfwtype", "Der Typ des Artworks", true)
                 .addChoice("Custom", "custom")
                 .addChoice("Gay Anal", "gay+anal")
@@ -30,7 +30,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
                 .addChoice("Straight Fellatio", "straight+oral")
                 .addChoice("Lesbian Fellatio", "lesbian+fellatio");
 
-
+        //Register all the selectable SFW types
         OptionData nsfwtags = new OptionData(OptionType.STRING, "nsfwtags", "Gebe deine e621 Tags hier ein wenn du \"Custom\" gewählt hast. Der syntax der tags ist tag1+tag2+tag3");
         OptionData type = new OptionData(OptionType.STRING, "type", "Der Typ des Artworks", true)
                 .addChoice("Custom", "custom")
@@ -47,7 +47,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
 
         Commanddata.add(Commands.slash("media", "Hol dir ein Artwork von E926(SFW)").addOptions(type, tags));
         Commanddata.add(Commands.slash("silly-media", "Hol dir ein Artwork von E621(NSFW)").addOptions(nsfwtype, nsfwtags).setNSFW(true));
-        Commanddata.add(Commands.slash("bulk-delete", "Lösche eine menge Messages auf einmal").addOptions(amountToDelete));
+        Commanddata.add(Commands.slash("bulk-delete", "Staff-only: Lösche eine menge Messages auf einmal").addOptions(amountToDelete));
         Commanddata.add(Commands.slash("voice", "Erstelle einen Temporören Voicechannel für dich und deine Freunde!").addOptions(vcName, vcUsers, isNSFW));
         Commanddata.add(Commands.slash("ticketsetup", "Staff only: Erstelle die Ticket Nachricht"));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();

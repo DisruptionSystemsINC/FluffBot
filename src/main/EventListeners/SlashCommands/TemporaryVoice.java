@@ -19,7 +19,9 @@ public class TemporaryVoice extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (event.getName().equals("voice")) {
             if (Objects.requireNonNull(event.getMember()).getRoles().contains(Objects.requireNonNull(event.getGuild()).getRolesByName("Verifiziert", true).get(0))) {
+                //Acknowledge the interaction and defer the Reply
                 event.deferReply().setEphemeral(true).complete();
+
                 List<Member> members = new ArrayList<>();
                 //Get all the options
                 String name = Objects.requireNonNull(event.getOption("name")).getAsString();
@@ -55,7 +57,7 @@ public class TemporaryVoice extends ListenerAdapter {
                 //Also add the permission for the user that launched the command
                 channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).complete();
 
-                //Acknowledge the Interaction and send an ephemeral message
+                //send an ephemeral message
                 event.getHook().sendMessage(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();
             } else {
                 event.reply("Du muss Verifiziert sein um das zu tun!").setEphemeral(true).complete();
@@ -65,10 +67,10 @@ public class TemporaryVoice extends ListenerAdapter {
     //Parse out the UserID's and put them into a list
     public List<UserSnowflake> getusers(String users) {
         List<UserSnowflake> UserList = new ArrayList<>();
-        String[] UserArray = users.split(" ");
+        String[] UserArray = users.replace(" ", "").split(">");
 
         for (String usr : UserArray) {
-            String userID = usr.replace("@", "").replace("<", "").replace(">", "");
+            String userID = usr.replace("@", "").replace("<", "");
             UserList.add(User.fromId(userID));
         }
 

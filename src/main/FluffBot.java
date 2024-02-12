@@ -4,6 +4,7 @@ import main.E6BotIntegration.Commands.E6BotCommands;
 import main.EventListeners.BotInit.DailyPost;
 import main.EventListeners.BotInit.Initialized;
 import main.EventListeners.BotInit.TempChannelDeletion;
+import main.EventListeners.Moderation.Moderation;
 import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
@@ -24,10 +25,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -35,7 +33,7 @@ import java.util.Scanner;
 public class FluffBot {
     private static String Token;
     public static boolean isOnboarding;
-    ShardManager shardmanager;
+    static ShardManager shardmanager;
 
     public FluffBot() throws LoginException, IOException {
 
@@ -59,11 +57,12 @@ public class FluffBot {
                 new TemporaryVoice(),
                 new TempChannel(),
                 new TempChannelDeletion(),
+                new Moderation(),
                 new TicketButtons()).build();
 
     }
 
-    public ShardManager getShardmanager() {
+    public static ShardManager getShardmanager() {
         return shardmanager;
     }
 
@@ -71,26 +70,27 @@ public class FluffBot {
         File token = new File("token.chorus");
         File testtoken = new File("testtoken.chorus");
         System.out.println(Arrays.stream(args).toList());
-        if (Arrays.stream(args).toList().toString().contains("--test")){
+        if (Arrays.stream(args).toList().toString().contains("--test")) {
             BufferedReader reader = new BufferedReader(new FileReader(testtoken));
             Token = reader.readLine();
             Logging.printToLog("Launching test version...");
-        }
-        else {
+        } else {
             BufferedReader reader = new BufferedReader(new FileReader(token));
             Token = reader.readLine();
         }
         try {
             FluffBot bot = new FluffBot();
-            if (Arrays.stream(args).toList().toString().contains("--setOnboarding")){
+            if (Arrays.stream(args).toList().toString().contains("--setOnboarding")) {
                 System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. THIS WILL DELETE ALL SELECTION ROLES. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
                     Logging.printToLog("Onboarding override active");
                     isOnboarding = true;
+                } else {
+                    Logging.printToLog("ANSWER WAS NOT y, ABORTING");
+                    System.exit(0);
                 }
-                else {Logging.printToLog("ANSWER WAS NOT y, ABORTING"); System.exit(0);}
             }
         } catch (LoginException e) {
             System.out.println("ERROR: Invalid or incomplete Bot Token");
