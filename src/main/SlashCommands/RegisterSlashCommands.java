@@ -39,17 +39,21 @@ public class RegisterSlashCommands extends ListenerAdapter {
                 .addChoice("Kiss","kissing")
                 .addChoice("Sleeping","sleeping");
 
+        //Register the different optionData
         OptionData tags = new OptionData(OptionType.STRING, "tags", "Gebe deine e926 Tags hier ein wenn du \"Custom\" gewählt hast. Der syntax der tags ist: tag1+tag2+tag3");
         OptionData vcName = new OptionData(OptionType.STRING, "name", "Gebe hier den namen deines VoiceChannels ein", true);
         OptionData vcUsers = new OptionData(OptionType.STRING, "users", "Die Nutzer denen du Zugriff gewähren möchtest als @Mentions hinzufügen", true);
         OptionData isNSFW = new OptionData(OptionType.BOOLEAN, "nsfw", "Ist der Kanal für NSFW content gedacht?", true);
+        OptionData verifyMember = new OptionData(OptionType.USER, "vermember", "Der Member den du verifizieren möchtest", true);
+        OptionData verifyReason = new OptionData(OptionType.STRING, "verreason", "Der Verifizierungsgrund", true);
 
-
+        //Register the Interactions
         Commanddata.add(Commands.slash("media", "Hol dir ein Artwork von E926(SFW)").addOptions(type, tags));
         Commanddata.add(Commands.slash("silly-media", "Hol dir ein Artwork von E621(NSFW)").addOptions(nsfwtype, nsfwtags).setNSFW(true));
         Commanddata.add(Commands.slash("bulk-delete", "Staff-only: Lösche eine menge Messages auf einmal").addOptions(amountToDelete));
         Commanddata.add(Commands.slash("voice", "Erstelle einen Temporören Voicechannel für dich und deine Freunde!").addOptions(vcName, vcUsers, isNSFW));
         Commanddata.add(Commands.slash("ticketsetup", "Staff only: Erstelle die Ticket Nachricht"));
+        Commanddata.add(Commands.slash("verify", "Owner Only: Verifiziert einen Nutzer").addOptions(verifyMember, verifyReason));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();
     }
 }
