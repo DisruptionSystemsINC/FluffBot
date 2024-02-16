@@ -1,10 +1,12 @@
 package main.EventListeners.utility.tickets;
 
+import main.FluffBot;
+
 import java.io.*;
 
 public class CountTickets {
 
-    private static File Storage = new File("TicketBuffer.log");
+    private static File Storage = new File(FluffBot.getLoggingDir()+"TicketBuffer.log");
     public static void incrementCounter() throws IOException {
         int buffer =  getTicketCount() + 1;
         try {

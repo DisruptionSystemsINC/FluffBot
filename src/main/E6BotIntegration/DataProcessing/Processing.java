@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.Blacklist.Blacklist;
-import main.E6BotIntegration.E6Wrapper.HTTPRequestHandler;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import main.EventListeners.utility.Logging;
 import java.io.IOException;

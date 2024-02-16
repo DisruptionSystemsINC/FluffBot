@@ -35,6 +35,22 @@ public class FluffBot {
     public static boolean isOnboarding;
     static ShardManager shardmanager;
 
+    public static String getConfigRoot(){
+        return "config/";
+    }
+
+    public static String getLoggingDir(){
+        return getConfigRoot() + "logs/";
+    }
+
+    public static String getTicketDir(){
+        return getConfigRoot() + "tickets/";
+    }
+
+    public static String getBlacklistDir(){
+        return getConfigRoot() + "blacklist/";
+    }
+
     public FluffBot() throws LoginException, IOException {
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
@@ -67,6 +83,7 @@ public class FluffBot {
     }
 
     public static void main(String[] args) throws IOException {
+        createBaseFolderStructure();
         File token = new File("token.chorus");
         File testtoken = new File("testtoken.chorus");
         System.out.println(Arrays.stream(args).toList());
@@ -96,6 +113,26 @@ public class FluffBot {
             System.out.println("ERROR: Invalid or incomplete Bot Token");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    //Create the Config folder containing all the stuffs. Ticketbuffer.log will also be moved there as well as the blacklist.chorus and SFWBlacklist.chorus
+    public static void createBaseFolderStructure(){
+        File FolderRoot = new File(getConfigRoot());
+        if (!FolderRoot.exists()){
+            FolderRoot.mkdir();
+        }
+        File logs = new File(getLoggingDir());
+        if (!logs.exists()){
+            logs.mkdir();
+        }
+        File blacklist = new File(getBlacklistDir());
+        if (!blacklist.exists()){
+            blacklist.mkdir();
+        }
+        File tickets = new File(getTicketDir());
+        if (!tickets.exists()){
+            tickets.mkdir();
         }
     }
 }

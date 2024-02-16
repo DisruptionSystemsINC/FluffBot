@@ -11,7 +11,7 @@ target/
 *.iws
 *.iml
 *.ipr
-/TicketBuffer.log
+/config/logs/TicketBuffer.log
 
 ### Eclipse ###
 .apt_generated
@@ -41,4 +41,4 @@ build/
 /token.chorus
 /.idea/
 /testtoken.chorus
-/fluffbot.log
+/config/logs/fluffbot.log

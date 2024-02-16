@@ -2,6 +2,7 @@ package main.E6BotIntegration.Blacklist;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import main.FluffBot;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,9 +14,9 @@ import java.util.List;
 public class Blacklist {
         public static List<String> getSFWBlacklist() throws IOException {
 
-            File blacklistfile = new File("sfwblacklist.json");
+            File blacklistfile = new File(FluffBot.getBlacklistDir()+"sfwblacklist.json");
             if (!blacklistfile.exists()){
-                new File("sfwblacklist.json").createNewFile();
+                blacklistfile.createNewFile();
             }
             BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
             String BlacklistJson = reader.readLine();
@@ -33,9 +34,9 @@ public class Blacklist {
         public static List<String> getNSFWBlacklist() throws IOException {
 
 
-            File blacklistfile = new File("blacklist.json");
+            File blacklistfile = new File(FluffBot.getBlacklistDir()+"blacklist.json");
             if (!blacklistfile.exists()){
-                new File("blacklist.json").createNewFile();
+                blacklistfile.createNewFile();
             }
             BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
             String BlacklistJson = reader.readLine();

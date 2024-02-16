@@ -1,17 +1,28 @@
 package main.EventListeners.utility.tickets;
 
 import main.EventListeners.utility.Logging;
+import main.FluffBot;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.restaction.pagination.MessagePaginationAction;
 
-import java.io.IOException;
+import javax.lang.model.element.NestingKind;
+import java.io.*;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Ticket{
     public static int createTicket(Member member, String DisplayName, StringSelectInteractionEvent event, String additionalMention, String type) throws IOException {
@@ -61,22 +72,62 @@ public class Ticket{
         }
         return TicketID;
     }
-
-    public static void close(ButtonInteractionEvent event, TextChannel channel) throws IOException {
+        public static void close(ButtonInteractionEvent event, TextChannel channel) throws IOException, ExecutionException, InterruptedException {
             String TicketID = channel.getName().split("-")[channel.getName().split("-").length - 1];
-        Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");
-            if(channel.getParentCategory().toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets") || channel.getParentCategory().toString().contains("server-kritik-tickets")){
-                event.getHook().sendMessage("Ticket wird geschlossen...").setEphemeral(true).complete();
-                PermissionOverride permissionoverride =
-                        channel.upsertPermissionOverride(event.getInteraction().getMember()).complete();
-                permissionoverride.getManager().deny(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_HISTORY).complete();
-                Logging.printToLog("Permissions for ticket with ID " + TicketID + " have been revoked from member " + event.getUser().getName());
-                channel.sendMessage("Dieses Ticket wurde Archiviert.").complete();
-                Guild guild = event.getGuild();
-                guild.modifyTextChannelPositions(event.getChannel().asTextChannel().getParentCategory()).selectPosition(channel).setCategory(event.getGuild().getCategoriesByName("Archiv", true).get(0)).queue();
-            Logging.printToLog("Ticket with ID" + TicketID + " has been moved to Archive");}
+            Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");
+            //Define the Path to the Folder
+            String TicketFolderPath = FluffBot.getTicketDir() + channel.getName() + "/";
+
+            //Create the file Object for the path to the Ticket Directory
+            File ticketSpecificDir = new File(TicketFolderPath);
+            ticketSpecificDir.mkdir();
+
+            //Create a new Fileobject for the media folder within
+            File mediaFolder = new File(TicketFolderPath + "media/");
+            mediaFolder.mkdir();
+
+            //Create a new Fileobject for the text of the ticket
+            File ticket = new File(TicketFolderPath + "Ticket.chorus");
+            ticket.createNewFile();
+
+            //Define the FileWriter in Append mode
+            PrintWriter TicketWriter = new PrintWriter(new BufferedWriter(new FileWriter(ticket, true)));
+
+            //Define a list of Attachment objects, these will be written to the media folder of the ticket
+            List<Message.Attachment> attachments = new ArrayList<>();
+
+            //Iterate through all the messages and write them to file
+            List<Message> messages = getAllMessages(channel);
+                for (Message message : messages) {
+                    String author = "<" + message.getAuthor().getName() + ">";
+
+                    TicketWriter.append(author).append("\n").append(message.getContentDisplay()).append("\n");
+
+                    for (Message.Attachment att2 : message.getAttachments()) {
+                        attachments.add(att2);
+                    }
+                }
+                for (Message.Attachment attachment : attachments) {
+                    File att = new File(mediaFolder + "/" + attachment.getFileName());
+                    att.createNewFile();
+                    attachment.getProxy().downloadToFile(att);
+                }
+
+                channel.delete().complete();
+                TicketWriter.close();
         }
+
+    public static List<Message> getAllMessages(TextChannel channel) {
+        List<Message> allMessages = new ArrayList<>();
+        Iterable<Message> messages = channel.getIterableHistory();
+
+        for (Message message : messages) {
+            allMessages.add(message);
+        }
+
+        return allMessages;
     }
+}
 
 
 

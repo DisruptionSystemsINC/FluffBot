@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class TicketCloseButton extends ListenerAdapter {
     @Override
@@ -20,7 +21,7 @@ public class TicketCloseButton extends ListenerAdapter {
             if (Objects.requireNonNull(channel.getParentCategory()).toString().toLowerCase().contains("support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("minecraft-server-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("fluffbot-support-tickets") || channel.getParentCategory().toString().toLowerCase().contains("nsfw-freischaltungs-tickets") || channel.getParentCategory().toString().toLowerCase().contains("server-kritik-tickets")) {
                 try {
                     Ticket.close(event, channel);
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
                 }
             }
