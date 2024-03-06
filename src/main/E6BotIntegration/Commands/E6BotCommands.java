@@ -13,6 +13,8 @@ import java.util.Objects;
 
 
 public class E6BotCommands extends ListenerAdapter {
+
+    //Commands used to trigger E6bot interactions
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
@@ -23,16 +25,20 @@ public class E6BotCommands extends ListenerAdapter {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                //Make sure the channel is actually the right channel to send it in
                 if (event.getChannel().asTextChannel() == Objects.requireNonNull(event.getGuild()).getTextChannelsByName("nsfw-bot", true).get(0)) {
+                    //Start the rest of the code in a new thread to not block the bot's main thread.
                     Thread e6search = new Thread(() -> {
                         TextChannel channel = event.getChannel().asTextChannel();
                         String nsfwtype = Objects.requireNonNull(event.getOption("nsfwtype")).getAsString();
+                        //Check if the channel is actually NSFW
                         if (channel.isNSFW()) {
                             try {
                                 Logging.printToLog("channel is identified as NSFW");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
+                            //If someone uses the custom flag, make sure to forward the correct data
                             if (nsfwtype.equals("custom")) {
                                 String nsfwtags = (event.getOption("nsfwtags")).getAsString();
                                 event.reply("Das Bild braucht etwas zum laden, Bitte habe etwas Geduld").setEphemeral(true).queue();
@@ -55,6 +61,7 @@ public class E6BotCommands extends ListenerAdapter {
                                 event.reply("Dieser Command funktioniert nur in einem NSFW channel.").setEphemeral(true).queue();
                             }
                     });
+                    //Start the thread
                     e6search.start();
                     try {
                         Logging.printToLog("E6search thread has started");
@@ -63,6 +70,7 @@ public class E6BotCommands extends ListenerAdapter {
                     }
                 }
             }
+            //Same as above
             case ("media") -> {
                 try {
                     Logging.printToLog("Media command has been triggered, preparing to send...");

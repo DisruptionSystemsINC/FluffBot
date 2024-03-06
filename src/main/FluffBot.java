@@ -35,22 +35,25 @@ public class FluffBot {
     public static boolean isOnboarding;
     static ShardManager shardmanager;
 
+    //Define the config root folder here
+
     public static String getConfigRoot(){
         return "config/";
     }
-
+    //Define the logging dir here
     public static String getLoggingDir(){
         return getConfigRoot() + "logs/";
     }
-
+    //Define the Ticket Dir here
     public static String getTicketDir(){
         return getConfigRoot() + "tickets/";
     }
-
+    //Define the blacklist dir here
     public static String getBlacklistDir(){
         return getConfigRoot() + "blacklist/";
     }
 
+    //Build the bot and register the EventListeners
     public FluffBot() throws LoginException, IOException {
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
@@ -83,20 +86,25 @@ public class FluffBot {
     }
 
     public static void main(String[] args) throws IOException {
+        //Create the config directory shoud it not exist
         createBaseFolderStructure();
+        //Get both the path of the test token and the Normal token
         File token = new File("token.chorus");
         File testtoken = new File("testtoken.chorus");
         System.out.println(Arrays.stream(args).toList());
+        //Use the testtoken when  --test is used to launch
         if (Arrays.stream(args).toList().toString().contains("--test")) {
             BufferedReader reader = new BufferedReader(new FileReader(testtoken));
             Token = reader.readLine();
             Logging.printToLog("Launching test version...");
         } else {
+            //Read in the token
             BufferedReader reader = new BufferedReader(new FileReader(token));
             Token = reader.readLine();
         }
         try {
             FluffBot bot = new FluffBot();
+            //DANGER!!!! Will erase an array of predefined roles from all users.
             if (Arrays.stream(args).toList().toString().contains("--setOnboarding")) {
                 System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. THIS WILL DELETE ALL SELECTION ROLES. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
                 Scanner scanner = new Scanner(System.in);
@@ -105,6 +113,7 @@ public class FluffBot {
                     Logging.printToLog("Onboarding override active");
                     isOnboarding = true;
                 } else {
+                    //Exit if the answer is not y
                     Logging.printToLog("ANSWER WAS NOT y, ABORTING");
                     System.exit(0);
                 }
@@ -116,7 +125,7 @@ public class FluffBot {
         }
     }
 
-    //Create the Config folder containing all the stuffs. Ticketbuffer.log will also be moved there as well as the blacklist.chorus and SFWBlacklist.chorus
+    //Create the Config folder.
     public static void createBaseFolderStructure(){
         File FolderRoot = new File(getConfigRoot());
         if (!FolderRoot.exists()){

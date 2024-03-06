@@ -11,55 +11,49 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public class Processing {
 
-    public String ProcessorNSFW(String HTTPContent) throws IOException {
+    //The processor for the NSFW version of the bot. Might be simplified into one function in another version
 
-        if (containsBlacklistedTag(HTTPContent, false)) {
-            return handleE9E6.handleE6("", "");
-        } else {
-            try {
-                String url = getURL(HTTPContent);
-                if (url.equals("null")){
+    public String Processor(String HTTPContent, boolean NSFW) throws IOException {
+            //Check if the blacklist contains one of the tags in the post and send a new request if it does
+            if (containsBlacklistedTag(HTTPContent, NSFW)) {
+                if (NSFW) {
                     return handleE9E6.handleE6("", "");
                 }
                 else {
-                    String artist = getArtist(HTTPContent);
-                    Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
-                    return "Artist: " + artist + "\n" + url;
-                }
-            } catch (IOException e) {
-                Logging.printToLog("Warning, There has been an error parsing the url json");
-                return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (disruption@gandhithedergrawr.com)";
-
-            }
-        }
-    }
-
-
-    public String Processor(String HTTPContent) throws IOException {
-
-        if (containsBlacklistedTag(HTTPContent, true)) {
-            return handleE9E6.handleE9("", "");
-        } else {
-            try {
-                String url = getURL(HTTPContent);
-                if (url.equals("null")) {
                     return handleE9E6.handleE9("", "");
-                } else {
-                    String artist = getArtist(HTTPContent);
-                    Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
-                    return "Artist: " + artist + "\n" + url;
                 }
-                } catch(IOException e){
-                    Logging.printToLog("Warning: There has been an error parsing field \"url\"");
-                    return "Fehler: Generischer Parserfehler";
+            } else {
+                try {
+                    //Try to get the url from e621 and check that it is not null
+                    String url = getURL(HTTPContent);
+                    if (url.equals("null")) {
+                        if (NSFW) {
+                            return handleE9E6.handleE6("", "");
+                        }
+                        else {
+                            return handleE9E6.handleE9("", "");
+                        }
+                    }
+                    //Get the artists of the post
+                    else {
+                        String artist = getArtist(HTTPContent);
+                        Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
+                        //Send the post off to be sent as a message
+                        return "Artist: " + artist + "\n" + url;
+                    }
+                } catch (IOException e) {
+                    Logging.printToLog("Warning, There has been an error parsing the url json");
+                    return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (Fluffbot Support Ticket)";
                 }
             }
     }
 
+    //Gets the artist of a post
     public String getArtist(String content) throws IOException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -82,34 +76,17 @@ public class Processing {
         return jsonNode.path("posts").get(0).path("file").path("url").asText();
     }
 
-    public boolean containsBlacklistedTag(String content, boolean sfw) throws IOException {
+    public boolean containsBlacklistedTag(String content, boolean NSFW) throws IOException {
         List<String> blacklist;
-        if (sfw) {
-            blacklist = Blacklist.getSFWBlacklist();
-        } else {
+        if (NSFW) {
             blacklist = Blacklist.getNSFWBlacklist();
+        } else {
+            blacklist = Blacklist.getSFWBlacklist();
         }
-        for (String s : blacklist) {
-            for (String a : getGeneralTags(content)) {
-                if ((a).toLowerCase().equals(s)) {
-                    System.out.println("Blacklist Triggered");
-                    return true;
-                }
-            }
-            for (String b : getSpeciesTags(content)) {
-                if ((b).toLowerCase().equals(s)) {
-                    System.out.println("Blacklist Triggered");
-                    return true;
-                }
-            }
-            for (String c : getArtistTags(content)) {
-                if ((c).toLowerCase().equals(s)) {
-                    System.out.println("Blacklist Triggered");
-                    return true;
-                }
-            }
-        }
-        return false;
+        return  Stream.concat(Stream.concat(getGeneralTags(content).stream(),
+                getArtistTags(content).stream()),
+                getSpeciesTags(content).stream()
+        ).anyMatch(blacklist::contains);
     }
 
     public List<String> getGeneralTags(String json) throws IOException {
@@ -164,6 +141,7 @@ public class Processing {
         } catch (Exception e) {
             Logging.printToLog("Warning: Exception thrown in \"Processing.getSpeciesTags\"");
         }
+
         return Collections.emptyList();
     }
 }

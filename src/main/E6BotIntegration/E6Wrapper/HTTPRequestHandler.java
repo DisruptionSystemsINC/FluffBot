@@ -12,23 +12,28 @@ import java.net.URL;
 public class HTTPRequestHandler {
 
 
-    public String e6GET(String type) throws IOException {
+    public String getPost(String type, boolean NSFW) throws IOException {
         HttpURLConnection connection;
         BufferedReader reader;
-            String e6URL;
+            String URL;
         StringBuffer responseContent = new StringBuffer();
         try {
             String line;
-            e6URL = ("https://e621.net/posts.json?tags=rating:explicit+" + type + "+order:random+score:>100;limit=1");
-            URL url = new URL(e6URL);
-            System.out.println(e6URL);
+            if (NSFW){
+                URL = ("https://e621.net/posts.json?tags=rating:explicit+" + type + "+order:random+score:>100;limit=1");
+            }
+            else {
+                URL = ("https://e621.net/posts.json?tags=rating:safe+" + type + "+order:random+score:>100;limit=1");
+            }
+            URL url = new URL(URL);
+            System.out.println(URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " in E6");
+                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status);
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -52,50 +57,6 @@ public class HTTPRequestHandler {
             throw new RuntimeException(ex);
         }
 
-        return new Processing().ProcessorNSFW(responseContent.toString());
-    }
-
-    public String e9GET(String type) throws IOException {
-        HttpURLConnection connection;
-        BufferedReader reader;
-        StringBuffer responseContent;
-        String e6URL;
-        try {
-            responseContent = new StringBuffer();
-            String line;
-            e6URL = ("https://e621.net/posts.json?tags=rating:safe+" + type + "+order:random+score:>100;limit=1");
-            System.out.println(e6URL);
-            URL url = new URL(e6URL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            int status = connection.getResponseCode();
-            if (status != 200)
-                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status + " In E9");
-
-            if (status > 299) {
-                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-                while ((line = reader.readLine()) != null) {
-                    responseContent.append(line);
-                }
-                reader.close();
-
-                connection.disconnect();
-
-            } else {
-
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                while ((line = reader.readLine()) != null) {
-                    responseContent.append(line);
-                }
-                reader.close();
-                connection.disconnect();
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        return new Processing().Processor(responseContent.toString());
+        return new Processing().Processor(responseContent.toString(), NSFW);
     }
 }

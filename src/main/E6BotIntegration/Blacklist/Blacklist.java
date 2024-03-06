@@ -12,15 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Blacklist {
-        public static List<String> getSFWBlacklist() throws IOException {
 
+    //Can probably be simplified into a single function with a boolean switch.
+    //Stuff for Fluffbot 6
+        public static List<String> getSFWBlacklist() throws IOException {
+            //Create a new file object that should contain the blacklist
             File blacklistfile = new File(FluffBot.getBlacklistDir()+"sfwblacklist.json");
+            //Make sure the file actually exists before
             if (!blacklistfile.exists()){
                 blacklistfile.createNewFile();
             }
-            BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
-            String BlacklistJson = reader.readLine();
 
+            BufferedReader reader = new BufferedReader(new FileReader(blacklistfile));
+
+            //Read the Line of Json. This should never be more than one line
+            String BlacklistJson = reader.readLine();
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(BlacklistJson);
             List<String> blacklist = new ArrayList<>();
@@ -31,6 +37,7 @@ public class Blacklist {
             return blacklist;
         }
 
+        //Same as above, but for NSFW
         public static List<String> getNSFWBlacklist() throws IOException {
 
 
