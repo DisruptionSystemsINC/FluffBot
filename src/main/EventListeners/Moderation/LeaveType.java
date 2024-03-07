@@ -4,7 +4,8 @@ public enum LeaveType {
 
     BANNED("wurde von einem Moderator gebannt "),
     KICKED("wurde von einem Moderator entfernt "),
-    LEFT("hat den Server verlassen");
+
+    TIMEOUTED(" in den timeout versetzt. ");
 
     private final String text;
 
