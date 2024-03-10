@@ -31,7 +31,6 @@ public class TemporaryVoice extends ListenerAdapter {
                 //Create the Voice channel and add it to the "Voicechannels" category
                 VoiceChannel channel = Objects.requireNonNull(event.getGuild()).getCategoriesByName("Temporäre Voicechannels", true).get(0).createVoiceChannel(name).setNSFW(isNSFW).complete();
 
-                //Log the Channel creation
                 try {
                     Logging.printToLog("A Temporary Voicechannel was requested");
                 } catch (IOException e) {

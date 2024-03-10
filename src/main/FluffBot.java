@@ -69,7 +69,6 @@ public class FluffBot {
                 new TicketCloseButton(),
                 new E6BotCommands(),
                 new Greeting(),
-                new OnboardingSetup(),
                 new GiveNewRole(),
                 new DailyPost(),
                 new voteOut(),
@@ -104,20 +103,6 @@ public class FluffBot {
         }
         try {
             FluffBot bot = new FluffBot();
-            //DANGER!!!! Will erase an array of predefined roles from all users.
-            if (Arrays.stream(args).toList().toString().contains("--setOnboarding")) {
-                System.out.println("WARNING: ONBOARDING OVERRIDE ACTIVE. THIS WILL DELETE ALL SELECTION ROLES. ARE YOU SURE THAT IS WHAT YOU WANT TO DO? y/n");
-                Scanner scanner = new Scanner(System.in);
-                String answer = scanner.nextLine();
-                if (answer.equals("y")) {
-                    Logging.printToLog("Onboarding override active");
-                    isOnboarding = true;
-                } else {
-                    //Exit if the answer is not y
-                    Logging.printToLog("ANSWER WAS NOT y, ABORTING");
-                    System.exit(0);
-                }
-            }
         } catch (LoginException e) {
             System.out.println("ERROR: Invalid or incomplete Bot Token");
         } catch (IOException e) {
@@ -127,21 +112,12 @@ public class FluffBot {
 
     //Create the Config folder.
     public static void createBaseFolderStructure(){
-        File FolderRoot = new File(getConfigRoot());
-        if (!FolderRoot.exists()){
-            FolderRoot.mkdir();
-        }
-        File logs = new File(getLoggingDir());
-        if (!logs.exists()){
-            logs.mkdir();
-        }
-        File blacklist = new File(getBlacklistDir());
-        if (!blacklist.exists()){
-            blacklist.mkdir();
-        }
-        File tickets = new File(getTicketDir());
-        if (!tickets.exists()){
-            tickets.mkdir();
+        String[] configFolders = new String[]{getConfigRoot(), getLoggingDir(), getBlacklistDir(), getTicketDir()};
+        for (String folderPath : configFolders) {
+            File folder = new File(folderPath);
+            if (!folder.exists()){
+                folder.mkdir();
+            }
         }
     }
 }

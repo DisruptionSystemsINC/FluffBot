@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 
@@ -39,7 +40,7 @@ public class Moderation extends ListenerAdapter {
         if (event.getMember().isTimedOut()){
             AuditLogEntry auditLogEntry = event.getGuild().retrieveAuditLogs().complete().get(0);
             User user = event.getUser();
-            guildLogChannel.sendMessageEmbeds(new EmbedBuilder().setTitle("Der Nutzer (" + user.getName() + ") wurde getimeoutet").addField("TIMEOUT", "Der Nutzer " + event.getMember().getAsMention() + " wurde bis " + (event.getMember().getTimeOutEnd()) + LeaveType.TIMEOUTED + "\nGrund: " + auditLogEntry.getReason() +  " (" + auditLogEntry.getUser().getName() + ")", false).build()).complete();
+            guildLogChannel.sendMessageEmbeds(new EmbedBuilder().setTitle("Der Nutzer (" + user.getName() + ") wurde getimeoutet").addField("TIMEOUT", "Der Nutzer " + event.getMember().getAsMention() + " wurde bis " + event.getMember().getTimeOutEnd().toLocalDate() + ", " + event.getMember().getTimeOutEnd().toLocalTime().truncatedTo(ChronoUnit.MINUTES) + LeaveType.TIMEOUTED + "\nGrund: " + auditLogEntry.getReason() +  " (" + auditLogEntry.getUser().getName() + ")", false).build()).complete();
 
         }
     }
