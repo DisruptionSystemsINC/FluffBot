@@ -20,11 +20,7 @@ public class E6BotCommands extends ListenerAdapter {
         String command = event.getName();
         switch (command) {
             case ("silly-media") -> {
-                try {
-                    Logging.printToLog("NSFW Media command has been triggered, preparing to send...");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Logging.printToLog("NSFW Media command has been triggered, preparing to send...");
                 //Make sure the channel is actually the right channel to send it in
                 if (event.getChannel().asTextChannel() == Objects.requireNonNull(event.getGuild()).getTextChannelsByName("nsfw-bot", true).get(0)) {
                     //Start the rest of the code in a new thread to not block the bot's main thread.
@@ -33,11 +29,7 @@ public class E6BotCommands extends ListenerAdapter {
                         String nsfwtype = Objects.requireNonNull(event.getOption("nsfwtype")).getAsString();
                         //Check if the channel is actually NSFW
                         if (channel.isNSFW()) {
-                            try {
-                                Logging.printToLog("channel is identified as NSFW");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            Logging.printToLog("channel is identified as NSFW");
                             //If someone uses the custom flag, make sure to forward the correct data
                             if (nsfwtype.equals("custom")) {
                                 String nsfwtags = (event.getOption("nsfwtags")).getAsString();
@@ -63,20 +55,12 @@ public class E6BotCommands extends ListenerAdapter {
                     });
                     //Start the thread
                     e6search.start();
-                    try {
-                        Logging.printToLog("E6search thread has started");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Logging.printToLog("E6search thread has started");
                 }
             }
             //Same as above
             case ("media") -> {
-                try {
-                    Logging.printToLog("Media command has been triggered, preparing to send...");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Logging.printToLog("Media command has been triggered, preparing to send...");
                 if (event.getChannel().asTextChannel() == Objects.requireNonNull(event.getGuild()).getTextChannelsByName("fluffymedia", true).get(0)) {
                     Thread e9search = new Thread(() -> {
                         TextChannel channel = event.getChannel().asTextChannel();
@@ -102,11 +86,7 @@ public class E6BotCommands extends ListenerAdapter {
                     });
 
                     e9search.start();
-                    try {
-                        Logging.printToLog("E9search thread has been started");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Logging.printToLog("E9search thread has been started");
                 }
             }
         }

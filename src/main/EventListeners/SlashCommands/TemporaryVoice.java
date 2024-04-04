@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,11 +30,7 @@ public class TemporaryVoice extends ListenerAdapter {
                 //Create the Voice channel and add it to the "Voicechannels" category
                 VoiceChannel channel = Objects.requireNonNull(event.getGuild()).getCategoriesByName("Temporäre Voicechannels", true).get(0).createVoiceChannel(name).setNSFW(isNSFW).complete();
 
-                try {
-                    Logging.printToLog("A Temporary Voicechannel was requested");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Logging.printToLog("A Temporary Voicechannel was requested");
 
                 //Get all the User Objects from the User Snowflakes
                 for (UserSnowflake snf : getusers(mentions)) {

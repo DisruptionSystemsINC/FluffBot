@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.io.IOException;
-
 public class Greeting extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
@@ -31,11 +29,7 @@ public class Greeting extends ListenerAdapter {
                         "Eventuell werden weitere funktionen hinzukommen, Diese werden im Server vorgestellt.\n\n" +
                         "Ich wünsche dir viel Spaß auf unserem Server!\n\n\n" +
                         "***-Das FluffKöpfe Team und FluffBot***").complete();
-                try {
-                    Logging.printToLog(member + " Has been verified");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Logging.printToLog(member + " Has been verified");
             }
     }
 }

@@ -1,6 +1,7 @@
 package main.EventListeners.Voice.Lavaplayer.events;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
@@ -9,9 +10,9 @@ import main.EventListeners.Voice.Lavaplayer.Dragonplayer;
 public class TrackHandler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        PlayerQueueHandler queueHandler = new PlayerQueueHandler();
-        if (endReason.mayStartNext && queueHandler.getNextTrack() != null){
-            player.startTrack(queueHandler.getNextTrack(), true);
+
+        if (endReason.mayStartNext && PlayerQueueHandler.getNextTrack() != null){
+            player.startTrack(PlayerQueueHandler.getNextTrack(), true);
         }
         else {
             Dragonplayer.stopBot();
@@ -28,5 +29,7 @@ public class TrackHandler extends AudioEventAdapter {
         Dragonplayer.switchPausePlay();
     }
 
-
+    public void loadTracks(String indent, AudioPlayerManager man){
+        man.loadItem(indent, new Dragonhandler());
+    }
 }

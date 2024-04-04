@@ -9,11 +9,12 @@ import main.EventListeners.Roles.GiveNewRole;
 import main.EventListeners.Roles.Greeting;
 import main.EventListeners.SlashCommands.BulkDelete;
 import main.EventListeners.SlashCommands.TemporaryVoice;
+import main.EventListeners.Voice.Lavaplayer.events.ButtonHandler;
 import main.EventListeners.Voice.TempChannel;
 import main.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import main.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
 import main.EventListeners.utility.Logging;
-import main.EventListeners.utility.OnboardingSetup;
+import main.EventListeners.utility.TimeChecker;
 import main.EventListeners.utility.voteOut;
 import main.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -25,9 +26,11 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Scanner;
 
 
 public class FluffBot {
@@ -76,6 +79,8 @@ public class FluffBot {
                 new TempChannel(),
                 new TempChannelDeletion(),
                 new Moderation(),
+                new ButtonHandler(),
+                new TimeChecker(),
                 new TicketButtons()).build();
 
     }

@@ -15,6 +15,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
     @Override
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> Commanddata = new ArrayList<>();
+        OptionData song = new OptionData(OptionType.STRING, "song", "Ein link, eine Video ID, order der name des Songs", true);
         OptionData amountToDelete = new OptionData(OptionType.INTEGER, "delamount", "Die Menge der Messages die du löschen willst", true);
         //Register all the selectable NSFW types
         OptionData nsfwtype = new OptionData(OptionType.STRING, "nsfwtype", "Der Typ des Artworks", true)
@@ -54,6 +55,8 @@ public class RegisterSlashCommands extends ListenerAdapter {
         Commanddata.add(Commands.slash("voice", "Erstelle einen Temporören Voicechannel für dich und deine Freunde!").addOptions(vcName, vcUsers, isNSFW));
         Commanddata.add(Commands.slash("ticketsetup", "Staff only: Erstelle die Ticket Nachricht"));
         Commanddata.add(Commands.slash("verify", "Owner Only: Verifiziert einen Nutzer").addOptions(verifyMember, verifyReason));
+        //Commanddata.add(Commands.slash("sing", "Hol dir den Fluffbot in den channel für Musik!").addOptions(song));
+        Commanddata.add(Commands.slash("timecheck", "Erstelle einen bericht von Nutzern die schon seit einem Jahr nicht mehr Aktiv waren"));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();
     }
 }

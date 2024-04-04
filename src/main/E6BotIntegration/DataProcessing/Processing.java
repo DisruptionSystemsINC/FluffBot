@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import main.E6BotIntegration.Blacklist.Blacklist;
 import main.E6BotIntegration.E6Wrapper.handleE9E6;
 import main.EventListeners.utility.Logging;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -89,7 +90,7 @@ public class Processing {
         ).anyMatch(blacklist::contains);
     }
 
-    public List<String> getGeneralTags(String json) throws IOException {
+    public List<String> getGeneralTags(String json) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(json);
@@ -107,7 +108,7 @@ public class Processing {
         return Collections.emptyList();
     }
 
-    public List<String> getArtistTags(String json) throws IOException {
+    public List<String> getArtistTags(String json) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(json);
@@ -125,7 +126,7 @@ public class Processing {
         return Collections.emptyList();
     }
 
-    public List<String> getSpeciesTags (String json) throws IOException {
+    public List<String> getSpeciesTags (String json) {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();

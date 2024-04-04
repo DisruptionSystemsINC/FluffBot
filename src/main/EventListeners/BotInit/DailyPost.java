@@ -22,11 +22,7 @@ public class DailyPost extends ListenerAdapter {
                 sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
                 Logging.printToLog("Daily Post has been triggered");
             } catch(IOException exception){
-                try {
-                    Logging.printToLog("Der Dailypost hatte eine unerwartete störung");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Logging.printToLog("Der Dailypost hatte eine unerwartete störung");
                 exception.printStackTrace();
             }
         }, 0, 12, TimeUnit.HOURS);
