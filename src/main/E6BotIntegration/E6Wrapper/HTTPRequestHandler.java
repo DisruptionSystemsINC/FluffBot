@@ -56,7 +56,6 @@ public class HTTPRequestHandler {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-
         return new Processing().Processor(responseContent.toString(), NSFW);
     }
 }
