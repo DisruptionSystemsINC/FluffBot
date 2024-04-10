@@ -45,7 +45,7 @@
                 <dependency>
                     <groupId>dev.arbjerg</groupId>
                     <artifactId>lavaplayer</artifactId>
-                    <version>08fe37dad9c0a2bb42240dab5401726cada0cc95-SNAPSHOT</version>
+                    <version>2.1.1</version>
                 </dependency>
                         <dependency>
                 <groupId>org.xerial</groupId>
