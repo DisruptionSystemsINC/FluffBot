@@ -1,6 +1,7 @@
 package disruption;
 
 import disruption.E6BotIntegration.Commands.E6BotCommands;
+import disruption.E6BotIntegration.ContentMenuInteractionEvents.TimeoutMenu;
 import disruption.EventListeners.BotInit.DailyPost;
 import disruption.EventListeners.BotInit.Initialized;
 import disruption.EventListeners.BotInit.TempChannelDeletion;
@@ -24,6 +25,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import okio.Timeout;
 
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
@@ -81,6 +83,8 @@ public class FluffBot {
                 new Moderation(),
                 new ButtonHandler(),
                 new TimeChecker(),
+                new TempChannel(),
+                new TimeoutMenu(),
                 new TicketButtons()).build();
 
     }

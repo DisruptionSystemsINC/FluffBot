@@ -8,24 +8,25 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TempChannel extends ListenerAdapter {
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
         try {
-            Category cat = event.getChannelLeft().getParentCategory();
-        if (cat.getName().toLowerCase().equals("temporäre voicechannels")) {
-            String name = event.getChannelLeft().getName();
-            Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
-            VoiceChannel channel = event.getChannelLeft().asVoiceChannel();
-            List<Member> members = channel.getMembers();
-            if (members.isEmpty()) {
-                channel.delete().complete();
+            Category cat = Objects.requireNonNull(event.getChannelLeft()).getParentCategory();
+            assert cat != null;
+            if (cat.getName().equalsIgnoreCase("temporäre voicechannels")) {
+                String name = event.getChannelLeft().getName();
+                Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
+                VoiceChannel channel = event.getChannelLeft().asVoiceChannel();
+                List<Member> members = channel.getMembers();
+                if (members.isEmpty()) {
+                    channel.delete().complete();
+                }
             }
         }
-        }
-        catch (NullPointerException ignored){
-        }
+        catch (NullPointerException ignored){}
     }
 
 

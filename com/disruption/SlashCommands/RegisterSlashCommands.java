@@ -2,6 +2,7 @@ package disruption.SlashCommands;
 
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -57,6 +58,8 @@ public class RegisterSlashCommands extends ListenerAdapter {
         Commanddata.add(Commands.slash("verify", "Owner Only: Verifiziert einen Nutzer").addOptions(verifyMember, verifyReason));
         //Commanddata.add(Commands.slash("sing", "Hol dir den Fluffbot in den channel für Musik!").addOptions(song));
         Commanddata.add(Commands.slash("timecheck", "Erstelle einen bericht von Nutzern die schon seit einem Jahr nicht mehr Aktiv waren"));
+        Commanddata.add(Commands.context(Command.Type.USER, "Timeout (1 Stunde)"));
+        Commanddata.add(Commands.context(Command.Type.USER, "Timeout (1 Tag)"));
         event.getGuild().updateCommands().addCommands(Commanddata).queue();
     }
 }
