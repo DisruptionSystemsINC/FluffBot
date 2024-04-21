@@ -10,12 +10,14 @@ import disruption.EventListeners.Roles.GiveNewRole;
 import disruption.EventListeners.Roles.Greeting;
 import disruption.EventListeners.SlashCommands.BulkDelete;
 import disruption.EventListeners.SlashCommands.TemporaryVoice;
+import disruption.EventListeners.SlashCommands.Verify;
 import disruption.EventListeners.Voice.Lavaplayer.events.ButtonHandler;
 import disruption.EventListeners.Voice.TempChannel;
 import disruption.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import disruption.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
 import disruption.EventListeners.utility.Logging;
 import disruption.EventListeners.utility.TimeChecker;
+import disruption.EventListeners.utility.VerifiedChecker;
 import disruption.EventListeners.utility.voteOut;
 import disruption.SlashCommands.RegisterSlashCommands;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -83,6 +85,8 @@ public class FluffBot {
                 new TimeChecker(),
                 new TempChannel(),
                 new TimeoutMenu(),
+                new VerifiedChecker(),
+                new Verify(),
                 new TicketButtons()).build();
 
     }

@@ -14,7 +14,12 @@ public class TrackHandler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
             if (endReason.mayStartNext) {
-                player.startTrack(PlayerQueueHandler.getNextTrack(), true);
+                if (!PlayerQueueHandler.getQueue().isEmpty()) {
+                    player.startTrack(PlayerQueueHandler.getNextTrack(), true);
+                }
+                else {
+                    Dragonplayer.stopBot();
+                }
             } else if (AudioTrackEndReason.REPLACED.equals(endReason)){
                 return;
             } else {

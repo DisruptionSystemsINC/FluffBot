@@ -12,22 +12,24 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.util.concurrent.TimeUnit;
+
 public class ButtonHandler extends ListenerAdapter {
 
     private static AudioPlayerManager audioPlayerManager;
     private static AudioPlayer player;
+    private static Message actionMessage;
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
         VoiceChannel channel = event.getChannel().asVoiceChannel();
         if (channel.getParentCategory().getName().equalsIgnoreCase("temporäre voicechannels") && channel.equals(event.getMember().getVoiceState().getChannel())) {
-            Message msg = event.getMessage();
             String label = event.getButton().getId();
             switch (label) {
                 case ("stop"): {
                     Dragonplayer.stopBot();
                     event.deferEdit().complete();
-                    msg.delete().complete();
+                    actionMessage.delete().complete();
                     System.out.println("Stopped");
                     break;
                 }
@@ -44,7 +46,7 @@ public class ButtonHandler extends ListenerAdapter {
                     break;
                 }
                 case ("skip"): {
-                    Dragonplayer.skip();
+                    Dragonplayer.skip(actionMessage);
                     System.out.println("skipped");
                     event.deferEdit().complete();
                     break;
@@ -69,7 +71,11 @@ public class ButtonHandler extends ListenerAdapter {
                 VoiceChannel channel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
                 if (!event.getGuild().getSelfMember().getVoiceState().inAudioChannel() || channel == event.getGuild().getSelfMember().getVoiceState().getChannel()) {
                     Dragonplayer dergonplayer = new Dragonplayer();
-                    Message msg = postAudioSelector(event);
+                    if (actionMessage == null) {
+                        actionMessage = postAudioSelector(event);
+                    } else {
+                        event.reply("Song/Playlist wurde der Warteschlange hinzugefügt.").complete().deleteOriginal().completeAfter(10, TimeUnit.SECONDS);
+                    }
                     AudioManager manager = channel.getGuild().getAudioManager();
                     TrackHandler handler = new TrackHandler();
                     String song = event.getOption("song").getAsString();
@@ -89,7 +95,7 @@ public class ButtonHandler extends ListenerAdapter {
                     manager.setSendingHandler(new DragonSender(player));
                     handler.loadTracks(song, audioPlayerManager);
                     dergonplayer.schedule(player);
-                    dergonplayer.editSongMessage(msg, player.getPlayingTrack().getInfo().title);
+                    dergonplayer.editSongMessage(actionMessage, player.getPlayingTrack().getInfo().title);
                 } else {
                     event.reply("Der Bot ist schon in einem anderen VC").setEphemeral(true).queue();
                 }

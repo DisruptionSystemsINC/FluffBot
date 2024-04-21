@@ -21,10 +21,15 @@ public class Verify extends ListenerAdapter {
                 Member member = event.getGuild().getMember(user);
                 Role verifiedrole = event.getGuild().getRolesByName("Verifiziert", true).get(0);
                 event.getGuild().addRoleToMember(member, verifiedrole).complete();
+                event.getGuild().removeRoleFromMember(member, event.getGuild().getRolesByName("neuling", true).get(0)).complete();
                 Logging.printToLog("Der Nutzer " + member.getEffectiveName() + " Wurde von " + event.getMember().getEffectiveName() + " Verifiziert ");
+                event.reply("Verifizierung erfolgreich").queue();
                 guildLogChannel.sendMessageEmbeds(new EmbedBuilder().setTitle("Nutzer Verifiziert!").addField(event.getMember().getEffectiveName() + " hat " + member.getEffectiveName() + " Verfiziert!", reason, false).build()).complete();
-                new VerifiedChecker().removeFromVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), member);
+                try {
+                    new VerifiedChecker().removeFromVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), member);
+                } catch (IndexOutOfBoundsException ignored){};
             }
+            event.reply("Du musst Owner sein um das zu tun.").setEphemeral(true).queue();
         }
     }
 }

@@ -51,8 +51,13 @@ public class Dragonplayer {
         player.setPaused(true);
     }
 
-    public static void skip(){
+    public static void skip(Message msg){
         player.startTrack(PlayerQueueHandler.getNextTrack(), false);
+        if (player.getPlayingTrack() != null) {
+            editSongMessage(msg, player.getPlayingTrack().getInfo().title);
+        } else {
+            msg.delete().queue();
+        }
     }
 
     public static void sendMessageToUser(MessageTypes message){
@@ -70,7 +75,7 @@ public class Dragonplayer {
         }
     }
 
-    public void editSongMessage(Message msg, String song){
+    public static void editSongMessage(Message msg, String song){
         msg.editMessage("Now playing: " + song).complete();
     }
 }
