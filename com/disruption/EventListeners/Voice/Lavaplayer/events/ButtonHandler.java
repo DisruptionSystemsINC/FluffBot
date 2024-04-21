@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,54 +13,88 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class ButtonHandler extends ListenerAdapter {
+
+    private static AudioPlayerManager audioPlayerManager;
+    private static AudioPlayer player;
+
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
         VoiceChannel channel = event.getChannel().asVoiceChannel();
         if (channel.getParentCategory().getName().equalsIgnoreCase("temporäre voicechannels") && channel.equals(event.getMember().getVoiceState().getChannel())) {
             Message msg = event.getMessage();
             String label = event.getButton().getId();
-            switch (label){
-                case ("stop"):{
+            switch (label) {
+                case ("stop"): {
                     Dragonplayer.stopBot();
-                    event.reply("Dragonplayer gestoppt").setEphemeral(true).complete();
+                    event.deferEdit().complete();
                     msg.delete().complete();
+                    System.out.println("Stopped");
+                    break;
                 }
-                case ("play"):{
+                case ("play"): {
                     Dragonplayer.resume();
+                    event.deferEdit().complete();
+                    System.out.println("Started");
+                    break;
+                }
+                case ("pause"): {
+                    Dragonplayer.pause();
+                    event.deferEdit().complete();
+                    System.out.println("paused");
+                    break;
+                }
+                case ("skip"): {
+                    Dragonplayer.skip();
+                    System.out.println("skipped");
+                    event.deferEdit().complete();
+                    break;
                 }
             }
         }
     }
 
-    public void postAudioSelector(SlashCommandInteractionEvent event, VoiceChannel channel) {
+    public Message postAudioSelector(SlashCommandInteractionEvent event) {
         Button stop = Button.danger("stop", "■");
         Button play = Button.primary("play", "►");
         Button pause = Button.primary("pause", "║");
         Button skip = Button.secondary("skip", "»");
-        channel.sendMessage("Now Playing: Nothing").addActionRow(stop, play, pause, skip).complete();
+        Message msg = event.reply("Now Playing: Nothing").addActionRow(stop, play, pause, skip).complete().retrieveOriginal().complete();
+        return msg;
     }
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if (event.getName().equals("sing")) {
-            String song = event.getOption("song").getAsString();
-            event.deferReply().setEphemeral(true).complete();
-            Member member = event.getInteraction().getMember();
-            if (member.getVoiceState().inAudioChannel()) {
-                Dragonplayer dergonplayer = new Dragonplayer();
+        if (event.getName().equals("queue")) {
+            if (event.getMember().getVoiceState().inAudioChannel()) {
                 VoiceChannel channel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
-                AudioManager manager = channel.getGuild().getAudioManager();
-                AudioPlayerManager playerManager = dergonplayer.getManager();
-                AudioPlayer player = playerManager.createPlayer();
-                AudioSourceManagers.registerRemoteSources(playerManager);
-                TrackHandler handler = new TrackHandler();
-                dergonplayer.schedule(player, playerManager, song, handler);
-                postAudioSelector(event, channel);
-                manager.setSendingHandler(new DragonSender(player));
-                manager.openAudioConnection(channel);
-
+                if (!event.getGuild().getSelfMember().getVoiceState().inAudioChannel() || channel == event.getGuild().getSelfMember().getVoiceState().getChannel()) {
+                    Dragonplayer dergonplayer = new Dragonplayer();
+                    Message msg = postAudioSelector(event);
+                    AudioManager manager = channel.getGuild().getAudioManager();
+                    TrackHandler handler = new TrackHandler();
+                    String song = event.getOption("song").getAsString();
+                    if (!song.startsWith("http")) {
+                        song = "ytmsearch: " + song;
+                    }
+                    if (audioPlayerManager == null) {
+                        audioPlayerManager = dergonplayer.getManager();
+                    }
+                    if (player == null) {
+                        player = audioPlayerManager.createPlayer();
+                        player.addListener(handler);
+                    }
+                    manager.openAudioConnection(channel);
+                    manager.setAutoReconnect(true);
+                    AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+                    manager.setSendingHandler(new DragonSender(player));
+                    handler.loadTracks(song, audioPlayerManager);
+                    dergonplayer.schedule(player);
+                    dergonplayer.editSongMessage(msg, player.getPlayingTrack().getInfo().title);
+                } else {
+                    event.reply("Der Bot ist schon in einem anderen VC").setEphemeral(true).queue();
+                }
             } else {
-                event.getHook().sendMessage("Du musst in einem VC sein um das zu tun").complete();
+                event.reply("Du musst in einem VC sein um das zu tun.").setEphemeral(true).queue();
             }
         }
     }

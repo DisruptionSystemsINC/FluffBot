@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerQueueHandler {
-     static List<AudioTrack> queue = new ArrayList<>();
-    AudioTrack currentTrack;
-    AudioTrack nextTrack;
+    private static final List<AudioTrack> queue = new ArrayList<>();
 
     public PlayerQueueHandler(){}
 
@@ -19,7 +17,9 @@ public class PlayerQueueHandler {
 
     public static AudioTrack getNextTrack(){
         if (!getQueue().isEmpty()) {
-            return getQueue().get(0);
+            AudioTrack track = getQueue().get(0);
+            getQueue().remove(0);
+            return track;
         }
         return null;
     }
@@ -28,9 +28,8 @@ public class PlayerQueueHandler {
         return queue;
     }
 
-    public static List<AudioTrack> addSongToQueue(AudioTrack track){
+    public static void addSongToQueue(AudioTrack track){
         queue.add(track);
-        return queue;
     }
 
 }

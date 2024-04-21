@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import okio.Timeout;
 
 import javax.security.auth.login.LoginException;
 import java.io.BufferedReader;
@@ -37,7 +36,6 @@ import java.util.Arrays;
 
 public class FluffBot {
     private static String Token;
-    public static boolean isOnboarding;
     static ShardManager shardmanager;
 
     //Define the config root folder here

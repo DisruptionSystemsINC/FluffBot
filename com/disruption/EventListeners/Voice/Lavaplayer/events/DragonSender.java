@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.audio.AudioSendHandler;
 import java.nio.ByteBuffer;
 
 public class DragonSender implements AudioSendHandler {
-        private final AudioPlayer audioPlayer;
+        private  AudioPlayer audioPlayer;
         private AudioFrame lastFrame;
 
         public DragonSender(AudioPlayer audioPlayer) {

@@ -18,10 +18,10 @@ public class TempChannel extends ListenerAdapter {
             assert cat != null;
             if (cat.getName().equalsIgnoreCase("temporäre voicechannels")) {
                 String name = event.getChannelLeft().getName();
-                Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
                 VoiceChannel channel = event.getChannelLeft().asVoiceChannel();
                 List<Member> members = channel.getMembers();
                 if (members.isEmpty()) {
+                    Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
                     channel.delete().complete();
                 }
             }

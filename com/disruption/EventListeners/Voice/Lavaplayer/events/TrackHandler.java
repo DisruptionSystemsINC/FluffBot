@@ -6,30 +6,40 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
+import disruption.EventListeners.utility.Logging;
+
+import java.util.concurrent.ExecutionException;
 
 public class TrackHandler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+            if (endReason.mayStartNext) {
+                player.startTrack(PlayerQueueHandler.getNextTrack(), true);
+            } else if (AudioTrackEndReason.REPLACED.equals(endReason)){
+                return;
+            } else {
+                Dragonplayer.stopBot();
+            }
+        }
 
-        if (endReason.mayStartNext && PlayerQueueHandler.getNextTrack() != null){
-            player.startTrack(PlayerQueueHandler.getNextTrack(), true);
-        }
-        else {
-            Dragonplayer.stopBot();
-        }
+    @Override
+    public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs, StackTraceElement[] stackTrace) {
+        Logging.printToLog("TRACK IS STUCK");
     }
 
     @Override
-    public void onPlayerPause(AudioPlayer player) {
-        Dragonplayer.switchPlayPause();
+    public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
+        Logging.printToLog("TRACK IS STUCK");
     }
 
-    @Override
-    public void onPlayerResume(AudioPlayer player) {
-        Dragonplayer.switchPausePlay();
-    }
+    public void loadTracks(String indent, AudioPlayerManager man) {
+        try {
+            man.loadItem(indent, new Dragonhandler()).get();
+        }
+        catch (InterruptedException | ExecutionException e){
+            Logging.printToLog("Loading tracks has been interrupted");
+            e.printStackTrace();
+        }
 
-    public void loadTracks(String indent, AudioPlayerManager man){
-        man.loadItem(indent, new Dragonhandler());
     }
 }

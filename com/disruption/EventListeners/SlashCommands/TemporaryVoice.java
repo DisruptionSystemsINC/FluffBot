@@ -51,7 +51,7 @@ public class TemporaryVoice extends ListenerAdapter {
                 //Also add the permission for the user that launched the command
                 channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).complete();
 
-                //send an ephemeral message
+                //Send an ephemeral message
                 event.getHook().sendMessage(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();
             } else {
                 event.reply("Du muss Verifiziert sein um das zu tun!").setEphemeral(true).complete();

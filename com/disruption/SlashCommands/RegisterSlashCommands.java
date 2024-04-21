@@ -56,7 +56,7 @@ public class RegisterSlashCommands extends ListenerAdapter {
         Commanddata.add(Commands.slash("voice", "Erstelle einen Temporören Voicechannel für dich und deine Freunde!").addOptions(vcName, vcUsers, isNSFW));
         Commanddata.add(Commands.slash("ticketsetup", "Staff only: Erstelle die Ticket Nachricht"));
         Commanddata.add(Commands.slash("verify", "Owner Only: Verifiziert einen Nutzer").addOptions(verifyMember, verifyReason));
-        //Commanddata.add(Commands.slash("sing", "Hol dir den Fluffbot in den channel für Musik!").addOptions(song));
+        Commanddata.add(Commands.slash("queue", "Hol dir den Fluffbot in den channel für Musik!").addOptions(song));
         Commanddata.add(Commands.slash("timecheck", "Erstelle einen bericht von Nutzern die schon seit einem Jahr nicht mehr Aktiv waren"));
         Commanddata.add(Commands.context(Command.Type.USER, "Timeout (1 Stunde)"));
         Commanddata.add(Commands.context(Command.Type.USER, "Timeout (1 Tag)"));

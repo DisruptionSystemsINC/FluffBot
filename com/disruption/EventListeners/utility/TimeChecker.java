@@ -53,8 +53,7 @@ public class TimeChecker extends ListenerAdapter {
             }
             catch(Exception e){
                 ogMesg.editMessage("WARNUNG: Abbruch. Der Bot hat es nicht geschafft alle Nachrichten zu laden.").complete();
-                System.out.println(e.getStackTrace());
-                System.out.println(e.getCause());
+                System.out.println(Arrays.toString(e.getStackTrace()));
             }
         });
             t.start();

@@ -18,8 +18,13 @@ public class Dragonhandler implements AudioLoadResultHandler{
     @Override
     public void playlistLoaded(AudioPlaylist audioPlaylist) {
         Logging.printToLog("Playlist has been successfully loaded: " + audioPlaylist.getName());
-        for (AudioTrack track : audioPlaylist.getTracks()){
-            PlayerQueueHandler.addSongToQueue(track);
+        if (audioPlaylist.isSearchResult()){
+            PlayerQueueHandler.addSongToQueue(audioPlaylist.getTracks().get(0));
+        }
+        else {
+            for (AudioTrack track : audioPlaylist.getTracks()) {
+                PlayerQueueHandler.addSongToQueue(track);
+            }
         }
     }
 
