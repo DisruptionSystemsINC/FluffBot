@@ -49,7 +49,7 @@ public class TemporaryVoice extends ListenerAdapter {
                 }
 
                 //Also add the permission for the user that launched the command
-                channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).complete();
+                channel.upsertPermissionOverride(event.getMember()).grant(Permission.VIEW_CHANNEL).grant(Permission.VOICE_CONNECT).grant(Permission.VOICE_SPEAK).grant(Permission.VOICE_STREAM).complete();
 
                 //Send an ephemeral message
                 event.getHook().sendMessage(channel.getAsMention() + " wurde für dich Erstellt").setEphemeral(true).complete();

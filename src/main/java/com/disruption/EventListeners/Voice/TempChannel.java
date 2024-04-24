@@ -1,5 +1,6 @@
 package com.disruption.EventListeners.Voice;
 
+import com.disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
 import com.disruption.EventListeners.utility.Logging;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
@@ -23,6 +24,7 @@ public class TempChannel extends ListenerAdapter {
                 if (members.isEmpty()) {
                     Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
                     channel.delete().complete();
+                    Dragonplayer.stopBot();
                 }
             }
         }

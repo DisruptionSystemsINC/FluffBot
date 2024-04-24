@@ -23,6 +23,7 @@ public class TrackHandler extends AudioEventAdapter {
             } else if (AudioTrackEndReason.REPLACED.equals(endReason)){
                 return;
             } else {
+                Dragonplayer.editSongMessage(CommandHandler.actionMessage, "Nothing");
                 Dragonplayer.stopBot();
             }
         }

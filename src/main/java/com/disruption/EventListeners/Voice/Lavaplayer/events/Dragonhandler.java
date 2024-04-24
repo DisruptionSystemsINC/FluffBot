@@ -1,6 +1,5 @@
 package com.disruption.EventListeners.Voice.Lavaplayer.events;
 
-import com.disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
 import com.disruption.EventListeners.utility.Logging;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -30,11 +29,11 @@ public class Dragonhandler implements AudioLoadResultHandler{
 
     @Override
     public void noMatches() {
-        Dragonplayer.sendMessageToUser(MessageTypes.NOMATCH);
+        CommandHandler.dergonplayer.sendMessageToUser(MessageTypes.NOMATCH);
     }
 
     @Override
     public void loadFailed(FriendlyException e) {
-        Dragonplayer.sendMessageToUser(MessageTypes.FAILURE);
+        CommandHandler.dergonplayer.sendMessageToUser(MessageTypes.FAILURE);
     }
 }

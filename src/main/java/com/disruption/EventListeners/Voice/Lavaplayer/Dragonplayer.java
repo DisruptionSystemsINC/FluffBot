@@ -1,6 +1,6 @@
 package com.disruption.EventListeners.Voice.Lavaplayer;
 
-import com.disruption.EventListeners.Voice.Lavaplayer.events.ButtonHandler;
+import com.disruption.EventListeners.Voice.Lavaplayer.events.CommandHandler;
 import com.disruption.EventListeners.Voice.Lavaplayer.events.MessageTypes;
 import com.disruption.EventListeners.Voice.Lavaplayer.events.PlayerQueueHandler;
 import com.disruption.FluffBot;
@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Dragonplayer {
 
     private static AudioPlayer player;
+    public boolean result;
     public AudioPlayerManager getManager(){
         AudioPlayerManager manager = new DefaultAudioPlayerManager();
         manager.setTrackStuckThreshold(1000);
@@ -40,7 +41,7 @@ public class Dragonplayer {
         if (player.getPlayingTrack() != null) {
             player.stopTrack();
             PlayerQueueHandler.getQueue().clear();
-            ButtonHandler.actionMessage = null;
+            CommandHandler.actionMessage = null;
         }
         FluffBot.getShardmanager().getGuildsByName("Fluffköpfe", true).get(0).getAudioManager().closeAudioConnection();
     }
@@ -62,15 +63,17 @@ public class Dragonplayer {
         }
     }
 
-    public static void sendMessageToUser(MessageTypes message){
+    public void sendMessageToUser(MessageTypes message){
         ShardManager man = FluffBot.getShardmanager();
         VoiceChannel chan = man.getGuildsByName("Fluffköpfe", true).get(0).getSelfMember().getVoiceState().getChannel().asVoiceChannel();
         switch (message){
             case FAILURE -> {
                 chan.sendMessage("Warnung: Der Inhalt konnte aufgrund eines Technischen fehlers nicht geladen werden.").complete().delete().completeAfter(10, TimeUnit.SECONDS);
+                this.result = false;
             }
             case NOMATCH -> {
                 chan.sendMessage("Der Inhalt konnte nicht gefunden werden.").complete().delete().completeAfter(10, TimeUnit.SECONDS);
+                this.result = false;
             }
         }
     }
