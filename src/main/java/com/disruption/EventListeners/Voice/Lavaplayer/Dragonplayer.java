@@ -69,11 +69,9 @@ public class Dragonplayer {
         switch (message){
             case FAILURE -> {
                 chan.sendMessage("Warnung: Der Inhalt konnte aufgrund eines Technischen fehlers nicht geladen werden.").complete().delete().completeAfter(10, TimeUnit.SECONDS);
-                this.result = false;
             }
             case NOMATCH -> {
                 chan.sendMessage("Der Inhalt konnte nicht gefunden werden.").complete().delete().completeAfter(10, TimeUnit.SECONDS);
-                this.result = false;
             }
         }
     }

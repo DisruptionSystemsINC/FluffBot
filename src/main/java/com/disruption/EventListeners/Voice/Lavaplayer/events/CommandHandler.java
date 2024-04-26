@@ -73,7 +73,7 @@ public class CommandHandler extends ListenerAdapter {
                     if (actionMessage == null) {
                         actionMessage = postAudioSelector(channel, event);
                     } else {
-                        event.deferReply().complete();
+                        event.deferReply().setEphemeral(true).complete();
                     }
                     AudioManager manager = channel.getGuild().getAudioManager();
                     TrackHandler handler = new TrackHandler();
@@ -95,9 +95,7 @@ public class CommandHandler extends ListenerAdapter {
                     handler.loadTracks(song, audioPlayerManager);
                     dergonplayer.schedule(player);
                     Dragonplayer.editSongMessage(actionMessage, player.getPlayingTrack().getInfo().title);
-                    if (dergonplayer.result) {
-                        event.getHook().editOriginal("Song/Playlist wurde der warteschlange hinzugefügt.").complete();
-                    }
+                    event.getHook().editOriginal("Song/Playlist wurde der warteschlange hinzugefügt.").complete();
                 } else {
                     event.reply("Der Bot ist schon in einem anderen VC").setEphemeral(true).queue();
                 }
