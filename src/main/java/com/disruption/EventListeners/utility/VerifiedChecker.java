@@ -16,7 +16,12 @@ public class VerifiedChecker extends ListenerAdapter {
         if (!event.getGuild().getTextChannels().toString().contains("to-verify")) {
             event.getGuild().getCategoriesByName("team stuff :D", true).get(0).createTextChannel("to-verify").complete();
         }
-        addToVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), event.getMember());
+        if (event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete() != null) {
+            addToVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), event.getMember());
+        } else {
+            event.getGuild().getTextChannelsByName("to-verify", true).get(0).sendMessage("Diese Nutzer warten auf Verifizierung:\n").complete();
+            addToVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), event.getMember());
+        }
     }
 
     public void addToVerifyList(Message msg, Member mem){
