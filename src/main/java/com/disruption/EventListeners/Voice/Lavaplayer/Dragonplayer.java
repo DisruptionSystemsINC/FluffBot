@@ -30,7 +30,7 @@ public class Dragonplayer {
 
 
     public void schedule(AudioPlayer player){
-        player.setVolume(100);
+        player.setVolume(50);
         if (player.getPlayingTrack() == null) {
             player.startTrack(PlayerQueueHandler.getNextTrack(), true);
         }
