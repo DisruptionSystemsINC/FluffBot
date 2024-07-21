@@ -5,7 +5,9 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
@@ -20,6 +22,7 @@ public class CommandHandler extends ListenerAdapter {
     private static AudioPlayerManager audioPlayerManager;
     private static AudioPlayer player;
     public static Message actionMessage;
+    public static Channel actionChannel;
     public static Dragonplayer dergonplayer;
 
     @Override
@@ -72,6 +75,7 @@ public class CommandHandler extends ListenerAdapter {
                     dergonplayer = new Dragonplayer();
                     if (actionMessage == null) {
                         actionMessage = postAudioSelector(channel, event);
+                        actionChannel = channel;
                     } else {
                         event.deferReply().setEphemeral(true).complete();
                     }
@@ -95,15 +99,14 @@ public class CommandHandler extends ListenerAdapter {
                     handler.loadTracks(song, audioPlayerManager);
                     dergonplayer.schedule(player);
                     Dragonplayer.editSongMessage(actionMessage, player.getPlayingTrack().getInfo().title);
-                    event.getHook().editOriginal("Song/Playlist wurde der warteschlange hinzugefügt.").complete();
+                    event.getHook().editOriginal("Song/Playlist wurde der Warteschlange hinzugefügt.").complete();
                 } else {
                     event.reply("Der Bot ist schon in einem anderen VC").setEphemeral(true).queue();
                 }
             } else {
                 event.reply("Du musst in einem VC sein um das zu tun.").setEphemeral(true).queue();
             }
-        }
-        else if (event.getName().equals("force-restart")){
+        } else if (event.getName().equals("force-restart")) {
             event.reply("Force-Restarting Music bot...").setEphemeral(true).queue();
             Dragonplayer.stopBot();
             actionMessage = null;
@@ -112,8 +115,19 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onMessageDelete(MessageDeleteEvent event) {
-        if (event.getMessageId().equals(actionMessage.getId())){
+        if (actionMessage != null) {
+            if (event.getMessageId().equals(actionMessage.getId())) {
+                actionMessage = null;
+            }
+        }
+    }
+
+    @Override
+    public void onChannelDelete(ChannelDeleteEvent event) {
+        Channel chan = event.getChannel();
+        if (chan == actionChannel){
             actionMessage = null;
+            actionChannel = null;
         }
     }
 }

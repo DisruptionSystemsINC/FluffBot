@@ -19,10 +19,18 @@ public class VerifiedChecker extends ListenerAdapter {
         addToVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), event.getMember());
     }
 
-    public void addToVerifyList(Message msg, Member mem){
-        String ogMesg = msg.getContentDisplay();
-        String newMesg = ogMesg + "\n" + mem.getAsMention() + " Wartet auf Verifizierung.";
-        msg.editMessage(newMesg).complete();
+    public void addToVerifyList(Message msg, Member mem) {
+        if (mem.getGuild().getTextChannelsByName("to-verify", true).get(0).getIterableHistory().complete().getFirst() != null) {
+            String ogMesg = msg.getContentDisplay();
+            String newMesg = ogMesg + "\n" + mem.getAsMention() + " Wartet auf Verifizierung.";
+            msg.editMessage(newMesg).complete();
+        }
+        else {
+            mem.getGuild().getTextChannelsByName("to-verify", true).get(0).sendMessage("Diese Nutzer warten auf Verifizierung:\n");
+            String ogMesg = msg.getContentDisplay();
+            String newMesg = ogMesg + "\n" + mem.getAsMention() + " Wartet auf Verifizierung.";
+            msg.editMessage(newMesg).complete();
+        }
     }
 
     public void removeFromVerifyList(Message msg, Member mem){

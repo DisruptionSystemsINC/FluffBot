@@ -43,8 +43,7 @@ public class TrackHandler extends AudioEventAdapter {
             man.loadItem(indent, new Dragonhandler()).get();
         }
         catch (InterruptedException | ExecutionException e){
-            Logging.printToLog("Loading tracks has been interrupted");
-            e.printStackTrace();
+            Logging.printToLog("Loading tracks has been interrupted " + e.getMessage());
         }
 
     }

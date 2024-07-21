@@ -27,7 +27,9 @@ public class Verify extends ListenerAdapter {
                 guildLogChannel.sendMessageEmbeds(new EmbedBuilder().setTitle("Nutzer Verifiziert!").addField(event.getMember().getEffectiveName() + " hat " + member.getEffectiveName() + " Verfiziert!", reason, false).build()).complete();
                 try {
                     new VerifiedChecker().removeFromVerifyList(event.getGuild().getTextChannelsByName("to-verify", true).get(0).retrieveMessageById(event.getGuild().getTextChannelsByName("to-verify", true).get(0).getLatestMessageId()).complete(), member);
-                } catch (IndexOutOfBoundsException ignored){};
+                } catch (IndexOutOfBoundsException e){
+                    Logging.printToLog("Warning: Missing Bot Message. This should not happen");
+                };
             }
             event.reply("Du musst Owner sein um das zu tun.").setEphemeral(true).queue();
         }

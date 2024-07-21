@@ -21,10 +21,11 @@ public class Logging {
                 logfile.createNewFile();
             }
             //Add the local date and time as well as a few newlines for overview
-            pw.append("[" + LocalDate.now() + "]    [" + LocalTime.now() + "]" + "\n\n" + line + "\n\n\n\n");
+            pw.append("[" + LocalDate.now() + "]    [" + LocalTime.now() + "]" + "\n" + line + "\n");
             pw.close();
         } catch (IOException exeption) {
-            System.out.println("FAILURE IN LOGGING");
+            System.out.println("FAILURE IN STARTING LOGGING");
+            exeption.printStackTrace();
         }
     }
 }

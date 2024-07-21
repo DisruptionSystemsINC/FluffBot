@@ -14,22 +14,18 @@ import java.util.Objects;
 public class TempChannel extends ListenerAdapter {
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
-        try {
-            Category cat = Objects.requireNonNull(event.getChannelLeft()).getParentCategory();
-            assert cat != null;
+        if (event.getChannelLeft().getParentCategory() != null) {
+            Category cat = event.getChannelLeft().getParentCategory();
             if (cat.getName().equalsIgnoreCase("temporäre voicechannels")) {
                 String name = event.getChannelLeft().getName();
                 VoiceChannel channel = event.getChannelLeft().asVoiceChannel();
                 List<Member> members = channel.getMembers();
-                if (members.isEmpty()) {
-                    Logging.printToLog("The Voicechannel "+ name + " Has been deleted. Reason: Channel was Empty");
+                if (members.isEmpty() || (members.contains(event.getGuild().getSelfMember())) && members.size() < 2) {
                     channel.delete().complete();
                     Dragonplayer.stopBot();
+                    Logging.printToLog("The Voicechannel " + name + " Has been deleted. Reason: Channel was Empty");
                 }
             }
         }
-        catch (NullPointerException ignored){}
     }
-
-
 }
