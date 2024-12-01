@@ -1,6 +1,5 @@
 package com.disruption.EventListeners.Voice;
 
-import com.disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
 import com.disruption.FluffBot;
 import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.entities.Member;
@@ -22,7 +21,6 @@ public class TempChannel extends ListenerAdapter {
                     List<Member> members = channel.getMembers();
                     if (members.isEmpty() || (members.contains(event.getGuild().getSelfMember())) && members.size() < 2) {
                         channel.delete().complete();
-                        Dragonplayer.stopBot();
                         FluffBot.getDragonLog().printToLog(LogLevel.INFORMATION, "The Voicechannel " + name + " Has been deleted. Reason: Channel was Empty");
                     }
                 }

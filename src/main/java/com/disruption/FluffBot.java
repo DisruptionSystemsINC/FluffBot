@@ -11,7 +11,6 @@ import com.disruption.EventListeners.Roles.Greeting;
 import com.disruption.EventListeners.SlashCommands.BulkDelete;
 import com.disruption.EventListeners.SlashCommands.TemporaryVoice;
 import com.disruption.EventListeners.SlashCommands.Verify;
-import com.disruption.EventListeners.Voice.Lavaplayer.events.CommandHandler;
 import com.disruption.EventListeners.Voice.TempChannel;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
@@ -88,7 +87,6 @@ public class FluffBot {
                 new TempChannel(),
                 new TempChannelDeletion(),
                 new Moderation(),
-                new CommandHandler(),
                 new TimeChecker(),
                 new TimeoutMenu(),
                 new VerifiedChecker(),
