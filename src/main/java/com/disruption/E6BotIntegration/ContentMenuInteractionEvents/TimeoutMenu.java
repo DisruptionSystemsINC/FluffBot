@@ -1,7 +1,8 @@
 package com.disruption.E6BotIntegration.ContentMenuInteractionEvents;
 
-import com.disruption.EventListeners.utility.Logging;
 import com.disruption.EventListeners.utility.MemberChecks;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
@@ -31,7 +32,7 @@ public class TimeoutMenu extends ListenerAdapter {
                 } else if (checks.isStaff(target, guild)) {
                     event.getHook().editOriginal("Du kannst keinen Staff member in den timeout versetzen.").complete();
                 } else {
-                    Logging.printToLog(target.getEffectiveName() + " Wurde von " + origin.getEffectiveName() + " in den timeout versetzt");
+                    FluffBot.getDragonLog().printToLog(LogLevel.WARNING,target.getEffectiveName() + " Wurde von " + origin.getEffectiveName() + " in den timeout versetzt");
                     target.timeoutFor(1, timeunit).complete();
                     event.getHook().editOriginal("Nutzer wurde in den Timeout versetzt").complete();
                 }

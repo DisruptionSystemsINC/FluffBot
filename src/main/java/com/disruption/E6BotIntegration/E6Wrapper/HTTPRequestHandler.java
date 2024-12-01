@@ -1,7 +1,8 @@
 package com.disruption.E6BotIntegration.E6Wrapper;
 
 import com.disruption.E6BotIntegration.DataProcessing.Processing;
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class HTTPRequestHandler {
             connection.setReadTimeout(5000);
             int status = connection.getResponseCode();
             if (status != 200)
-                Logging.printToLog("ENCOUNTERED HTTP-ERROR " + status);
+                FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "ENCOUNTERED HTTP-ERROR " + status);
 
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));

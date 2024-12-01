@@ -20,7 +20,7 @@ public class VerifiedChecker extends ListenerAdapter {
     }
 
     public void addToVerifyList(Message msg, Member mem) {
-        if (mem.getGuild().getTextChannelsByName("to-verify", true).get(0).getIterableHistory().complete().getFirst() != null) {
+        if (mem.getGuild().getTextChannelsByName("to-verify", true).get(0).getIterableHistory().complete().get(0) != null) {
             String ogMesg = msg.getContentDisplay();
             String newMesg = ogMesg + "\n" + mem.getAsMention() + " Wartet auf Verifizierung.";
             msg.editMessage(newMesg).complete();

@@ -3,7 +3,8 @@ package com.disruption.E6BotIntegration.DataProcessing;
 
 import com.disruption.E6BotIntegration.Blacklist.Blacklist;
 import com.disruption.E6BotIntegration.E6Wrapper.handleE9E6;
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,12 +44,12 @@ public class Processing {
                     //Get the artists of the post
                     else {
                         String artist = getArtist(HTTPContent);
-                        Logging.printToLog("Sending post: \n" + url + "\n from: \n" + HTTPContent);
+                        FluffBot.getDragonLog().printToLog(LogLevel.INFORMATION,"Sending post: \n" + url + "\n from: \n" + HTTPContent);
                         //Send the post off to be sent as a message
                         return "Artist: " + artist + "\n" + url;
                     }
                 } catch (IOException e) {
-                    Logging.printToLog("Warning, There has been an error parsing the url json");
+                    FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "There has been an error parsing the url json");
                     return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (Fluffbot Support Ticket)";
                 }
             }
@@ -65,7 +66,7 @@ public class Processing {
             }
             else return "Unknown Artist";
         } catch (IOException e) {
-            Logging.printToLog("Warning, There has been an error parsing the url json");
+            FluffBot.getDragonLog().printToLog(LogLevel.ERROR,"There has been an error parsing the url json");
             return "WARNUNG: Invalider JSON Syntax. Bitte überprüfe den status der e621 Server und Informiere den bot Operator (disruption@gandhithedergrawr.com)";
 
         }
@@ -103,7 +104,7 @@ public class Processing {
 
             return objectMapper.convertValue(generalTagsNode, List.class);
         } catch (Exception e) {
-            Logging.printToLog("Warning: Exception thrown in \"Processing.getGeneralTags\"");
+            FluffBot.getDragonLog().printToLog(LogLevel.ERROR,"Exception thrown in \"Processing.getGeneralTags\"");
         }
         return Collections.emptyList();
     }
@@ -121,7 +122,7 @@ public class Processing {
 
             return objectMapper.convertValue(generalTagsNode, List.class);
         } catch (Exception e) {
-            Logging.printToLog("Warning: Exception thrown in \"Processing.getArtistTags\"");
+            FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "Exception thrown in \"Processing.getArtistTags\"");
         }
         return Collections.emptyList();
     }
@@ -140,7 +141,7 @@ public class Processing {
 
             return objectMapper.convertValue(generalTagsNode, List.class);
         } catch (Exception e) {
-            Logging.printToLog("Warning: Exception thrown in \"Processing.getSpeciesTags\"");
+            FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "Exception thrown in \"Processing.getSpeciesTags\"");
         }
 
         return Collections.emptyList();

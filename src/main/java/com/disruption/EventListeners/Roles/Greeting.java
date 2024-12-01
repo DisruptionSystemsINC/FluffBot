@@ -1,6 +1,7 @@
 package com.disruption.EventListeners.Roles;
 
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
@@ -29,7 +30,7 @@ public class Greeting extends ListenerAdapter {
                         "Eventuell werden weitere funktionen hinzukommen, Diese werden im Server vorgestellt.\n\n" +
                         "Ich wünsche dir viel Spaß auf unserem Server!\n\n\n" +
                         "***-Das FluffKöpfe Team und FluffBot***").complete();
-                Logging.printToLog(member + " Has been verified");
+                FluffBot.getDragonLog().printToLog(LogLevel.WARNING,member + " Has been verified");
             }
     }
 }

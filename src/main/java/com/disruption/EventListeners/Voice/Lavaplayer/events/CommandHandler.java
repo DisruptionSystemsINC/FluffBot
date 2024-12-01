@@ -23,7 +23,7 @@ public class CommandHandler extends ListenerAdapter {
     private static AudioPlayer player;
     public static Message actionMessage;
     public static Channel actionChannel;
-    public static Dragonplayer dergonplayer;
+    public static Dragonplayer dergonplayer = new Dragonplayer();
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
@@ -72,7 +72,6 @@ public class CommandHandler extends ListenerAdapter {
             if (event.getMember().getVoiceState().inAudioChannel()) {
                 VoiceChannel channel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
                 if (!event.getGuild().getSelfMember().getVoiceState().inAudioChannel() || channel == event.getGuild().getSelfMember().getVoiceState().getChannel()) {
-                    dergonplayer = new Dragonplayer();
                     if (actionMessage == null) {
                         actionMessage = postAudioSelector(channel, event);
                         actionChannel = channel;

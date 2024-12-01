@@ -1,7 +1,7 @@
 package com.disruption.EventListeners.utility.tickets;
 
-import com.disruption.EventListeners.utility.Logging;
 import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,7 +39,7 @@ public class Ticket{
                 }
                 //Log the ticket creation and Acknowledge the interaction
                 event.getHook().sendMessage("Ein Ticket wurde für dich erstellt. Bitte schreibe dein anliegen in den channel " + chanref + "!").setEphemeral(true).queue();
-                Logging.printToLog("A Ticket has been created with ID " + (CountTickets.getTicketCount()));
+                FluffBot.getDragonLog().printToLog(LogLevel.INFORMATION, "A Ticket has been created with ID " + (CountTickets.getTicketCount()));
 
                 //Get a certain type of ticket. This could technically be solved with an ENUM, this might be in a Future version
                 switch (type) {
@@ -77,7 +77,7 @@ public class Ticket{
     }
         public static void close(ButtonInteractionEvent event, TextChannel channel) throws IOException, ExecutionException, InterruptedException {
             String TicketID = channel.getName().split("-")[channel.getName().split("-").length - 1];
-            Logging.printToLog("Ticket with ID " + TicketID + " Is being closed");
+            FluffBot.getDragonLog().printToLog(LogLevel.WARNING, "Ticket with ID " + TicketID + " Is being closed");
             String TicketFolderPath = FluffBot.getTicketDir() + channel.getName() + "/";
 
             File ticketSpecificDir = new File(TicketFolderPath);

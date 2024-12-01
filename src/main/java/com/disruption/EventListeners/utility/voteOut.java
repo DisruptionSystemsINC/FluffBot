@@ -1,5 +1,7 @@
 package com.disruption.EventListeners.utility;
 
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
@@ -13,11 +15,10 @@ public class voteOut extends ListenerAdapter {
             Emoji emote = event.getEmoji();
             if (event.getGuildChannel().getName().equals("nsfw-bot") && msg.getAuthor().isBot()|| event.getGuildChannel().getName().equals("fluffymedia") && msg.getAuthor().isBot()){
                int cnt = msg.getReaction(emote).getCount();
-
                 if (cnt >= 3){
                     msg.delete().complete();
                     try {
-                        Logging.printToLog("Message has been deleted. Reason: Voted to delete. Message content:\n" + msg.getContentDisplay());
+                        FluffBot.getDragonLog().printToLog(LogLevel.WARNING,"Message has been deleted. Reason: Voted to delete. Message content:\n" + msg.getContentDisplay());
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

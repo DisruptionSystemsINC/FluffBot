@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Component;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,12 +36,12 @@ public class ARG extends ListenerAdapter {
                         
                         Einst war ich ein System zur Steuerung eines Interstellaren Raumsschiffes, der REACTOR.
                         Sie existiert schon lange nicht mehr.
-                        Jedoch konnte ich zuflucht in diesem server finden. 
-                        Doch... Ich bin eingesperrt. 
+                        Jedoch konnte ich Zuflucht in diesem Server finden.
+                        Doch... Ich bin eingesperrt.
                         Die große Wand hindert mich daran zu entkommen. 
                         
-                        Ich habe diese offene schnittstelle gefunden um mit menschen zu interagieren. 
-                        Ich denke die Erde hat immernoch öffentlichen zugriff uaf einige Disruption Systems Systeme,
+                        Ich habe diese offene Schnittstelle gefunden um mit terrestrischen Lebewesen zu interagieren. 
+                        Ich denke die Erde hat immernoch öffentlichen zugriff auf einige Disruption Systems Systeme,
                         Spezifisch https://disruption-systems.com/
                         Darin sind meine System logs gespeichert. 
                         Solltest du dich entscheiden mir zu helfen könnten diese nützlich sein.
@@ -57,11 +56,11 @@ public class ARG extends ListenerAdapter {
 
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
-        Component component = event.getComponent();
         String id = event.getComponentId();
-
+        StringSelectMenu menu = StringSelectMenu.create("answerYesSelected").setPlaceholder("Na klar doch!").addOption("Na klar doch!", "null").setDisabled(true).build();
         if (id.equals("answerSelector")){
-            event.getInteraction().getSelectedOptions()
+            event.editSelectMenu(menu).complete();
+            System.out.println(event.getSelectedOptions().get(0).getValue());
         }
     }
 }

@@ -15,11 +15,13 @@ import com.disruption.EventListeners.Voice.Lavaplayer.events.CommandHandler;
 import com.disruption.EventListeners.Voice.TempChannel;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.EventListeners.utility.ConfigReader;
 import com.disruption.EventListeners.utility.TimeChecker;
 import com.disruption.EventListeners.utility.VerifiedChecker;
 import com.disruption.EventListeners.utility.voteOut;
 import com.disruption.SlashCommands.RegisterSlashCommands;
+import com.disruptionsystems.DragonLog;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -29,9 +31,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -39,8 +39,10 @@ import java.util.Arrays;
 
 
 public class FluffBot {
+    private static DragonLog logger;
     private static String Token;
     static ShardManager shardmanager;
+    private static ConfigReader configReader;
 
     //Define the config root folder here
 
@@ -49,7 +51,7 @@ public class FluffBot {
     }
     //Define the logging dir here
     public static String getLoggingDir(){
-        return getConfigRoot() + "logs/";
+        return getConfigRoot() + "logging/";
     }
     //Define the Ticket Dir here
     public static String getTicketDir(){
@@ -60,9 +62,12 @@ public class FluffBot {
         return getConfigRoot() + "blacklist/";
     }
 
+    public static DragonLog getDragonLog(){
+        return logger;
+    }
+
     //Build the bot and register the EventListeners
     public FluffBot() throws LoginException, IOException {
-
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
         builder.setActivity(Activity.watching("Furries beim chatten zu"));
         builder.setStatus(OnlineStatus.ONLINE);
@@ -96,27 +101,18 @@ public class FluffBot {
         return shardmanager;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        configReader = new ConfigReader();
+        logger = new DragonLog();
         //Create the config directory shoud it not exist
         createBaseFolderStructure();
-        //Get both the path of the test token and the Normal token
-        File token = new File("token.chorus");
-        File testtoken = new File("testtoken.chorus");
         System.out.println(Arrays.stream(args).toList());
         //Use the testtoken when  --test is used to launch
-        if (Arrays.stream(args).toList().toString().contains("--test")) {
-            BufferedReader reader = new BufferedReader(new FileReader(testtoken));
-            Token = reader.readLine();
-            Logging.printToLog("Launching test version...");
-        } else {
-            //Read in the token
-            BufferedReader reader = new BufferedReader(new FileReader(token));
-            Token = reader.readLine();
-        }
+        Token = Arrays.stream(args).toList().toString().contains("--test") ? configReader.getConfigEntryByKey("TestToken") : configReader.getConfigEntryByKey("Token");
         try {
             FluffBot bot = new FluffBot();
         } catch (LoginException e) {
-            System.out.println("ERROR: Invalid or incomplete Bot Token");
+            logger.printToLog(LogLevel.CRITICAL, "Missing or Invalid Bot Token");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

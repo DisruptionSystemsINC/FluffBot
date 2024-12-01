@@ -1,6 +1,7 @@
 package com.disruption.EventListeners.SlashCommands;
 
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -30,7 +31,7 @@ public class TemporaryVoice extends ListenerAdapter {
                 //Create the Voice channel and add it to the "Voicechannels" category
                 VoiceChannel channel = Objects.requireNonNull(event.getGuild()).getCategoriesByName("Temporäre Voicechannels", true).get(0).createVoiceChannel(name).setNSFW(isNSFW).complete();
 
-                Logging.printToLog("A Temporary Voicechannel was requested");
+                FluffBot.getDragonLog().printToLog(LogLevel.INFORMATION,"A Temporary Voicechannel was requested");
 
                 //Get all the User Objects from the User Snowflakes
                 for (UserSnowflake snf : getusers(mentions)) {

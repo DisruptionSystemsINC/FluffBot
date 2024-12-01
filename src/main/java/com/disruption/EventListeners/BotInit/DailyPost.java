@@ -1,7 +1,8 @@
 package com.disruption.EventListeners.BotInit;
 
 import com.disruption.E6BotIntegration.E6Wrapper.handleE9E6;
-import com.disruption.EventListeners.utility.Logging;
+import com.disruption.FluffBot;
+import com.disruptionsystems.logging.LogLevel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,9 +21,9 @@ public class DailyPost extends ListenerAdapter {
             try {
                 channel.sendMessage(handleE9E6.handleE6("", "")).complete();
                 sfwchannel.sendMessage(handleE9E6.handleE9("", "")).complete();
-                Logging.printToLog("Daily Post has been triggered");
+                FluffBot.getDragonLog().printToLog(LogLevel.INFORMATION, "Daily Post has been triggered");
             } catch(IOException exception){
-                Logging.printToLog("Der Dailypost hatte eine unerwartete störung");
+                FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "Der Dailypost hatte eine unerwartete störung");
                 exception.printStackTrace();
             }
         }, 0, 12, TimeUnit.HOURS);
