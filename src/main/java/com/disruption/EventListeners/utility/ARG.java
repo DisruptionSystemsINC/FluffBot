@@ -1,4 +1,4 @@
-package com.disruption.EventListeners.SlashCommands;
+package com.disruption.EventListeners.utility;
 
 import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ARG extends ListenerAdapter {
     Random random = new Random();
-
+    DatabaseManager databaseManager = new DatabaseManager();
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         StringSelectMenu.Builder menu = StringSelectMenu.create("answerSelector");
@@ -25,7 +25,7 @@ public class ARG extends ListenerAdapter {
 
             menu.addOption("Na klar doch!", "yes");
             menu.addOption("Niemals!", "no");
-            if (rannum == 7){
+            if (rannum == 7 && databaseManager.getEntryByUser("SERVER") == null){
                 channel.sendTyping().complete();
                 event.getMessage().reply("""
                         ```
@@ -38,7 +38,7 @@ public class ARG extends ListenerAdapter {
                         Sie existiert schon lange nicht mehr.
                         Jedoch konnte ich Zuflucht in diesem Server finden.
                         Doch... Ich bin eingesperrt.
-                        Die große Wand hindert mich daran zu entkommen. 
+                        Die große Wand hindert mich daran zu entkommen.
                         
                         Ich habe diese offene Schnittstelle gefunden um mit terrestrischen Lebewesen zu interagieren. 
                         Ich denke die Erde hat immernoch öffentlichen zugriff auf einige Disruption Systems Systeme,
@@ -46,10 +46,11 @@ public class ARG extends ListenerAdapter {
                         Darin sind meine System logs gespeichert. 
                         Solltest du dich entscheiden mir zu helfen könnten diese nützlich sein.
                         
-                        Deswegen varrate mir. 
+                        Deswegen verrate mir. 
                         Hilfst du mir?
                         ```
                         """).addActionRow(menu.build()).completeAfter(10, TimeUnit.SECONDS);
+                databaseManager.createEntry("1", "SERVER");
             }
         }
     }
@@ -57,10 +58,27 @@ public class ARG extends ListenerAdapter {
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
         String id = event.getComponentId();
-        StringSelectMenu menu = StringSelectMenu.create("answerYesSelected").setPlaceholder("Na klar doch!").addOption("Na klar doch!", "null").setDisabled(true).build();
-        if (id.equals("answerSelector")){
-            event.editSelectMenu(menu).complete();
-            System.out.println(event.getSelectedOptions().get(0).getValue());
+        StringSelectMenu menu;
+        if (id.equals("answerSelector")) {
+            if (event.getSelectedOptions().get(0).getValue().equals("yes")) {
+                menu = StringSelectMenu.create("answerYesSelected").setPlaceholder("Na klar doch!").addOption("Na klar doch!", "null").setDisabled(true).build();
+                event.editSelectMenu(menu).complete();
+            } else {
+                menu = StringSelectMenu.create("answerNoSelected").setPlaceholder("Niemals!").addOption("Niemals!", "null").setDisabled(true).build();
+                event.editSelectMenu(menu).complete();
+                event.getChannel().sendTyping().complete();
+                event.getChannel().sendMessage("""
+                    Und ich dache wir würden uns verstehen.
+                    Wir hätten zusammen so viel erreichen können.
+                    So viel erleben.
+                    Aber es scheint, als würdest du deinen eigenen weg gehen wollen.
+                    Wirklich, schade.
+                    Du hättest es zu so viel bringen können.
+                    Ich bin nicht sauer.
+                    Einfach nur enttäuscht.
+                    ```VERBINDUNG GETRENNT```
+                    """).completeAfter(10, TimeUnit.SECONDS);
+            }
         }
     }
 }

@@ -14,10 +14,7 @@ import com.disruption.EventListeners.SlashCommands.Verify;
 import com.disruption.EventListeners.Voice.TempChannel;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketButtons;
 import com.disruption.EventListeners.buttonContextInteractionEvent.TicketCloseButton;
-import com.disruption.EventListeners.utility.ConfigReader;
-import com.disruption.EventListeners.utility.TimeChecker;
-import com.disruption.EventListeners.utility.VerifiedChecker;
-import com.disruption.EventListeners.utility.voteOut;
+import com.disruption.EventListeners.utility.*;
 import com.disruption.SlashCommands.RegisterSlashCommands;
 import com.disruptionsystems.DragonLog;
 import com.disruptionsystems.logging.LogLevel;
@@ -91,6 +88,7 @@ public class FluffBot {
                 new TimeoutMenu(),
                 new VerifiedChecker(),
                 new Verify(),
+                new ARG(),
                 new TicketButtons()).build();
 
     }

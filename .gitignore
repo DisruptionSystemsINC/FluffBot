@@ -40,5 +40,5 @@ build/
 /out/
 /token.chorus
 /.idea/
-/testtoken.chorus
+/config.chorus
 /config/logs/fluffbot.log

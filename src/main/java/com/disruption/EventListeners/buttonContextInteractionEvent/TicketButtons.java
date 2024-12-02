@@ -35,7 +35,6 @@ public class TicketButtons extends ListenerAdapter {
         TextChannel chann = event.getChannel().asTextChannel();
 
         if (chann.getName().equals("fluff-tickets")) {
-
             Member member = event.getMember();
             String interaction = event.getInteraction().getSelectedOptions().get(0).getValue();
             event.getInteraction().editComponents(event.getMessage().getComponents()).complete();

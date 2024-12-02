@@ -13,7 +13,7 @@ public class DatabaseManager {
 
     public DatabaseManager(){
         try {
-            File file = new File(dbloc);
+            File file = new File(dbloc.split(":")[2]);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -25,11 +25,16 @@ public class DatabaseManager {
             FluffBot.getDragonLog().printToLog(LogLevel.ERROR,"Couldn't create a connection: " + e.getMessage());
         }
     }
-    public String getEntryByUser(String userID) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM DB WHERE USERID=?");
+    public String getEntryByUser(String userID) {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("SELECT * FROM DB WHERE USER=?");
         ps.setString(1, userID);
         ResultSet rs = ps.executeQuery();
-        return rs.getString("USER");
+            return rs.getString("USER");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getEntryByID(String id){
@@ -47,7 +52,7 @@ public class DatabaseManager {
     public void createEntry(String score, String userid){
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("INSERT INTO DB (?, ?)");
+            ps = conn.prepareStatement("INSERT INTO DB (SCORE, USER) VALUES (?, ?)");
             ps.setString(1, score);
             ps.setString(2, userid);
             ps.executeUpdate();
@@ -60,7 +65,7 @@ public class DatabaseManager {
         Statement st;
         try {
             st = conn.createStatement();
-            st.execute("CREATE TABLE DB (VARCHAR(256) SCORE, VARCHAR(256) USER, INT PRIMARY KEY AUTOINCREMENT)");
+            st.execute("CREATE TABLE IF NOT EXISTS DB (SCORE VARCHAR(256), USER VARCHAR(256), ID INTEGER PRIMARY KEY AUTOINCREMENT)");
         } catch (SQLException e) {
             FluffBot.getDragonLog().printToLog(LogLevel.ERROR,"The Database layout creation had an unexpected error: " + e.getMessage());
         }

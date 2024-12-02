@@ -1,6 +1,5 @@
 package com.disruption.EventListeners.BotInit;
 
-import com.disruption.EventListeners.Voice.Lavaplayer.Dragonplayer;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,7 +19,6 @@ public class TempChannelDeletion extends ListenerAdapter {
                 if (chan.getMembers().isEmpty()) {
                     chan.delete().complete();
                     if (event.getGuild().getCategoriesByName("Temporäre Voicechannels", true).get(0).getChannels().isEmpty()) {
-                        Dragonplayer.stopBot();
                     }
                 }
             }
