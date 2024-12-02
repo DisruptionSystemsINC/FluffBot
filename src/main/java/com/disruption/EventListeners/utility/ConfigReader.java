@@ -31,7 +31,7 @@ public class ConfigReader {
             FluffBot.getDragonLog().printToLog(LogLevel.ERROR, "Config could not be loaded. Is it present?");
         }
         if (prop.getProperty("db") == null) {
-            prop.setProperty("db", "data/database/db.chorus");
+            prop.setProperty("db", "jdbc:sqlite:data/database/db.chorus");
         }
         if (prop.getProperty("logLocation") == null) {
             prop.setProperty("logLocation", "data/log/chorus.log");

@@ -98,8 +98,8 @@ public class FluffBot {
     }
 
     public static void main(String[] args) {
-        configReader = new ConfigReader();
         logger = new DragonLog();
+        configReader = new ConfigReader();
         //Create the config directory shoud it not exist
         createBaseFolderStructure();
         System.out.println(Arrays.stream(args).toList());

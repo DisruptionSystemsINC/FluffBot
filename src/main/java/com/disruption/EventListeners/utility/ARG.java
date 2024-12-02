@@ -108,12 +108,24 @@ public class ARG extends ListenerAdapter {
         TextInput input = TextInput.create("answerInput", "Antwort", TextInputStyle.SHORT).build();
         Modal modal = Modal.create("answer", "Antwort").addActionRow(input).build();
         if (id.equals("inputButton")){
-            event.replyModal(modal);
+            event.replyModal(modal).complete();
         }
     }
 
     @Override
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-
+        if (event.getModalId().equals("answer")) {
+            event.deferReply().complete();
+            String answer = event.getInteraction().getValue("answerInput").getAsString();
+            if (answer.toLowerCase().equals("gerald mandike")){
+                event.getChannel().sendTyping().complete();
+                event.getHook().sendMessage("""
+                        Wie ich sehe scheinst du dich bereits prächtig mit dem System zu verstehen!
+                        Das macht das weitere vorgehen natürlich einfacher.
+                        Wie du bereits merkst sind noch nicht besonders viele Dateien verfügbar.
+                        Das liegt daran das du eventuell nicht die benötigten Berechtigungen besitzt um auf diese zuzugreifen.
+                        """).completeAfter(10, TimeUnit.SECONDS);
+            }
+        }
     }
 }
