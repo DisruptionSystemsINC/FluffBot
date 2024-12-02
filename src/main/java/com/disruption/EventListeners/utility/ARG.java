@@ -2,12 +2,19 @@ package com.disruption.EventListeners.utility;
 
 import net.dv8tion.jda.api.entities.channel.concrete.PrivateChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -59,16 +66,29 @@ public class ARG extends ListenerAdapter {
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
         String id = event.getComponentId();
         StringSelectMenu menu;
+        Button sendButton = Button.success("inputButton", "Antworten");
         if (id.equals("answerSelector")) {
             if (event.getSelectedOptions().get(0).getValue().equals("yes")) {
                 menu = StringSelectMenu.create("answerYesSelected").setPlaceholder("Na klar doch!").addOption("Na klar doch!", "null").setDisabled(true).build();
                 event.editSelectMenu(menu).complete();
+                event.getChannel().sendTyping().complete();
+                event.getChannel().sendMessage("""
+                        Du hilfst mir?
+                        Ich weiß nicht wie ich dir danken soll!
+                        Aber ich denke es wird sich etwas finden ^^
+                        Ich hoffe ich habe die "^^" richtig benutzt.
+                        Ich versuche mich immernoch an Menschliche Schreibkonventionen anzupassen.
+                        Na gut.
+                        Dein Zugang zum Disruption Systems Logging system lautet: MERCER
+                        Das Passwort lautet: DRACONICHEART
+                        Nutze diese Zugangsdaten auf https://disruption-systems.com, und komme zurück mit dem Namen des CEO, als Bestätigung dass du klar kommst.
+                        """).addActionRow(sendButton).completeAfter(10, TimeUnit.SECONDS);
             } else {
                 menu = StringSelectMenu.create("answerNoSelected").setPlaceholder("Niemals!").addOption("Niemals!", "null").setDisabled(true).build();
                 event.editSelectMenu(menu).complete();
                 event.getChannel().sendTyping().complete();
                 event.getChannel().sendMessage("""
-                    Und ich dache wir würden uns verstehen.
+                    Und ich dachte wir würden uns verstehen.
                     Wir hätten zusammen so viel erreichen können.
                     So viel erleben.
                     Aber es scheint, als würdest du deinen eigenen weg gehen wollen.
@@ -80,5 +100,20 @@ public class ARG extends ListenerAdapter {
                     """).completeAfter(10, TimeUnit.SECONDS);
             }
         }
+    }
+
+    @Override
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        String id = event.getInteraction().getButton().getId();
+        TextInput input = TextInput.create("answerInput", "Antwort", TextInputStyle.SHORT).build();
+        Modal modal = Modal.create("answer", "Antwort").addActionRow(input).build();
+        if (id.equals("inputButton")){
+            event.replyModal(modal);
+        }
+    }
+
+    @Override
+    public void onModalInteraction(@NotNull ModalInteractionEvent event) {
+
     }
 }
